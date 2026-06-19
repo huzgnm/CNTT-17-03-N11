@@ -2,12 +2,14 @@
 from odoo import models, fields, api
 from odoo.exceptions import UserError
 from datetime import date
+from dateutil.relativedelta import relativedelta
 
 
 class TaiSan(models.Model):
     _name = "tai_san"
     _description = "Bảng quản lý tài sản"
     _rec_name = "ma_tai_san"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     # ── Thông tin cơ bản ─────────────────────────────────────────────────────
     ma_tai_san = fields.Char(
@@ -25,6 +27,31 @@ class TaiSan(models.Model):
         "Tổng giá trị (VNĐ)", compute="_compute_tong_gia_tri", store=True
     )
     het_han_bao_hanh = fields.Date("Hết hạn bảo hành")
+    hinh_anh = fields.Binary("Hình ảnh tài sản", attachment=True)
+    hinh_anh_ten = fields.Char("Tên file ảnh")
+    mo_ta = fields.Text("Mô tả / Ghi chú")
+    vi_tri = fields.Char("Vị trí / Phòng ban sử dụng")
+
+    # ── Cảnh báo bảo hành / bảo trì ─────────────────────────────────────────
+    tinh_trang_bao_hanh = fields.Selection([
+        ("con_han", "Còn bảo hành"),
+        ("sap_het", "Sắp hết bảo hành (< 30 ngày)"),
+        ("het_han", "Hết bảo hành"),
+        ("khong_co", "Không có bảo hành"),
+    ], string="Tình trạng bảo hành", compute="_compute_tinh_trang_bao_hanh", store=True)
+    ngay_bao_tri_gan_nhat = fields.Date(
+        "Ngày bảo trì gần nhất", compute="_compute_ngay_bao_tri_gan_nhat", store=True
+    )
+    so_ngay_chua_bao_tri = fields.Integer(
+        "Số ngày chưa bảo trì", compute="_compute_ngay_bao_tri_gan_nhat", store=True
+    )
+    canh_bao_bao_tri = fields.Boolean(
+        "Cảnh báo bảo trì", compute="_compute_ngay_bao_tri_gan_nhat", store=True,
+        help="True nếu tài sản chưa được bảo trì > 180 ngày"
+    )
+    phan_tram_khau_hao = fields.Float(
+        "% Đã khấu hao", compute="_compute_phan_tram_khau_hao", store=True
+    )
     ngay_mua = fields.Date("Ngày mua")
     thoi_gian_su_dung = fields.Integer("Thời gian sử dụng (năm)", default=5)
 
@@ -93,6 +120,7 @@ class TaiSan(models.Model):
         ("bao_tri", "Bảo trì"),
         ("sua_chua", "Sửa chữa"),
         ("cho_cap_phat", "Đang chờ cấp phát"),
+        ("da_thanh_ly", "Đã thanh lý"),
     ], string="Trạng thái", default="dang_su_dung")
 
     thong_ke_id = fields.Many2one("thong_ke", string="Thống kê liên quan")
@@ -186,6 +214,48 @@ class TaiSan(models.Model):
     def _compute_so_lan_dieu_chuyen(self):
         for rec in self:
             rec.so_lan_dieu_chuyen = len(rec.lich_su_dieu_chuyen_tai_san_ids)
+
+    # =========================================================================
+    # COMPUTE - Tính năng bổ sung
+    # =========================================================================
+    @api.depends("het_han_bao_hanh")
+    def _compute_tinh_trang_bao_hanh(self):
+        today = date.today()
+        for rec in self:
+            if not rec.het_han_bao_hanh:
+                rec.tinh_trang_bao_hanh = "khong_co"
+            elif rec.het_han_bao_hanh < today:
+                rec.tinh_trang_bao_hanh = "het_han"
+            elif (rec.het_han_bao_hanh - today).days <= 30:
+                rec.tinh_trang_bao_hanh = "sap_het"
+            else:
+                rec.tinh_trang_bao_hanh = "con_han"
+
+    @api.depends("lich_su_bao_tri_tai_san_ids", "lich_su_bao_tri_tai_san_ids.tinh_trang",
+                 "lich_su_bao_tri_tai_san_ids.ngay_bao_tri")
+    def _compute_ngay_bao_tri_gan_nhat(self):
+        today = date.today()
+        for rec in self:
+            done = rec.lich_su_bao_tri_tai_san_ids.filtered(
+                lambda b: b.tinh_trang == "da_xong"
+            ).sorted("ngay_bao_tri", reverse=True)
+            if done:
+                rec.ngay_bao_tri_gan_nhat = done[0].ngay_bao_tri
+                delta = (today - done[0].ngay_bao_tri).days
+                rec.so_ngay_chua_bao_tri = delta
+                rec.canh_bao_bao_tri = delta > 180
+            else:
+                rec.ngay_bao_tri_gan_nhat = False
+                rec.so_ngay_chua_bao_tri = 0
+                rec.canh_bao_bao_tri = False
+
+    @api.depends("tong_da_khau_hao", "gia_tri_tai_san")
+    def _compute_phan_tram_khau_hao(self):
+        for rec in self:
+            if rec.gia_tri_tai_san:
+                rec.phan_tram_khau_hao = min(100.0, rec.tong_da_khau_hao / rec.gia_tri_tai_san * 100)
+            else:
+                rec.phan_tram_khau_hao = 0.0
 
     # =========================================================================
     # CRUD
@@ -347,3 +417,47 @@ class TaiSan(models.Model):
                     kh.action_ghi_so()
                 except Exception:
                     pass
+
+    @api.model
+    def cron_canh_bao_bao_tri(self):
+        """Tạo activity cảnh báo cho tài sản chưa bảo trì > 180 ngày"""
+        tai_san_canh_bao = self.search([
+            ("trang_thai", "=", "dang_su_dung"),
+            ("canh_bao_bao_tri", "=", True),
+        ])
+        activity_type = self.env.ref("mail.mail_activity_data_warning", raise_if_not_found=False)
+        for ts in tai_san_canh_bao:
+            # Kiểm tra chưa có activity cảnh báo bảo trì
+            existing = self.env["mail.activity"].search([
+                ("res_model", "=", "tai_san"),
+                ("res_id", "=", ts.id),
+                ("summary", "ilike", "Cảnh báo bảo trì"),
+            ], limit=1)
+            if not existing and activity_type:
+                ts.activity_schedule(
+                    activity_type_id=activity_type.id,
+                    summary=f"Cảnh báo bảo trì: {ts.so_ngay_chua_bao_tri} ngày chưa bảo trì",
+                    note=f"Tài sản {ts.ten_tai_san} ({ts.ma_tai_san}) chưa được bảo trì "
+                         f"trong {ts.so_ngay_chua_bao_tri} ngày. Vui lòng lên kế hoạch bảo trì.",
+                )
+
+    @api.model
+    def cron_canh_bao_bao_hanh(self):
+        """Tạo activity cảnh báo cho tài sản sắp hết bảo hành (< 30 ngày)"""
+        tai_san_sap_het = self.search([
+            ("tinh_trang_bao_hanh", "=", "sap_het"),
+        ])
+        activity_type = self.env.ref("mail.mail_activity_data_warning", raise_if_not_found=False)
+        for ts in tai_san_sap_het:
+            existing = self.env["mail.activity"].search([
+                ("res_model", "=", "tai_san"),
+                ("res_id", "=", ts.id),
+                ("summary", "ilike", "Sắp hết bảo hành"),
+            ], limit=1)
+            if not existing and activity_type:
+                ts.activity_schedule(
+                    activity_type_id=activity_type.id,
+                    summary=f"Sắp hết bảo hành: {ts.het_han_bao_hanh}",
+                    note=f"Tài sản {ts.ten_tai_san} ({ts.ma_tai_san}) sắp hết hạn bảo hành "
+                         f"vào ngày {ts.het_han_bao_hanh}.",
+                )

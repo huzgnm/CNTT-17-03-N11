@@ -7,7 +7,7 @@
     'website': "https://github.com/huzgnm",
     'category': 'Accounting/Asset',
     'version': '0.2',
-    'depends': ['base', 'account'],
+    'depends': ['base', 'account', 'mail'],
     'data': [
         'security/ir.model.access.csv',
         'data/cron.xml',
