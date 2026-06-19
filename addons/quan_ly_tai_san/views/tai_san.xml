@@ -81,19 +81,19 @@
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button name="%(action_muon_tra)d" type="action"
+                            <button name="action_view_muon_tra" type="object"
                                 class="oe_stat_button" icon="fa-exchange">
                                 <field name="so_lan_muon" string="Lần mượn" widget="statinfo"/>
                             </button>
-                            <button name="%(action_bao_tri)d" type="action"
+                            <button name="action_view_bao_tri" type="object"
                                 class="oe_stat_button" icon="fa-wrench">
                                 <field name="so_lan_bao_tri" string="Bảo trì" widget="statinfo"/>
                             </button>
-                            <button name="%(action_thanh_ly)d" type="action"
+                            <button name="action_view_thanh_ly" type="object"
                                 class="oe_stat_button" icon="fa-trash">
                                 <field name="so_lan_thanh_ly" string="Thanh lý" widget="statinfo"/>
                             </button>
-                            <button name="%(action_dieu_chuyen_tai_san)d" type="action"
+                            <button name="action_view_dieu_chuyen" type="object"
                                 class="oe_stat_button" icon="fa-arrows">
                                 <field name="so_lan_dieu_chuyen" string="Điều chuyển" widget="statinfo"/>
                             </button>

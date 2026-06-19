@@ -461,3 +461,43 @@ class TaiSan(models.Model):
                     note=f"Tài sản {ts.ten_tai_san} ({ts.ma_tai_san}) sắp hết hạn bảo hành "
                          f"vào ngày {ts.het_han_bao_hanh}.",
                 )
+
+    def action_view_muon_tra(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Mượn trả',
+            'res_model': 'muon_tra',
+            'view_mode': 'tree,form',
+            'domain': [('tai_san_id', '=', self.id)],
+            'context': {'default_tai_san_id': self.id},
+        }
+
+    def action_view_bao_tri(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Bảo trì',
+            'res_model': 'bao_tri',
+            'view_mode': 'tree,form',
+            'domain': [('tai_san_id', '=', self.id)],
+            'context': {'default_tai_san_id': self.id},
+        }
+
+    def action_view_thanh_ly(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Thanh lý',
+            'res_model': 'thanh_ly',
+            'view_mode': 'tree,form',
+            'domain': [('tai_san_id', '=', self.id)],
+            'context': {'default_tai_san_id': self.id},
+        }
+
+    def action_view_dieu_chuyen(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Điều chuyển',
+            'res_model': 'dieu_chuyen_tai_san',
+            'view_mode': 'tree,form',
+            'domain': [('tai_san_id', '=', self.id)],
+            'context': {'default_tai_san_id': self.id},
+        }
