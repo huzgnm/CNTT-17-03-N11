@@ -319,6 +319,16 @@ Bản này được phát triển dựa trên [TTDN-15-02-N3](https://github.com
 | 7 | **Xuất đơn mượn DOCX** | Xuất phiếu mượn tài sản ra file Word |
 | 8 | **Lịch sử điều chuyển** | Ghi nhận đầy đủ lịch sử điều chuyển tài sản giữa địa điểm |
 | 9 | **Thống kê tài sản** | Dashboard thống kê số lượng, tình trạng theo loại tài sản |
+| 10 | **Kanban view** | Board tài sản group by trạng thái, hiển thị ảnh + badge cảnh báo |
+| 11 | **Hình ảnh tài sản** | Upload ảnh tài sản, hiển thị trong form và kanban card |
+| 12 | **% Khấu hao (progressbar)** | Thanh tiến độ hiển thị đã khấu hao bao nhiêu % nguyên giá |
+| 13 | **Cảnh báo bảo trì quá hạn** | Banner đỏ + activity tự động nếu > 180 ngày chưa bảo trì |
+| 14 | **Cảnh báo bảo hành sắp hết** | Banner vàng + activity tự động nếu hết hạn bảo hành < 30 ngày |
+| 15 | **Chatter & Activity log** | `mail.thread` đầy đủ trên mỗi tài sản, tạo reminder tự động |
+| 16 | **Filter nhanh nâng cao** | Lọc: Cần bảo trì, Sắp hết bảo hành, Chưa ghi sổ mua |
+| 17 | **Tree view highlight động** | Hàng đỏ = cần bảo trì, vàng = sắp hết bảo hành |
+| 18 | **3 Cron jobs** | KH hàng tháng + kiểm tra BT hàng tuần + kiểm tra BH hàng ngày |
+| 19 | **Trạng thái Đã thanh lý** | Tự động chuyển tài sản sang `da_thanh_ly` sau khi ghi sổ thanh lý |
 
 ## 8.2. Sửa lỗi so với bản gốc
 
