@@ -1,8 +1,0 @@
-addons/ 
-!addons/quan_ly_tai_san/ 
-!addons/nhan_su/ 
-!addons/van_ban/ 
-odoo/ 
-setup/ 
-setup.py 
-setup.cfg 

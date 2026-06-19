@@ -1,374 +1,357 @@
-# CNTT-17-03-N11 — Hệ thống Quản lý ERP trên Odoo 15
+---
+![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
+![GitLab](https://img.shields.io/badge/gitlab-%23181717.svg?style=for-the-badge&logo=gitlab&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![Python](https://img.shields.io/badge/python-v3.8+-blue.svg)
+[![security: bandit](https://img.shields.io/badge/security-bandit-yellow.svg)](https://github.com/PyCQA/bandit)
 
-> **Nhóm:** CNTT-17-03-N11  
-> **GitHub:** [huzgnm](https://github.com/huzgnm)  
-> **Nền tảng:** Odoo 15 Community  
-> **Ngôn ngữ:** Python 3, XML, CSV
+> **Nhóm:** CNTT-17-03-N11 &nbsp;|&nbsp; **GitHub:** [huzgnm](https://github.com/huzgnm) &nbsp;|&nbsp; **Nền tảng:** Odoo 15 Community
 
 ---
 
-## Mục lục
+# Mục lục
 
-1. [Tổng quan dự án](#tổng-quan-dự-án)
-2. [Cấu trúc thư mục](#cấu-trúc-thư-mục)
-3. [Module Quản lý Tài sản](#module-quản-lý-tài-sản)
-4. [Module Quản lý Nhân sự](#module-quản-lý-nhân-sự)
-5. [Module Quản lý Văn bản](#module-quản-lý-văn-bản)
-6. [Hướng dẫn cài đặt](#hướng-dẫn-cài-đặt)
-7. [Hướng dẫn sử dụng](#hướng-dẫn-sử-dụng)
-
----
-
-## Tổng quan dự án
-
-Dự án gồm **3 module Odoo custom** phục vụ quản lý doanh nghiệp:
-
-| Module | Tên kỹ thuật | Phiên bản | Phụ thuộc |
-|--------|-------------|-----------|-----------|
-| Quản lý Tài sản | `quan_ly_tai_san` | 0.2 | `base`, `account` |
-| Quản lý Nhân sự | `nhan_su` | 0.1 | `base` |
-| Quản lý Văn bản | `van_ban` | 0.1 | `base` |
+1. [Cài đặt môi trường](#1-cài-đặt-công-cụ-môi-trường-và-các-thư-viện-cần-thiết)
+2. [Setup database](#2-setup-database)
+3. [Setup tham số chạy](#3-setup-tham-số-chạy-cho-hệ-thống)
+4. [Chạy hệ thống](#4-chạy-hệ-thống-và-cài-đặt-các-ứng-dụng-cần-thiết)
+5. [Module Quản lý Tài sản](#5-module-quản-lý-tài-sản-quan_ly_tai_san)
+6. [Module Quản lý Nhân sự](#6-module-quản-lý-nhân-sự-nhan_su)
+7. [Module Quản lý Văn bản](#7-module-quản-lý-văn-bản-van_ban)
+8. [Tính năng nâng cấp so với bản gốc](#8-tính-năng-nâng-cấp-so-với-bản-gốc)
 
 ---
 
-## Cấu trúc thư mục
+# 1. Cài đặt công cụ, môi trường và các thư viện cần thiết
 
-```
-addons/
-├── quan_ly_tai_san/
-│   ├── __manifest__.py
-│   ├── __init__.py
-│   ├── models/
-│   │   ├── tai_san.py                  # Model tài sản cố định
-│   │   ├── khau_hao_hang_thang.py      # Khấu hao hàng tháng
-│   │   ├── bao_tri.py                  # Bảo trì tài sản
-│   │   ├── thanh_ly.py                 # Thanh lý tài sản
-│   │   ├── muon_tra.py                 # Mượn/trả tài sản
-│   │   ├── dieu_chuyen_tai_san.py      # Điều chuyển tài sản
-│   │   ├── don_muon.py                 # Đơn mượn (xuất DOCX)
-│   │   ├── ngan_sach_mua_sam.py        # Ngân sách mua sắm
-│   │   ├── bao_cao_tai_san.py          # Báo cáo tài chính
-│   │   ├── thong_ke.py                 # Thống kê tài sản
-│   │   ├── danh_muc_loai_tai_san.py    # Danh mục loại tài sản
-│   │   ├── nha_cung_cap.py             # Nhà cung cấp
-│   │   ├── lich_su_su_dung_tai_san.py  # Lịch sử sử dụng
-│   │   ├── lich_su_quan_ly_tai_san.py  # Lịch sử quản lý
-│   │   └── lich_su_dieu_chuyen_tai_san.py
-│   ├── views/
-│   │   ├── tai_san.xml
-│   │   ├── khau_hao_hang_thang.xml
-│   │   ├── bao_tri.xml
-│   │   ├── thanh_ly.xml
-│   │   ├── muon_tra.xml
-│   │   ├── dieu_chuyen_tai_san.xml
-│   │   ├── ngan_sach_mua_sam.xml
-│   │   ├── bao_cao_tai_san.xml
-│   │   ├── thong_ke.xml
-│   │   ├── danh_muc_loai_tai_san.xml
-│   │   ├── nha_cung_cap.xml
-│   │   ├── lich_su_su_dung_tai_san.xml
-│   │   ├── lich_su_quan_ly_tai_san.xml
-│   │   ├── lich_su_dieu_chuyen_tai_san.xml
-│   │   └── menu.xml
-│   ├── security/
-│   │   └── ir.model.access.csv
-│   └── data/
-│       └── cron.xml
-│
-├── nhan_su/
-│   ├── __manifest__.py
-│   ├── models/
-│   │   ├── nhan_vien.py        # Nhân viên
-│   │   ├── phong_ban.py        # Phòng ban
-│   │   ├── chuc_vu.py          # Chức vụ
-│   │   ├── lich_su_lam_viec.py # Lịch sử làm việc
-│   │   └── so_luong_hon_18.py  # Kiểm tra tuổi
-│   └── views/
-│
-└── van_ban/
-    ├── __manifest__.py
-    ├── models/
-    │   └── van_ban_di.py       # Văn bản đi
-    └── views/
-```
+## 1.1. Clone project
 
----
-
-## Module Quản lý Tài sản
-
-### Tính năng chính
-
-#### 1. Quản lý vòng đời tài sản
-- Tạo và theo dõi tài sản cố định (mã tự sinh `TS00001`)
-- Trạng thái: Chờ sử dụng → Đang sử dụng → Bảo trì → Hỏng → Đã thanh lý
-- Lịch sử đầy đủ: sử dụng, quản lý, điều chuyển, bảo trì, thanh lý
-
-#### 2. Kế toán mua tài sản
-Khi nhấn **Ghi sổ mua tài sản**, hệ thống tự động tạo bút toán:
-```
-Nợ TK Tài sản (TK 211)          xxx
-    Có TK Phải trả (TK 331)          xxx
-```
-
-#### 3. Khấu hao tự động hàng tháng
-- Tính khấu hao theo phương pháp đường thẳng
-- Cron job tự chạy vào ngày 1 hàng tháng
-- Bút toán khấu hao tự động:
-```
-Nợ TK Chi phí khấu hao (TK 627x/641x/642x)    xxx
-    Có TK Hao mòn lũy kế (TK 214x)                 xxx
-```
-
-#### 4. Bảo trì tài sản
-Quy trình: **Chờ duyệt → Đang bảo trì → Đã xong**
-
-Khi **Ghi sổ chi phí** bảo trì:
-```
-Nợ TK Chi phí (627x/641x/642x)    xxx
-    Có TK Phải trả (TK 331)            xxx
-```
-
-#### 5. Thanh lý tài sản
-Quy trình: **Nháp → Chờ duyệt → Đã duyệt → Ghi sổ kế toán**
-
-Bút toán thanh lý:
-```
-Nợ TK Hao mòn lũy kế (TK 214x)      xxx  (phần đã khấu hao)
-Nợ TK Thu hồi thanh lý (TK 711)      xxx  (tiền thu về)
-Nợ TK Lỗ thanh lý (TK 811)          xxx  (nếu lỗ)
-    Có TK Nguyên giá (TK 211)             xxx
-    Có TK Lãi thanh lý (TK 711)           xxx  (nếu lãi)
-```
-
-#### 6. Mượn / Trả tài sản
-- Theo dõi người mượn, ngày mượn, ngày trả dự kiến
-- Xuất **đơn mượn định dạng DOCX** có đầy đủ thông tin
-
-#### 7. Điều chuyển tài sản
-- Ghi nhận địa điểm cũ → địa điểm mới (mã tự sinh `DC00001`)
-- Lưu lịch sử điều chuyển tự động vào tài sản
-
-#### 8. Ngân sách mua sắm
-- Lập kế hoạch ngân sách theo năm và loại tài sản
-- Cảnh báo khi vượt ngân sách
-- Trạng thái: Lập kế hoạch → Chờ duyệt → Đã duyệt → Đang thực hiện → Hoàn thành
-
-#### 9. Báo cáo tài chính tổng hợp
-- Tổng nguyên giá, đã khấu hao, giá trị còn lại
-- Thống kê hoạt động trong năm: mua mới, bảo trì, thanh lý, mượn
-- Chi tiết từng tài sản trong tab riêng
-
-### Danh sách Models
-
-| Model | Bảng DB | Mô tả |
-|-------|---------|-------|
-| `tai_san` | `tai_san` | Tài sản cố định — model trung tâm |
-| `khau_hao_hang_thang` | `khau_hao_hang_thang` | Lịch khấu hao từng tháng |
-| `bao_tri` | `bao_tri` | Phiếu bảo trì (mã `BT00001`) |
-| `thanh_ly` | `thanh_ly` | Phiếu thanh lý (mã `TL00001`) |
-| `muon_tra` | `muon_tra` | Phiếu mượn trả (mã `MT00001`) |
-| `dieu_chuyen_tai_san` | `dieu_chuyen_tai_san` | Phiếu điều chuyển (mã `DC00001`) |
-| `ngan_sach_mua_sam` | `ngan_sach_mua_sam` | Ngân sách (mã `NS0001`) |
-| `ngan_sach_mua_sam_chi_tiet` | `ngan_sach_mua_sam_chi_tiet` | Chi tiết ngân sách |
-| `bao_cao_tai_san` | `bao_cao_tai_san` | Báo cáo tổng hợp |
-| `bao_cao_tai_san_chi_tiet` | `bao_cao_tai_san_chi_tiet` | Chi tiết báo cáo |
-| `thong_ke` | `thong_ke` | Thống kê (mã `MTK001`) |
-| `danh_muc_loai_tai_san` | `danh_muc_loai_tai_san` | Loại tài sản |
-| `nha_cung_cap` | `nha_cung_cap` | Nhà cung cấp |
-| `lich_su_su_dung_tai_san` | `lich_su_su_dung_tai_san` | Lịch sử sử dụng |
-| `lich_su_quan_ly_tai_san` | `lich_su_quan_ly_tai_san` | Lịch sử quản lý |
-| `lich_su_dieu_chuyen_tai_san` | `lich_su_dieu_chuyen_tai_san` | Lịch sử điều chuyển |
-
-### Cron Job
-
-| Tên | Lịch chạy | Hành động |
-|-----|-----------|-----------|
-| Tính khấu hao hàng tháng | Ngày 1 mỗi tháng lúc 1:00 sáng | `cron_tinh_khau_hao_hang_thang()` |
-
----
-
-## Module Quản lý Nhân sự
-
-### Tính năng chính
-- Quản lý hồ sơ nhân viên (mã tự sinh `NV00001`)
-- Quản lý cơ cấu tổ chức: phòng ban, chức vụ
-- Theo dõi lịch sử công tác tự động
-- Ràng buộc nghiệp vụ: nhân viên phải trên 18 tuổi (`@api.constrains`)
-
-### Danh sách Models
-
-| Model | Mô tả |
-|-------|-------|
-| `nhan_vien` | Thông tin nhân viên |
-| `phong_ban` | Phòng ban trong tổ chức |
-| `chuc_vu` | Chức vụ / chức danh |
-| `lich_su_lam_viec` | Lịch sử công tác của nhân viên |
-
-### Trường thông tin nhân viên chính
-
-| Trường | Kiểu | Mô tả |
-|--------|------|-------|
-| `ma_nhan_vien` | Char | Mã tự sinh NV00001 |
-| `ho_ten` | Char | Họ và tên |
-| `ngay_sinh` | Date | Ngày sinh (phải > 18 tuổi) |
-| `gioi_tinh` | Selection | Nam / Nữ |
-| `cccd` | Char | Căn cước công dân |
-| `phong_ban_id` | Many2one | Phòng ban |
-| `chuc_vu_id` | Many2one | Chức vụ |
-| `ngay_vao_lam` | Date | Ngày bắt đầu làm |
-| `trang_thai` | Selection | Đang làm / Nghỉ việc |
-
----
-
-## Module Quản lý Văn bản
-
-### Tính năng chính
-- Quản lý văn bản đi trong tổ chức
-- Theo dõi số hiệu, ngày ban hành, người ký
-- Lưu trữ và tra cứu văn bản
-
-### Danh sách Models
-
-| Model | Mô tả |
-|-------|-------|
-| `van_ban_di` | Văn bản đi |
-
-### Trường thông tin văn bản chính
-
-| Trường | Kiểu | Mô tả |
-|--------|------|-------|
-| `so_hieu` | Char | Số hiệu văn bản |
-| `ngay_ban_hanh` | Date | Ngày ban hành |
-| `trich_yeu` | Text | Trích yếu nội dung |
-| `nguoi_ky_id` | Many2one | Người ký (nhân viên) |
-| `don_vi_nhan` | Char | Đơn vị nhận |
-| `trang_thai` | Selection | Trạng thái xử lý |
-
----
-
-## Hướng dẫn cài đặt
-
-### Yêu cầu hệ thống
-
-- Odoo 15 Community Edition
-- Python 3.8+
-- PostgreSQL 12+
-- Module `account` (có sẵn trong Odoo 15)
-- `python-docx` (cho tính năng xuất DOCX)
-
-### Các bước cài đặt
-
-**Bước 1: Clone repository**
 ```bash
 git clone https://github.com/huzgnm/CNTT-17-03-N11.git
+cd CNTT-17-03-N11
 ```
 
-**Bước 2: Copy modules vào thư mục addons của Odoo**
+## 1.2. Cài đặt các thư viện cần thiết
+
 ```bash
-cp -r CNTT-17-03-N11/addons/quan_ly_tai_san /path/to/odoo/addons/
-cp -r CNTT-17-03-N11/addons/nhan_su /path/to/odoo/addons/
-cp -r CNTT-17-03-N11/addons/van_ban /path/to/odoo/addons/
+sudo apt-get install libxml2-dev libxslt-dev libldap2-dev libsasl2-dev \
+  libssl-dev python3.10-distutils python3.10-dev build-essential \
+  libssl-dev libffi-dev zlib1g-dev python3.10-venv libpq-dev
 ```
 
-**Bước 3: Cài thư viện Python bổ sung**
+## 1.3. Khởi tạo môi trường ảo
+
+```bash
+python3.10 -m venv ./venv
+source venv/bin/activate
+pip3 install -r requirements.txt
+```
+
+## 1.4. Cài đặt thư viện bổ sung cho module tùy chỉnh
+
 ```bash
 pip install python-docx
 ```
 
-**Bước 4: Cập nhật danh sách module và khởi động lại**
+> **Lưu ý:** `python-docx` cần thiết cho tính năng xuất đơn mượn tài sản ra file `.docx`.
+
+---
+
+# 2. Setup database
+
+Khởi tạo database trên Docker:
+
 ```bash
-./odoo-bin -c odoo.conf -u all
-# hoặc
-./odoo-bin --addons-path=addons -d your_database -u quan_ly_tai_san,nhan_su,van_ban
+sudo apt install docker-compose
+sudo docker-compose up -d
 ```
 
-**Bước 5: Kích hoạt modules trong giao diện**
+---
 
-Vào **Settings → Apps → Update Apps List**, tìm và cài:
+# 3. Setup tham số chạy cho hệ thống
+
+## 3.1. Khởi tạo odoo.conf
+
+Tạo tệp **odoo.conf** với nội dung:
+
+```ini
+[options]
+addons_path = addons
+db_host = localhost
+db_password = odoo
+db_user = odoo
+db_port = 5432
+xmlrpc_port = 8069
+```
+
+---
+
+# 4. Chạy hệ thống và cài đặt các ứng dụng cần thiết
+
+```bash
+python3 odoo-bin.py -c odoo.conf -u all
+```
+
+Truy cập: **http://localhost:8069/**
+
+Sau khi đăng nhập, vào **Settings → Apps → Update Apps List** và cài:
 - `Quản lý Tài Sản`
 - `Quản lý Nhân sự`
 - `Quản lý Văn bản`
 
 ---
 
-## Hướng dẫn sử dụng
+# 5. Module Quản lý Tài sản (`quan_ly_tai_san`)
 
-### Module Quản lý Tài sản
+> **Phiên bản:** 0.2 &nbsp;|&nbsp; **Phụ thuộc:** `base`, `account`
 
-#### Tạo tài sản mới
-1. Vào **QLTS → Quản lý Tài sản → Tài sản** → nhấn **Tạo mới**
-2. Nhập: Tên tài sản, Loại tài sản, Nhà cung cấp, Ngày mua, Nguyên giá, Thời gian sử dụng (năm)
-3. Tab **Kế toán mua**: chọn Sổ nhật ký, TK tài sản (211), TK phải trả (331)
-4. Tab **Kế toán khấu hao**: chọn TK chi phí KH, TK hao mòn lũy kế (214x)
-5. Nhấn **Ghi sổ mua tài sản** để tạo bút toán kế toán
+Module quản lý toàn bộ vòng đời tài sản cố định, tích hợp đầy đủ với kế toán Odoo.
 
-#### Quản lý khấu hao
-- **Tự động**: Cron job chạy ngày 1 hàng tháng
-- **Thủ công**: Trong form tài sản → nhấn **Tính khấu hao tháng này**
-- **Tạo toàn bộ lịch**: Nhấn **Tạo lịch khấu hao**
-- Xem lịch sử tại tab **Kế toán khấu hao → Lịch khấu hao hàng tháng**
+## 5.1. Cấu trúc thư mục
 
-#### Tạo phiếu bảo trì
-1. Vào **QLTS → Bảo trì** → **Tạo mới**
-2. Chọn tài sản, nhà cung cấp, nhập chi phí và nội dung
-3. Luồng phê duyệt: **Bắt đầu bảo trì → Hoàn thành → Ghi sổ chi phí**
-4. Sau khi ghi sổ: nhấn **Xem bút toán** để kiểm tra
+```
+addons/quan_ly_tai_san/
+├── models/
+│   ├── tai_san.py                   # Tài sản cố định (model trung tâm)
+│   ├── khau_hao_hang_thang.py       # Khấu hao hàng tháng
+│   ├── bao_tri.py                   # Bảo trì tài sản
+│   ├── thanh_ly.py                  # Thanh lý tài sản
+│   ├── muon_tra.py                  # Mượn / trả tài sản
+│   ├── dieu_chuyen_tai_san.py       # Điều chuyển tài sản
+│   ├── don_muon.py                  # Xuất đơn mượn DOCX
+│   ├── ngan_sach_mua_sam.py         # Ngân sách mua sắm
+│   ├── bao_cao_tai_san.py           # Báo cáo tài chính tổng hợp
+│   ├── thong_ke.py                  # Thống kê tài sản
+│   ├── danh_muc_loai_tai_san.py     # Danh mục loại tài sản
+│   ├── nha_cung_cap.py              # Nhà cung cấp
+│   ├── lich_su_su_dung_tai_san.py   # Lịch sử sử dụng
+│   ├── lich_su_quan_ly_tai_san.py   # Lịch sử quản lý
+│   └── lich_su_dieu_chuyen_tai_san.py
+├── views/                           # 15 file XML views
+├── security/ir.model.access.csv
+└── data/cron.xml                    # Cron job khấu hao tự động
+```
 
-#### Thanh lý tài sản
-1. Vào **QLTS → Thanh lý** → **Tạo mới**
-2. Chọn tài sản, nhập giá trị thu hồi, thiết lập tài khoản kế toán
-3. Luồng: **Gửi duyệt → Duyệt → Ghi sổ kế toán**
-4. Hệ thống tự tính lãi/lỗ và tạo bút toán tổng hợp
+## 5.2. Tính năng
 
-#### Mượn / Trả tài sản
-1. Vào **QLTS → Mượn trả** → **Tạo mới**
-2. Chọn tài sản, người mượn, ngày mượn, ngày trả dự kiến
-3. Nhấn **Xuất đơn mượn** để tải file DOCX
-4. Khi trả: cập nhật ngày trả thực tế → **Hoàn thành**
+### Quản lý tài sản cơ bản
+- Tạo tài sản với mã tự sinh (`TS00001`, `TS00002`, ...)
+- Trạng thái vòng đời: `Chờ sử dụng → Đang sử dụng → Bảo trì → Hỏng → Đã thanh lý`
+- Lưu lịch sử đầy đủ: sử dụng, quản lý, điều chuyển
 
-#### Điều chuyển tài sản
-1. Vào **QLTS → Điều chuyển** → **Tạo mới**
-2. Chọn tài sản, nhập địa điểm cũ, địa điểm mới, lý do
-3. Lịch sử điều chuyển tự động cập nhật trong tài sản
+### Kế toán mua tài sản
+Nhấn **Ghi sổ mua tài sản** → tự động tạo bút toán:
+```
+Nợ  TK Tài sản cố định (211)      xxx
+    Có  TK Phải trả người bán (331)    xxx
+```
 
-#### Lập ngân sách mua sắm
-1. Vào **QLTS → Ngân sách → Ngân sách mua sắm** → **Tạo mới**
-2. Chọn năm, loại tài sản, nhập số tiền kế hoạch
-3. Theo dõi tỷ lệ thực hiện — hệ thống cảnh báo nếu vượt ngân sách
+### Khấu hao tự động hàng tháng
+- Phương pháp: đường thẳng (`Nguyên giá ÷ Thời gian sử dụng ÷ 12`)
+- Cron job tự chạy ngày **1 hàng tháng lúc 1:00 sáng**
+- Bút toán khấu hao:
+```
+Nợ  TK Chi phí khấu hao (627x/641x/642x)    xxx
+    Có  TK Hao mòn lũy kế (214x)                 xxx
+```
 
-#### Xem báo cáo tài chính
-1. Vào **QLTS → Báo cáo → Báo cáo tài chính tài sản**
-2. Chọn năm báo cáo → nhấn **Làm mới dữ liệu**
-3. Xem tổng quan tài chính và chi tiết từng tài sản
+### Bảo trì tài sản
+Luồng: **Chờ duyệt → Đang bảo trì → Đã xong**
 
-### Module Quản lý Nhân sự
+Nhấn **Ghi sổ chi phí**:
+```
+Nợ  TK Chi phí sửa chữa (627x)    xxx
+    Có  TK Phải trả (331)              xxx
+```
 
-1. **Tạo phòng ban**: Nhân sự → Phòng ban → Tạo mới
-2. **Tạo chức vụ**: Nhân sự → Chức vụ → Tạo mới
-3. **Tạo nhân viên**: Nhân sự → Nhân viên → Tạo mới
-   - Nhập họ tên, ngày sinh (**bắt buộc > 18 tuổi**)
-   - Chọn phòng ban và chức vụ
-   - Lịch sử làm việc tự động ghi lại khi thay đổi chức vụ/phòng ban
+### Thanh lý tài sản
+Luồng: **Nháp → Chờ duyệt → Đã duyệt → Ghi sổ kế toán**
 
-### Module Quản lý Văn bản
+Bút toán thanh lý (tự tính lãi/lỗ):
+```
+Nợ  TK Hao mòn lũy kế (214x)         xxx
+Nợ  TK Thu hồi / Chi phí (711/811)    xxx
+    Có  TK Nguyên giá TSCĐ (211)          xxx
+    Có  TK Thu nhập khác (711)            xxx  ← nếu lãi
+```
 
-1. Vào **Văn bản → Văn bản đi** → **Tạo mới**
-2. Nhập số hiệu, ngày ban hành, trích yếu nội dung
-3. Chọn người ký, đơn vị nhận
-4. Đính kèm file (nếu có) → Lưu
+### Mượn / Trả tài sản
+- Theo dõi người mượn, ngày mượn, ngày trả
+- Xuất **đơn mượn định dạng `.docx`** (dùng thư viện `python-docx`)
+
+### Điều chuyển tài sản
+- Ghi nhận địa điểm cũ → mới, lý do điều chuyển
+- Mã tự sinh `DC00001`, lịch sử lưu tự động vào tài sản
+
+### Ngân sách mua sắm
+- Lập kế hoạch ngân sách theo năm và loại tài sản
+- Tính tỷ lệ thực hiện tự động
+- Cảnh báo vượt ngân sách
+- Trạng thái: `Lập kế hoạch → Chờ duyệt → Đã duyệt → Đang thực hiện → Hoàn thành`
+
+### Báo cáo tài chính tổng hợp
+- Tổng nguyên giá, tổng đã khấu hao, giá trị còn lại
+- Thống kê hoạt động trong năm: mua mới, bảo trì, thanh lý, mượn
+- Chi tiết từng tài sản
+
+## 5.3. Danh sách Models
+
+| Model | Mô tả | Mã tự sinh |
+|-------|-------|-----------|
+| `tai_san` | Tài sản cố định | `TS00001` |
+| `khau_hao_hang_thang` | Lịch khấu hao hàng tháng | — |
+| `bao_tri` | Phiếu bảo trì | `BT00001` |
+| `thanh_ly` | Phiếu thanh lý | `TL00001` |
+| `muon_tra` | Phiếu mượn trả | `MT00001` |
+| `dieu_chuyen_tai_san` | Phiếu điều chuyển | `DC00001` |
+| `ngan_sach_mua_sam` | Kế hoạch ngân sách | `NS0001` |
+| `ngan_sach_mua_sam_chi_tiet` | Chi tiết ngân sách | — |
+| `bao_cao_tai_san` | Báo cáo tổng hợp | — |
+| `bao_cao_tai_san_chi_tiet` | Chi tiết báo cáo | — |
+| `thong_ke` | Thống kê tài sản | `MTK001` |
+| `danh_muc_loai_tai_san` | Loại tài sản | — |
+| `nha_cung_cap` | Nhà cung cấp | — |
+| `lich_su_su_dung_tai_san` | Lịch sử sử dụng | — |
+| `lich_su_quan_ly_tai_san` | Lịch sử quản lý | — |
+| `lich_su_dieu_chuyen_tai_san` | Lịch sử điều chuyển | — |
+
+## 5.4. Menu hệ thống
+
+```
+QLTS
+├── Thống kê tài sản
+├── Quản lý Tài sản
+│   ├── Tài sản
+│   └── Danh mục loại tài sản
+├── Bảo trì
+├── Thanh lý
+├── Mượn trả
+├── Điều chuyển
+├── Lịch sử
+│   ├── Lịch sử sử dụng tài sản
+│   ├── Lịch sử quản lý tài sản
+│   └── Lịch sử điều chuyển tài sản
+├── Nhà cung cấp
+├── Kế toán
+│   └── Khấu hao hàng tháng
+├── Ngân sách
+│   └── Ngân sách mua sắm
+└── Báo cáo
+    └── Báo cáo tài chính tài sản
+```
 
 ---
 
-## Phân quyền
+# 6. Module Quản lý Nhân sự (`nhan_su`)
 
-Tất cả models cấp quyền **đọc/tạo/sửa/xóa** cho `base.group_user` (mọi người dùng đã đăng nhập).
+> **Phiên bản:** 0.1 &nbsp;|&nbsp; **Phụ thuộc:** `base`
 
-Để phân quyền theo nhóm riêng, chỉnh file `security/ir.model.access.csv` của từng module và thêm group tương ứng.
+## 6.1. Tính năng
+
+- Quản lý hồ sơ nhân viên (mã tự sinh `NV00001`)
+- Quản lý phòng ban và chức vụ
+- Tự động ghi lịch sử làm việc khi thay đổi chức vụ/phòng ban
+- Ràng buộc nghiệp vụ: **nhân viên phải trên 18 tuổi** (`@api.constrains`)
+
+## 6.2. Danh sách Models
+
+| Model | Mô tả |
+|-------|-------|
+| `nhan_vien` | Hồ sơ nhân viên |
+| `phong_ban` | Phòng ban |
+| `chuc_vu` | Chức vụ / chức danh |
+| `lich_su_lam_viec` | Lịch sử công tác |
+
+## 6.3. Trường thông tin chính
+
+| Trường | Kiểu | Mô tả |
+|--------|------|-------|
+| `ma_nhan_vien` | Char | Mã tự sinh `NV00001` |
+| `ho_ten` | Char | Họ và tên đầy đủ |
+| `ngay_sinh` | Date | Ngày sinh (validate > 18 tuổi) |
+| `gioi_tinh` | Selection | Nam / Nữ |
+| `cccd` | Char | Số căn cước công dân |
+| `phong_ban_id` | Many2one | Phòng ban |
+| `chuc_vu_id` | Many2one | Chức vụ |
+| `ngay_vao_lam` | Date | Ngày bắt đầu làm việc |
+| `trang_thai` | Selection | Đang làm / Nghỉ việc |
+| `lich_su_lam_viec_ids` | One2many | Lịch sử công tác |
+
+---
+
+# 7. Module Quản lý Văn bản (`van_ban`)
+
+> **Phiên bản:** 0.1 &nbsp;|&nbsp; **Phụ thuộc:** `base`
+
+## 7.1. Tính năng
+
+- Quản lý văn bản đi trong tổ chức
+- Theo dõi số hiệu, ngày ban hành, người ký, đơn vị nhận
+- Lưu trữ và tra cứu văn bản
+
+## 7.2. Model `van_ban_di`
+
+| Trường | Kiểu | Mô tả |
+|--------|------|-------|
+| `so_hieu` | Char | Số hiệu văn bản |
+| `ngay_ban_hanh` | Date | Ngày ban hành |
+| `trich_yeu` | Text | Trích yếu nội dung |
+| `nguoi_ky_id` | Many2one | Người ký (liên kết nhân viên) |
+| `don_vi_nhan` | Char | Đơn vị / cá nhân nhận |
+| `trang_thai` | Selection | Trạng thái xử lý |
+
+---
+
+# 8. Tính năng nâng cấp so với bản gốc
+
+Bản này được phát triển dựa trên [TTDN-15-02-N3](https://github.com/thang0305/TTDN-15-02-N3) với các nâng cấp sau:
+
+## 8.1. Module Quản lý Tài sản — Tính năng MỚI
+
+| # | Tính năng | Mô tả |
+|---|-----------|-------|
+| 1 | **Kế toán mua tài sản** | Tự động tạo bút toán Nợ TK211 / Có TK331 khi mua |
+| 2 | **Khấu hao hàng tháng tự động** | Cron job ngày 1 mỗi tháng, tạo bút toán KH vào sổ cái |
+| 3 | **Kế toán bảo trì** | Ghi nhận chi phí bảo trì vào TK chi phí / TK phải trả |
+| 4 | **Kế toán thanh lý** | Bút toán đầy đủ: xóa nguyên giá, xóa hao mòn, ghi nhận lãi/lỗ |
+| 5 | **Ngân sách mua sắm** | Lập và theo dõi ngân sách, cảnh báo vượt ngân sách |
+| 6 | **Báo cáo tài chính tổng hợp** | Báo cáo theo năm: nguyên giá, đã KH, còn lại, hoạt động |
+| 7 | **Xuất đơn mượn DOCX** | Xuất phiếu mượn tài sản ra file Word |
+| 8 | **Lịch sử điều chuyển** | Ghi nhận đầy đủ lịch sử điều chuyển tài sản giữa địa điểm |
+| 9 | **Thống kê tài sản** | Dashboard thống kê số lượng, tình trạng theo loại tài sản |
+
+## 8.2. Sửa lỗi so với bản gốc
+
+| # | Lỗi | Giải pháp |
+|---|-----|-----------|
+| 1 | Duplicate method `_compute_so_lan_dieu_chuyen` | Gộp lại, chỉ giữ một method |
+| 2 | Conflict `related` + `compute` trên field `khau_hao_moi_nam` | Chuyển hoàn toàn sang `compute` |
+| 3 | `write()` ghi vào computed field `trang_thai` trong `muon_tra.py` | Dùng `sudo().write()` đúng cách |
+| 4 | Sử dụng `.bold` sai trong `don_muon.py` | Sửa thành `run.bold = True` (python-docx đúng chuẩn) |
+| 5 | Logic compute sai trong `thong_ke.py` (đếm toàn bộ tài sản) | Dùng `filtered()` chỉ đếm tài sản liên kết |
+| 6 | Kiểu dữ liệu `Char` sai cho các field số | Chuyển sang `Float`/`Integer` phù hợp |
+| 7 | Thiếu dependency `account` trong manifest | Thêm `account` vào `depends` |
+| 8 | File manifest bị truncate (thiếu `]` và `}`) | Rewrite hoàn chỉnh |
+
+## 8.3. Tài khoản kế toán Việt Nam được áp dụng
+
+| TK | Tên tài khoản | Sử dụng |
+|----|--------------|---------|
+| 211 | Tài sản cố định hữu hình | Nợ khi mua, Có khi thanh lý |
+| 214x | Hao mòn lũy kế TSCĐ | Có khi khấu hao, Nợ khi thanh lý |
+| 331 | Phải trả người bán | Có khi mua/bảo trì |
+| 627x/641x/642x | Chi phí sản xuất/bán hàng/QLDN | Nợ khi KH và bảo trì |
+| 711 | Thu nhập khác | Có khi lãi thanh lý |
+| 811 | Chi phí khác | Nợ khi lỗ thanh lý |
 
 ---
 
 ## Thông tin nhóm
 
-**Nhóm:** CNTT-17-03-N11  
-**Repository:** https://github.com/huzgnm/CNTT-17-03-N11  
-**Email:** huzgnm@gmail.com
+| | |
+|-|-|
+| **Nhóm** | CNTT-17-03-N11 |
+| **Trường** | Đại học Đại Nam — Khoa Công nghệ Thông tin |
+| **Repository** | https://github.com/huzgnm/CNTT-17-03-N11 |
+| **Dựa trên** | https://github.com/thang0305/TTDN-15-02-N3 |
+| **Email** | huzgnm@gmail.com |
