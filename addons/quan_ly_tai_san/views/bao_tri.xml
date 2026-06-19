@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_bao_tri_form" model="ir.ui.view">
+            <field name="name">bao_tri.form</field>
+            <field name="model">bao_tri</field>
+            <field name="arch" type="xml">
+                <form string="Bảo trì tài sản">
+                    <header>
+                        <button name="action_bat_dau_bao_tri" string="Bắt đầu bảo trì"
+                            type="object" class="btn-primary"
+                            attrs="{'invisible': [('tinh_trang', '!=', 'dang_cho_duyet')]}"/>
+                        <button name="action_hoan_thanh" string="Hoàn thành"
+                            type="object" class="btn-success"
+                            attrs="{'invisible': [('tinh_trang', '!=', 'dang_bao_tri')]}"/>
+                        <button name="action_ghi_so_chi_phi" string="Ghi sổ chi phí"
+                            type="object" class="btn-primary"
+                            attrs="{'invisible': [('da_ghi_so', '=', True)]}"/>
+                        <button name="action_xem_but_toan" string="Xem bút toán"
+                            type="object"
+                            attrs="{'invisible': [('da_ghi_so', '=', False)]}"/>
+                        <button name="action_huy" string="Hủy"
+                            type="object" class="btn-danger"
+                            confirm="Bạn có chắc muốn hủy bảo trì này?"
+                            attrs="{'invisible': [('tinh_trang', '=', 'huy')]}"/>
+                        <field name="tinh_trang" widget="statusbar"
+                            statusbar_visible="dang_cho_duyet,dang_bao_tri,da_xong"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="ma_bao_tri" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group string="Thông tin bảo trì">
+                                <field name="tai_san_id"/>
+                                <field name="ten_tai_san" readonly="1"/>
+                                <field name="ngay_bao_tri"/>
+                                <field name="nha_cung_cap_id"/>
+                                <field name="thong_ke_id"/>
+                            </group>
+                            <group string="Chi phí">
+                                <field name="chi_phi_bao_tri" widget="monetary"/>
+                                <field name="da_ghi_so" readonly="1"/>
+                                <field name="account_move_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Thiết lập kế toán"
+                            attrs="{'invisible': [('tinh_trang', '=', 'dang_cho_duyet')]}">
+                            <group>
+                                <field name="journal_id"
+                                    domain="[('type', 'in', ['general', 'purchase'])]"/>
+                                <field name="tai_khoan_chi_phi_id"/>
+                            </group>
+                            <group>
+                                <field name="tai_khoan_phai_tra_id"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="noi_dung_bao_tri"/>
+                            <field name="ghi_chu"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_bao_tri_tree" model="ir.ui.view">
+            <field name="name">bao_tri.tree</field>
+            <field name="model">bao_tri</field>
+            <field name="arch" type="xml">
+                <tree string="Danh sách bảo trì">
+                    <field name="ma_bao_tri"/>
+                    <field name="tai_san_id"/>
+                    <field name="ten_tai_san"/>
+                    <field name="ngay_bao_tri"/>
+                    <field name="nha_cung_cap_id"/>
+                    <field name="chi_phi_bao_tri" widget="monetary" sum="Tổng chi phí"/>
+                    <field name="da_ghi_so" string="Đã ghi sổ"/>
+                    <field name="tinh_trang" widget="badge"
+                        decoration-info="tinh_trang == 'dang_cho_duyet'"
+                        decoration-warning="tinh_trang == 'dang_bao_tri'"
+                        decoration-success="tinh_trang == 'da_xong'"
+                        decoration-danger="tinh_trang == 'huy'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="bao_tri_search" model="ir.ui.view">
+            <field name="name">bao_tri.search</field>
+            <field name="model">bao_tri</field>
+            <field name="arch" type="xml">
+                <search string="Tìm kiếm bảo trì">
+                    <field name="ma_bao_tri"/>
+                    <field name="tai_san_id"/>
+                    <field name="nha_cung_cap_id"/>
+                    <filter string="Chờ duyệt" name="cho_duyet"
+                        domain="[('tinh_trang','=','dang_cho_duyet')]"/>
+                    <filter string="Đang bảo trì" name="dang_bao_tri"
+                        domain="[('tinh_trang','=','dang_bao_tri')]"/>
+                    <filter string="Đã xong" name="da_xong"
+                        domain="[('tinh_trang','=','da_xong')]"/>
+                    <filter string="Chưa ghi sổ" name="chua_ghi_so"
+                        domain="[('da_ghi_so','=',False),('tinh_trang','=','da_xong')]"/>
+                    <separator/>
+                    <group expand="0" string="Nhóm theo">
+                        <filter string="Tình trạng" name="group_tinh_trang"
+                            context="{'group_by': 'tinh_trang'}"/>
+                        <filter string="Tháng" name="group_thang"
+                            context="{'group_by': 'ngay_bao_tri:month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_bao_tri" model="ir.actions.act_window">
+            <field name="name">Bảo trì tài sản</field>
+            <field name="res_model">bao_tri</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="bao_tri_search"/>
+        </record>
+    </data>
+</odoo>
