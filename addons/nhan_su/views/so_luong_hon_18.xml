@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record id="view_so_luong_hon_18_form" model="ir.ui.view">
+            <field name="name">so_luong_hon_18.form</field>
+            <field name="model">so_luong_hon_18</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="so_luong_nhan_vien_tren_18" readonly="1"/>
+                            <field name="so_luong_nhan_vien_duoi_18" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_so_luong_hon_18_tree" model="ir.ui.view">
+            <field name="name">so_luong_hon_18.tree</field>
+            <field name="model">so_luong_hon_18</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="so_luong_nhan_vien_tren_18" readonly="1"/>
+                    <field name="so_luong_nhan_vien_duoi_18" readonly="1"/>               
+                </tree>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="so_luong_hon_18_search" model="ir.ui.view">
+            <field name="name">so_luong_hon_18.search</field>
+            <field name="model">so_luong_hon_18</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="so_luong_nhan_vien_tren_18" readonly="1"/>
+                    <field name="so_luong_nhan_vien_duoi_18" readonly="1"/>                    
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_so_luong_hon_18" model="ir.actions.act_window">
+            <field name="name">Số lượng nhân viên trên 18 tuổi</field>
+            <field name="res_model">so_luong_hon_18</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="so_luong_hon_18_search"/>
+        </record>
+
+        
+    </data>
+</odoo>

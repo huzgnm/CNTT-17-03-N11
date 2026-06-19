@@ -1,0 +1,33 @@
+# -*- coding: utf-8 -*-
+{
+    'name': "Quản lý Tài Sản",
+    'summary': "Quản lý tài sản, khấu hao, mượn trả, bảo trì, điều chuyển và tích hợp kế toán",
+    'description': "Module quản lý toàn bộ vòng đời tài sản: mua sắm, sử dụng, bảo trì, khấu hao tự động hàng tháng ghi vào sổ cái kế toán, điều chuyển và thanh lý.",
+    'author': "Nhóm CNTT-17-03-N11",
+    'website': "https://github.com/huzgnm",
+    'category': 'Accounting/Asset',
+    'version': '0.2',
+    'depends': ['base', 'account'],
+    'data': [
+        'security/ir.model.access.csv',
+        'data/cron.xml',
+        'views/tai_san.xml',
+        'views/khau_hao_hang_thang.xml',
+        'views/thanh_ly.xml',
+        'views/bao_tri.xml',
+        'views/muon_tra.xml',
+        'views/lich_su_quan_ly_tai_san.xml',
+        'views/nha_cung_cap.xml',
+        'views/lich_su_su_dung_tai_san.xml',
+        'views/danh_muc_loai_tai_san.xml',
+        'views/dieu_chuyen_tai_san.xml',
+        'views/lich_su_dieu_chuyen_tai_san.xml',
+        'views/thong_ke.xml',
+        'views/ngan_sach_mua_sam.xml',
+        'views/bao_cao_tai_san.xml',
+        'views/menu.xml',
+    ],
+    'demo': [
+        'demo/demo.xml',
+    ],
+}
