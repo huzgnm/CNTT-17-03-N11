@@ -364,4 +364,3 @@ Bản này được phát triển dựa trên [TTDN-15-02-N3](https://github.com
 | **Trường** | Đại học Đại Nam — Khoa Công nghệ Thông tin |
 | **Repository** | https://github.com/huzgnm/CNTT-17-03-N11 |
 | **Dựa trên** | https://github.com/thang0305/TTDN-15-02-N3 |
-| **Email** | huzgnm@gmail.com |
