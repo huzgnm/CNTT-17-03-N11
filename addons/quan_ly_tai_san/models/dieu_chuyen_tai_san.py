@@ -5,8 +5,10 @@ from odoo.exceptions import ValidationError
 
 class DieuChuyenTaiSan(models.Model):
     _name = 'dieu_chuyen_tai_san'
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = 'Quản lý điều chuyển tài sản'
     _rec_name = "ma_dieu_chuyen"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     ma_dieu_chuyen = fields.Char(
         "Mã điều chuyển", required=True, copy=False, readonly=True, default="New"

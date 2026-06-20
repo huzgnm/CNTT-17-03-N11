@@ -68,7 +68,40 @@
             </field>
         </record>
 
-        <record id="view_bao_tri_tree" model="ir.ui.view">
+        <record id="view_bao_tri_kanban" model="ir.ui.view">
+        <field name="name">bao_tri.kanban</field>
+        <field name="model">bao_tri</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="tinh_trang" class="o_kanban_small_column">
+                <field name="tinh_trang"/>
+                <field name="ma_bao_tri"/>
+                <field name="tai_san_id"/>
+                <field name="nha_cung_cap_id"/>
+                <field name="ngay_bao_tri"/>
+                <field name="chi_phi_bao_tri"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click #{record.tinh_trang.raw_value == 'hoan_thanh' and 'border-success' or record.tinh_trang.raw_value == 'dang_bao_tri' and 'border-warning' or ''}">
+                            <div class="oe_kanban_content">
+                                <strong><field name="ma_bao_tri"/></strong>
+                                <div><field name="tai_san_id"/></div>
+                                <div class="text-muted"><field name="nha_cung_cap_id"/></div>
+                                <div>Ngày: <field name="ngay_bao_tri"/></div>
+                                <div>Chi phí: <field name="chi_phi_bao_tri" widget="monetary"/></div>
+                                <div class="mt-1">
+                                    <span t-attf-class="badge #{record.tinh_trang.raw_value == 'hoan_thanh' and 'badge-success' or record.tinh_trang.raw_value == 'dang_bao_tri' and 'badge-warning' or 'badge-secondary'}">
+                                        <field name="tinh_trang"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_bao_tri_tree" model="ir.ui.view">
             <field name="name">bao_tri.tree</field>
             <field name="model">bao_tri</field>
             <field name="arch" type="xml">
@@ -119,7 +152,7 @@
         <record id="action_bao_tri" model="ir.actions.act_window">
             <field name="name">Bảo trì tài sản</field>
             <field name="res_model">bao_tri</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="search_view_id" ref="bao_tri_search"/>
         </record>
     </data>

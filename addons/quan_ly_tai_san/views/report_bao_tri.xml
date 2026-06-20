@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_bao_tri" model="ir.actions.report">
+        <field name="name">Phiếu bảo trì tài sản</field>
+        <field name="model">bao_tri</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">quan_ly_tai_san.report_bao_tri_template</field>
+        <field name="report_file">quan_ly_tai_san.report_bao_tri_template</field>
+        <field name="binding_model_id" ref="model_bao_tri"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_bao_tri_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 style="text-align:center;">PHIẾU BẢO TRÌ TÀI SẢN</h2>
+                        <p style="text-align:center;">Mã: <strong><t t-esc="doc.ma_bao_tri"/></strong></p>
+                        <hr/>
+                        <table class="table table-bordered" style="width:100%">
+                            <tr>
+                                <td style="width:40%"><strong>Tài sản:</strong></td>
+                                <td><t t-esc="doc.tai_san_id.ten_tai_san"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Nhà cung cấp / Đơn vị BT:</strong></td>
+                                <td><t t-esc="doc.nha_cung_cap_id.ten_nha_cung_cap if doc.nha_cung_cap_id else ''"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ngày bảo trì:</strong></td>
+                                <td><t t-esc="doc.ngay_bao_tri"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Chi phí:</strong></td>
+                                <td><t t-esc="'{:,.0f}'.format(doc.chi_phi_bao_tri)"/> VNĐ</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tình trạng:</strong></td>
+                                <td><t t-esc="dict(doc._fields['tinh_trang'].selection).get(doc.tinh_trang, '')"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mô tả công việc:</strong></td>
+                                <td><t t-esc="doc.noi_dung_bao_tri or ''"/></td>
+                            </tr>
+                        </table>
+                        <br/><br/>
+                        <table style="width:100%">
+                            <tr>
+                                <td style="text-align:center; width:50%">
+                                    <strong>Đơn vị thực hiện</strong><br/>
+                                    <em>(Ký, ghi rõ họ tên)</em><br/><br/><br/><br/>
+                                </td>
+                                <td style="text-align:center; width:50%">
+                                    <strong>Người quản lý tài sản</strong><br/>
+                                    <em>(Ký, ghi rõ họ tên)</em><br/><br/><br/><br/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -11,6 +11,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/cron.xml',
+        'data/mail_template.xml',
         'views/muon_tra.xml',
         'views/bao_tri.xml',
         'views/thanh_ly.xml',
@@ -26,6 +27,8 @@
         'views/ngan_sach_mua_sam.xml',
         'views/bao_cao_tai_san.xml',
         'views/menu.xml',
+        'views/report_muon_tra.xml',
+        'views/report_bao_tri.xml',
     ],
     'demo': [
         'demo/demo.xml',

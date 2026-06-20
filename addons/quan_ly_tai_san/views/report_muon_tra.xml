@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action report -->
+    <record id="action_report_muon_tra" model="ir.actions.report">
+        <field name="name">Phiếu mượn tài sản</field>
+        <field name="model">muon_tra</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">quan_ly_tai_san.report_muon_tra_template</field>
+        <field name="report_file">quan_ly_tai_san.report_muon_tra_template</field>
+        <field name="binding_model_id" ref="model_muon_tra"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- QWeb template -->
+    <template id="report_muon_tra_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 style="text-align:center;">PHIẾU MƯỢN TÀI SẢN</h2>
+                        <p style="text-align:center;">Mã: <strong><t t-esc="doc.ma_muon"/></strong></p>
+                        <hr/>
+                        <table class="table table-bordered" style="width:100%">
+                            <tr>
+                                <td style="width:40%"><strong>Tài sản:</strong></td>
+                                <td><t t-esc="doc.tai_san_id.ten_tai_san"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Nhân viên mượn:</strong></td>
+                                <td><t t-esc="doc.nhan_vien_id.ho_va_ten"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phòng ban:</strong></td>
+                                <td><t t-esc="doc.phong_ban_id.ten_phong_ban if doc.phong_ban_id else ''"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ngày mượn:</strong></td>
+                                <td><t t-esc="doc.thoi_gian_muon"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Hạn trả dự kiến:</strong></td>
+                                <td><t t-esc="doc.thoi_gian_tra_du_kien or 'Không xác định'"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Trạng thái:</strong></td>
+                                <td><t t-esc="dict(doc._fields['trang_thai'].selection).get(doc.trang_thai, '')"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ghi chú:</strong></td>
+                                <td><t t-esc="doc.ghi_chu or ''"/></td>
+                            </tr>
+                        </table>
+                        <br/><br/>
+                        <table style="width:100%">
+                            <tr>
+                                <td style="text-align:center; width:50%">
+                                    <strong>Người mượn</strong><br/>
+                                    <em>(Ký, ghi rõ họ tên)</em><br/><br/><br/><br/>
+                                    <t t-esc="doc.nhan_vien_id.ho_va_ten"/>
+                                </td>
+                                <td style="text-align:center; width:50%">
+                                    <strong>Người quản lý tài sản</strong><br/>
+                                    <em>(Ký, ghi rõ họ tên)</em><br/><br/><br/><br/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

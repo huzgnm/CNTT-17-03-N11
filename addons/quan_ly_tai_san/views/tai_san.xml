@@ -102,6 +102,7 @@
                             options="{'image_preview': 'hinh_anh'}"/>
                         <div class="oe_title">
                             <h1><field name="ma_tai_san" readonly="1"/></h1>
+                            <field name="ma_vach" widget="barcode_handler" placeholder="Quét hoặc nhập mã vạch..."/>
                             <h2><field name="ten_tai_san" placeholder="Tên tài sản..."/></h2>
                         </div>
 

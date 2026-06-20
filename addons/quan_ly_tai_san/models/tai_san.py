@@ -16,6 +16,7 @@ class TaiSan(models.Model):
         "Mã tài sản", required=True, copy=False, readonly=True, default="New"
     )
     ten_tai_san = fields.Char("Tên tài sản", required=True)
+    ma_vach = fields.Char("Mã vạch / Barcode", copy=False, index=True)
     danh_muc_loai_tai_san_id = fields.Many2one(
         "danh_muc_loai_tai_san", string="Loại tài sản", required=True
     )

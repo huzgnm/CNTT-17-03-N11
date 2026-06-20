@@ -3,8 +3,10 @@ from odoo import models, fields, api
 
 class MuonTra(models.Model):
     _name = 'muon_tra'
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = 'Quản lý nhân viên/phòng ban mượn tài sản'
     _rec_name = "ma_muon"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     ma_muon = fields.Char("Mã mượn/trả", required=True, copy=False, readonly=True, default="New")
     nhan_vien_id = fields.Many2one('nhan_vien', string="Mã nhân viên", required=True)
@@ -59,6 +61,11 @@ class MuonTra(models.Model):
             'trang_thai': record.trang_thai,
             'tinh_trang_truoc': 'tot',  # Giá trị mặc định
         })
+
+        # Gửi email thông báo khi tạo phiếu mượn
+        template = self.env.ref('quan_ly_tai_san.mail_template_muon_tra_duyet', raise_if_not_found=False)
+        if template and record.nhan_vien_id and record.nhan_vien_id.email:
+            template.send_mail(record.id, force_send=False)
 
         return record
 

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Template: duyệt phiếu mượn -->
+    <record id="mail_template_muon_tra_duyet" model="mail.template">
+        <field name="name">Thông báo: Phiếu mượn tài sản được duyệt</field>
+        <field name="model_id" ref="model_muon_tra"/>
+        <field name="subject">✅ Phiếu mượn {{ object.ma_muon }} đã được duyệt</field>
+        <field name="body_html"><![CDATA[
+<p>Xin chào <strong>{{ object.nhan_vien_id.ho_va_ten }}</strong>,</p>
+<p>Phiếu mượn tài sản của bạn đã được <strong>duyệt</strong>.</p>
+<table style="border-collapse:collapse; width:100%">
+    <tr><td style="padding:4px; border:1px solid #ddd"><b>Mã phiếu</b></td><td style="padding:4px; border:1px solid #ddd">{{ object.ma_muon }}</td></tr>
+    <tr><td style="padding:4px; border:1px solid #ddd"><b>Tài sản</b></td><td style="padding:4px; border:1px solid #ddd">{{ object.tai_san_id.ten_tai_san }}</td></tr>
+    <tr><td style="padding:4px; border:1px solid #ddd"><b>Ngày mượn</b></td><td style="padding:4px; border:1px solid #ddd">{{ object.thoi_gian_muon }}</td></tr>
+    <tr><td style="padding:4px; border:1px solid #ddd"><b>Hạn trả</b></td><td style="padding:4px; border:1px solid #ddd">{{ object.thoi_gian_tra_du_kien or 'Chưa xác định' }}</td></tr>
+</table>
+<p>Vui lòng liên hệ bộ phận quản lý tài sản nếu có thắc mắc.</p>
+        ]]></field>
+        <field name="email_to">{{ object.nhan_vien_id.email or '' }}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <!-- Template: bảo hành sắp hết -->
+    <record id="mail_template_bao_hanh_sap_het" model="mail.template">
+        <field name="name">Cảnh báo: Tài sản sắp hết bảo hành</field>
+        <field name="model_id" ref="model_tai_san"/>
+        <field name="subject">⚠️ Cảnh báo: Tài sản {{ object.ten_tai_san }} sắp hết bảo hành</field>
+        <field name="body_html"><![CDATA[
+<p>Kính gửi Quản lý tài sản,</p>
+<p>Tài sản sau đây <strong>sắp hết hạn bảo hành</strong>:</p>
+<table style="border-collapse:collapse; width:100%">
+    <tr><td style="padding:4px; border:1px solid #ddd"><b>Mã tài sản</b></td><td style="padding:4px; border:1px solid #ddd">{{ object.ma_tai_san }}</td></tr>
+    <tr><td style="padding:4px; border:1px solid #ddd"><b>Tên tài sản</b></td><td style="padding:4px; border:1px solid #ddd">{{ object.ten_tai_san }}</td></tr>
+    <tr><td style="padding:4px; border:1px solid #ddd"><b>Hết hạn bảo hành</b></td><td style="padding:4px; border:1px solid #ddd">{{ object.het_han_bao_hanh }}</td></tr>
+</table>
+<p>Vui lòng liên hệ nhà cung cấp để gia hạn hoặc mua bảo hành mới.</p>
+        ]]></field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <!-- Template: thanh lý được duyệt -->
+    <record id="mail_template_thanh_ly_duyet" model="mail.template">
+        <field name="name">Thông báo: Phiếu thanh lý được duyệt</field>
+        <field name="model_id" ref="model_thanh_ly"/>
+        <field name="subject">✅ Phiếu thanh lý {{ object.ma_thanh_ly }} đã được duyệt</field>
+        <field name="body_html"><![CDATA[
+<p>Kính gửi,</p>
+<p>Phiếu thanh lý tài sản đã được <strong>phê duyệt</strong>.</p>
+<table style="border-collapse:collapse; width:100%">
+    <tr><td style="padding:4px; border:1px solid #ddd"><b>Mã phiếu</b></td><td style="padding:4px; border:1px solid #ddd">{{ object.ma_thanh_ly }}</td></tr>
+    <tr><td style="padding:4px; border:1px solid #ddd"><b>Tài sản</b></td><td style="padding:4px; border:1px solid #ddd">{{ object.tai_san_id.ten_tai_san }}</td></tr>
+    <tr><td style="padding:4px; border:1px solid #ddd"><b>Giá trị thanh lý</b></td><td style="padding:4px; border:1px solid #ddd">{{ '{:,.0f}'.format(object.gia_tri_thanh_ly) }} VNĐ</td></tr>
+    <tr><td style="padding:4px; border:1px solid #ddd"><b>Người phê duyệt</b></td><td style="padding:4px; border:1px solid #ddd">{{ object.nhan_vien_id.ho_va_ten }}</td></tr>
+</table>
+        ]]></field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+</odoo>

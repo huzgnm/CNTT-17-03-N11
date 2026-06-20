@@ -36,7 +36,42 @@
         </record>
 
         <!-- Tree View -->
-        <record id="view_muon_tra_tree" model="ir.ui.view">
+        <record id="view_muon_tra_kanban" model="ir.ui.view">
+        <field name="name">muon_tra.kanban</field>
+        <field name="model">muon_tra</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="trang_thai" class="o_kanban_small_column">
+                <field name="trang_thai"/>
+                <field name="ma_muon"/>
+                <field name="nhan_vien_id"/>
+                <field name="tai_san_id"/>
+                <field name="thoi_gian_muon"/>
+                <field name="thoi_gian_tra_du_kien"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click #{record.trang_thai.raw_value == 'qua_han' and 'border-danger' or ''}">
+                            <div class="oe_kanban_content">
+                                <strong><field name="ma_muon"/></strong>
+                                <div><field name="tai_san_id"/></div>
+                                <div class="text-muted"><field name="nhan_vien_id"/></div>
+                                <div>Mượn: <field name="thoi_gian_muon"/></div>
+                                <div t-if="record.thoi_gian_tra_du_kien.raw_value">
+                                    Hạn trả: <field name="thoi_gian_tra_du_kien"/>
+                                </div>
+                                <div class="mt-1">
+                                    <span t-attf-class="badge #{record.trang_thai.raw_value == 'dang_muon' and 'badge-primary' or record.trang_thai.raw_value == 'qua_han' and 'badge-danger' or record.trang_thai.raw_value == 'da_tra' and 'badge-success' or 'badge-secondary'}">
+                                        <field name="trang_thai"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_muon_tra_tree" model="ir.ui.view">
             <field name="name">muon_tra</field>
             <field name="model">muon_tra</field>
             <field name="arch" type="xml">
@@ -83,7 +118,7 @@
         <record id="action_muon_tra" model="ir.actions.act_window">
             <field name="name">Quản lý mượn trả tài sản</field>
             <field name="res_model">muon_tra</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="search_view_id" ref="muon_tra_search"/>
         </record>
     </data>
