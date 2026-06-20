@@ -127,11 +127,15 @@
                                     decoration-warning="trang_thai in ('bao_tri', 'sua_chua', 'cho_cap_phat')"
                                     decoration-danger="trang_thai in ('hong', 'mat', 'da_thanh_ly')"/>
                             </group>
-                            <group string="Gia tri tai san">
+                            <group string="Thông tin tài chính">
                                 <field name="so_luong"/>
                                 <field name="gia_tri_tai_san" widget="monetary"/>
+                                <field name="tong_gia_tri" readonly="1" widget="monetary"/>
                                 <field name="thoi_gian_su_dung"/>
+                                <field name="ty_le_khau_hao" readonly="1"/>
+                                <field name="tong_da_khau_hao" readonly="1" widget="monetary"/>
                                 <field name="gia_tri_con_lai" readonly="1" widget="monetary"/>
+                                <field name="phan_tram_khau_hao" readonly="1" widget="progressbar"/>
                             </group>
                         </group>
 
@@ -257,6 +261,8 @@
                         domain="[('canh_bao_bao_tri','=',True)]"/>
                     <filter string="⏰ Sắp hết bảo hành" name="sap_het_bao_hanh"
                         domain="[('tinh_trang_bao_hanh','=','sap_het')]"/>
+                    <filter string="Chưa ghi sổ mua" name="chua_ghi_so_mua"
+                        domain="[('da_ghi_so_mua','=',False)]"/>
                     <separator/>
                     <group expand="0" string="Nhóm theo">
                         <filter string="Loại tài sản" name="group_loai"
@@ -274,10 +280,11 @@
              ACTION
         ═══════════════════════════════════════════════════════════ -->
         <record id="action_tai_san" model="ir.actions.act_window">
-            <field name="name">Tai san</field>
+            <field name="name">Tài sản</field>
             <field name="res_model">tai_san</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="search_view_id" ref="view_tai_san_search"/>
+            <field name="context">{'search_default_dang_su_dung': 1}</field>
         </record>
     </data>
 </odoo>

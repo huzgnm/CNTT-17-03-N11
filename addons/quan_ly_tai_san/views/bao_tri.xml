@@ -5,17 +5,17 @@
             <field name="name">bao_tri.form</field>
             <field name="model">bao_tri</field>
             <field name="arch" type="xml">
-                <form string="Bao tri tai san">
+                <form string="Bảo trì tài sản">
                     <header>
-                        <button name="action_bat_dau_bao_tri" string="Bat dau bao tri"
+                        <button name="action_bat_dau_bao_tri" string="Bắt đầu bảo trì"
                             type="object" class="btn-primary"
                             attrs="{'invisible': [('tinh_trang', '!=', 'dang_cho_duyet')]}"/>
-                        <button name="action_hoan_thanh" string="Hoan thanh"
+                        <button name="action_hoan_thanh" string="Hoàn thành"
                             type="object" class="btn-success"
                             attrs="{'invisible': [('tinh_trang', '!=', 'dang_bao_tri')]}"/>
-                        <button name="action_huy" string="Huy"
+                        <button name="action_huy" string="Hủy"
                             type="object" class="btn-danger"
-                            confirm="Ban co chac muon huy bao tri nay?"
+                            confirm="Bạn có chắc muốn hủy bảo trì này?"
                             attrs="{'invisible': [('tinh_trang', '=', 'huy')]}"/>
                         <field name="tinh_trang" widget="statusbar"
                             statusbar_visible="dang_cho_duyet,dang_bao_tri,da_xong"/>
@@ -25,15 +25,28 @@
                             <h1><field name="ma_bao_tri" readonly="1"/></h1>
                         </div>
                         <group>
-                            <group string="Thong tin bao tri">
+                            <group string="Thông tin bảo trì">
                                 <field name="tai_san_id"/>
                                 <field name="ten_tai_san" readonly="1"/>
                                 <field name="ngay_bao_tri"/>
                                 <field name="nha_cung_cap_id"/>
                                 <field name="thong_ke_id"/>
                             </group>
-                            <group string="Chi phi">
+                            <group string="Chi phí">
                                 <field name="chi_phi_bao_tri" widget="monetary"/>
+                                <field name="da_ghi_so" readonly="1"/>
+                                <field name="account_move_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Thiết lập kế toán"
+                            attrs="{'invisible': [('tinh_trang', '=', 'dang_cho_duyet')]}">
+                            <group>
+                                <field name="journal_id"
+                                    domain="[('type', 'in', ['general', 'purchase'])]"/>
+                                <field name="tai_khoan_chi_phi_id"/>
+                            </group>
+                            <group>
+                                <field name="tai_khoan_phai_tra_id"/>
                             </group>
                         </group>
                         <group>
@@ -50,47 +63,50 @@
         </record>
 
         <record id="view_bao_tri_kanban" model="ir.ui.view">
-            <field name="name">bao_tri.kanban</field>
-            <field name="model">bao_tri</field>
-            <field name="arch" type="xml">
-                <kanban default_group_by="tinh_trang" class="o_kanban_small_column">
-                    <field name="tinh_trang"/>
-                    <field name="ma_bao_tri"/>
-                    <field name="tai_san_id"/>
-                    <field name="nha_cung_cap_id"/>
-                    <field name="ngay_bao_tri"/>
-                    <field name="chi_phi_bao_tri"/>
-                    <templates>
-                        <t t-name="kanban-box">
-                            <div class="oe_kanban_card oe_kanban_global_click">
-                                <div class="oe_kanban_content">
-                                    <strong><field name="ma_bao_tri"/></strong>
-                                    <div><field name="tai_san_id"/></div>
-                                    <div class="text-muted"><field name="nha_cung_cap_id"/></div>
-                                    <div>Ngay: <field name="ngay_bao_tri"/></div>
-                                    <div>Chi phi: <field name="chi_phi_bao_tri" widget="monetary"/></div>
-                                    <div class="mt-1">
-                                        <field name="tinh_trang" widget="badge"/>
-                                    </div>
+        <field name="name">bao_tri.kanban</field>
+        <field name="model">bao_tri</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="tinh_trang" class="o_kanban_small_column">
+                <field name="tinh_trang"/>
+                <field name="ma_bao_tri"/>
+                <field name="tai_san_id"/>
+                <field name="nha_cung_cap_id"/>
+                <field name="ngay_bao_tri"/>
+                <field name="chi_phi_bao_tri"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click #{record.tinh_trang.raw_value == 'hoan_thanh' and 'border-success' or record.tinh_trang.raw_value == 'dang_bao_tri' and 'border-warning' or ''}">
+                            <div class="oe_kanban_content">
+                                <strong><field name="ma_bao_tri"/></strong>
+                                <div><field name="tai_san_id"/></div>
+                                <div class="text-muted"><field name="nha_cung_cap_id"/></div>
+                                <div>Ngày: <field name="ngay_bao_tri"/></div>
+                                <div>Chi phí: <field name="chi_phi_bao_tri" widget="monetary"/></div>
+                                <div class="mt-1">
+                                    <span t-attf-class="badge #{record.tinh_trang.raw_value == 'hoan_thanh' and 'badge-success' or record.tinh_trang.raw_value == 'dang_bao_tri' and 'badge-warning' or 'badge-secondary'}">
+                                        <field name="tinh_trang"/>
+                                    </span>
                                 </div>
                             </div>
-                        </t>
-                    </templates>
-                </kanban>
-            </field>
-        </record>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
 
-        <record id="view_bao_tri_tree" model="ir.ui.view">
+    <record id="view_bao_tri_tree" model="ir.ui.view">
             <field name="name">bao_tri.tree</field>
             <field name="model">bao_tri</field>
             <field name="arch" type="xml">
-                <tree string="Danh sach bao tri">
+                <tree string="Danh sách bảo trì">
                     <field name="ma_bao_tri"/>
                     <field name="tai_san_id"/>
                     <field name="ten_tai_san"/>
                     <field name="ngay_bao_tri"/>
                     <field name="nha_cung_cap_id"/>
-                    <field name="chi_phi_bao_tri" widget="monetary" sum="Tong chi phi"/>
+                    <field name="chi_phi_bao_tri" widget="monetary" sum="Tổng chi phí"/>
+                    <field name="da_ghi_so" string="Đã ghi sổ"/>
                     <field name="tinh_trang" widget="badge"
                         decoration-info="tinh_trang == 'dang_cho_duyet'"
                         decoration-warning="tinh_trang == 'dang_bao_tri'"
@@ -104,21 +120,23 @@
             <field name="name">bao_tri.search</field>
             <field name="model">bao_tri</field>
             <field name="arch" type="xml">
-                <search string="Tim kiem bao tri">
+                <search string="Tìm kiếm bảo trì">
                     <field name="ma_bao_tri"/>
                     <field name="tai_san_id"/>
                     <field name="nha_cung_cap_id"/>
-                    <filter string="Cho duyet" name="cho_duyet"
+                    <filter string="Chờ duyệt" name="cho_duyet"
                         domain="[('tinh_trang','=','dang_cho_duyet')]"/>
-                    <filter string="Dang bao tri" name="dang_bao_tri"
+                    <filter string="Đang bảo trì" name="dang_bao_tri"
                         domain="[('tinh_trang','=','dang_bao_tri')]"/>
-                    <filter string="Da xong" name="da_xong"
+                    <filter string="Đã xong" name="da_xong"
                         domain="[('tinh_trang','=','da_xong')]"/>
+                    <filter string="Chưa ghi sổ" name="chua_ghi_so"
+                        domain="[('da_ghi_so','=',False),('tinh_trang','=','da_xong')]"/>
                     <separator/>
-                    <group expand="0" string="Nhom theo">
-                        <filter string="Tinh trang" name="group_tinh_trang"
+                    <group expand="0" string="Nhóm theo">
+                        <filter string="Tình trạng" name="group_tinh_trang"
                             context="{'group_by': 'tinh_trang'}"/>
-                        <filter string="Thang" name="group_thang"
+                        <filter string="Tháng" name="group_thang"
                             context="{'group_by': 'ngay_bao_tri:month'}"/>
                     </group>
                 </search>
@@ -126,7 +144,7 @@
         </record>
 
         <record id="action_bao_tri" model="ir.actions.act_window">
-            <field name="name">Bao tri tai san</field>
+            <field name="name">Bảo trì tài sản</field>
             <field name="res_model">bao_tri</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="search_view_id" ref="bao_tri_search"/>

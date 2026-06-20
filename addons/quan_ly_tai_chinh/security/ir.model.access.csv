@@ -1,9 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_tai_chinh_ngan_sach,tai_chinh.ngan_sach,model_tai_chinh_ngan_sach,base.group_user,1,1,1,1
-access_tai_chinh_phieu_thu_chi,tai_chinh.phieu_thu_chi,model_tai_chinh_phieu_thu_chi,base.group_user,1,1,1,1
-access_tai_chinh_bao_cao,tai_chinh.bao_cao,model_tai_chinh_bao_cao,base.group_user,1,1,1,1
-access_tai_chinh_khau_hao,tai_chinh.khau_hao,model_tai_chinh_khau_hao,base.group_user,1,1,1,1
-access_tai_chinh_ngan_sach_mua_sam,tai_chinh.ngan_sach_mua_sam,model_tai_chinh_ngan_sach_mua_sam,base.group_user,1,1,1,1
-access_tai_chinh_ngan_sach_mua_sam_ct,tai_chinh.ngan_sach_mua_sam.chi_tiet,model_tai_chinh_ngan_sach_mua_sam_chi_tiet,base.group_user,1,1,1,1
-access_tai_chinh_bao_cao_tai_san,tai_chinh.bao_cao_tai_san,model_tai_chinh_bao_cao_tai_san,base.group_user,1,1,1,1
-access_tai_chinh_bao_cao_tai_san_ct,tai_chinh.bao_cao_tai_san.chi_tiet,model_tai_chinh_bao_cao_tai_san_chi_tiet,base.group_user,1,1,1,1
+access_tai_chinh_ngan_sach_user,tai_chinh.ngan_sach user,model_tai_chinh_ngan_sach,,1,0,0,0
+access_tai_chinh_ngan_sach_manager,tai_chinh.ngan_sach manager,model_tai_chinh_ngan_sach,base.group_user,1,1,1,1
+access_tai_chinh_phieu_thu_chi_user,tai_chinh.phieu_thu_chi user,model_tai_chinh_phieu_thu_chi,,1,0,0,0
+access_tai_chinh_phieu_thu_chi_manager,tai_chinh.phieu_thu_chi manager,model_tai_chinh_phieu_thu_chi,base.group_user,1,1,1,1
+access_tai_chinh_bao_cao_user,tai_chinh.bao_cao user,model_tai_chinh_bao_cao,,1,0,0,0
+access_tai_chinh_bao_cao_manager,tai_chinh.bao_cao manager,model_tai_chinh_bao_cao,base.group_user,1,1,1,1

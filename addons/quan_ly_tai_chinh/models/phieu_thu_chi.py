@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models
+from ..utils.telegram_helper import send_telegram_message
 
 
 class PhieuThuChi(models.Model):
@@ -50,16 +51,10 @@ class PhieuThuChi(models.Model):
             last = self.search([("loai_phieu", "=", vals.get("loai_phieu"))], order="id desc", limit=1)
             num = int(last.ma_phieu[2:]) if last and len(last.ma_phieu) > 2 else 0
             vals["ma_phieu"] = "%s%05d" % (prefix, num + 1)
-        return super(PhieuThuChi, self).create(vals)
-
-    def action_gui_duyet(self):
-        self.write({"trang_thai": "cho_duyet"})
-        self.message_post(body="Phieu da duoc gui duyet.")
-
-    def action_duyet(self):
-        for rec in self:
-            rec.write({"trang_thai": "da_duyet", "ngay_duyet": fields.Date.today()})
-            rec.message_post(body="Phieu da duoc duyet.")
-
-    def action_huy(self):
-        self.write({"trang_thai": "huy"})
+        record = super(PhieuThuChi, self).create(vals)
+        # Neu phieu duoc tao tu trigger tu dong (nguon_goc != khac), gui thong bao Telegram
+        if record.nguon_goc in ("bao_tri", "thanh_ly"):
+            loai_text = "THU" if record.loai_phieu == "thu" else "CHI"
+            msg = (
+                u"\U0001F4CB <b>PHIEU {loai} TU DONG</b>\n"
+                u"Ma phieu: <code>{ma}</code>\n

@@ -13,7 +13,5 @@
         "views/khau_hao_hang_thang.xml",
         "views/ngan_sach_mua_sam.xml",
         "views/bao_cao_tai_san.xml",
-        "views/menu.xml",
-    ],
-    "license": "LGPL-3",
-}
+        "views/telegram_config.xml",
+        "views/menu.xml

@@ -11,4 +11,9 @@ access_dieu_chuyen_tai_san,dieu_chuyen_tai_san.dieu_chuyen_tai_san,model_dieu_ch
 access_lich_su_dieu_chuyen_tai_san,lich_su_dieu_chuyen_tai_san.lich_su_dieu_chuyen_tai_san,model_lich_su_dieu_chuyen_tai_san,base.group_user,1,1,1,1
 access_don_muon,don_muon.don_muon,model_don_muon,base.group_user,1,1,1,1
 access_thong_ke,thong_ke.thong_ke,model_thong_ke,base.group_user,1,1,1,1
+access_khau_hao_hang_thang,khau_hao_hang_thang.khau_hao_hang_thang,model_khau_hao_hang_thang,base.group_user,1,1,1,1
+access_ngan_sach_mua_sam,ngan_sach_mua_sam.ngan_sach_mua_sam,model_ngan_sach_mua_sam,base.group_user,1,1,1,1
+access_ngan_sach_mua_sam_chi_tiet,ngan_sach_mua_sam.chi_tiet,model_ngan_sach_mua_sam_chi_tiet,base.group_user,1,1,1,1
+access_bao_cao_tai_san,bao_cao_tai_san.bao_cao_tai_san,model_bao_cao_tai_san,base.group_user,1,1,1,1
+access_bao_cao_tai_san_chi_tiet,bao_cao_tai_san.chi_tiet,model_bao_cao_tai_san_chi_tiet,base.group_user,1,1,1,1
 

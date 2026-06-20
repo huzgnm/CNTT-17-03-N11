@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Chuc vu -->
+        <record id="chuc_vu_giam_doc" model="chuc_vu">
+            <field name="ten_chuc_vu">Giam doc</field>
+        </record>
+        <record id="chuc_vu_truong_phong" model="chuc_vu">
+            <field name="ten_chuc_vu">Truong phong</field>
+        </record>
+        <record id="chuc_vu_nhan_vien" model="chuc_vu">
+            <field name="ten_chuc_vu">Nhan vien</field>
+        </record>
+        <record id="chuc_vu_ke_toan" model="chuc_vu">
+            <field name="ten_chuc_vu">Ke toan</field>
+        </record>
+
+        <!-- Phong ban -->
+        <record id="phong_ban_ban_giam_doc" model="phong_ban">
+            <field name="ten_phong_ban">Ban Giam doc</field>
+        </record>
+        <record id="phong_ban_it" model="phong_ban">
+            <field name="ten_phong_ban">Phong Cong nghe Thong tin</field>
+        </record>
+        <record id="phong_ban_hanh_chinh" model="phong_ban">
+            <field name="ten_phong_ban">Phong Hanh chinh - Tai san</field>
+        </record>
+        <record id="phong_ban_ke_toan" model="phong_ban">
+            <field name="ten_phong_ban">Phong Ke toan - Tai chinh</field>
+        </record>
+
+        <!-- Nhan vien -->
+        <record id="nv_nguyen_van_an" model="nhan_vien">
+            <field name="ma_dinh_danh">NV001</field>
+            <field name="ho_ten_dem">Nguyen Van</field>
+            <field name="ten">An</field>
+            <field name="ngay_sinh">1985-03-15</field>
+            <field name="email">an.nguyen@company.vn</field>
+            <field name="so_dien_thoai">0901234567</field>
+            <field name="phong_ban_id" ref="phong_ban_ban_giam_doc"/>
+            <field name="chuc_vu_id" ref="chuc_vu_giam_doc"/>
+        </record>
+        <record id="nv_tran_thi_bich" model="nhan_vien">
+            <field name="ma_dinh_danh">NV002</field>
+            <field name="ho_ten_dem">Tran Thi</field>
+            <field name="ten">Bich</field>
+            <field name="ngay_sinh">1990-07-20</field>
+            <field name="email">bich.tran@company.vn</field>
+            <field name="so_dien_thoai">0912345678</field>
+            <field name="phong_ban_id" ref="phong_ban_hanh_chinh"/>
+            <field name="chuc_vu_id" ref="chuc_vu_truong_phong"/>
+        </record>
+        <record id="nv_le_minh_duc" model="nhan_vien">
+            <field name="ma_dinh_danh">NV003</field>
+            <field name="ho_ten_dem">Le Minh</field>
+            <field name="ten">Duc</field>
+            <field name="ngay_sinh">1993-11-05</field>
+            <field name="email">duc.le@company.vn</field>
+            <field name="so_dien_thoai">0923456789</field>
+            <field name="phong_ban_id" ref="phong_ban_it"/>
+            <field name="chuc_vu_id" ref="chuc_vu_nhan_vien"/>
+        </record>
+        <record id="nv_pham_thu_huong" model="nhan_vien">
+            <field name="ma_dinh_danh">NV004</field>
+            <field name="ho_ten_dem">Pham Thu</field>
+            <field name="ten">Huong</field>
+            <field name="ngay_sinh">1988-04-12</field>
+            <field name="email">huong.pham@company.vn</field>
+            <field name="so_dien_thoai">0934567890</field>
+            <field name="phong_ban_id" ref="phong_ban_ke_toan"/>
+            <field name="chuc_vu_id" ref="chuc_vu_ke_toan"/>
+        </record>
+    </data>
+</odoo>
