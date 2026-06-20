@@ -97,7 +97,7 @@ Truy cập: **http://localhost:8069/**
 Sau khi đăng nhập, vào **Settings → Apps → Update Apps List** và cài:
 - `Quản lý Tài Sản`
 - `Quản lý Nhân sự`
-- `Quản lý Văn bản`
+- `Quản lý Tài chính`
 
 ---
 
