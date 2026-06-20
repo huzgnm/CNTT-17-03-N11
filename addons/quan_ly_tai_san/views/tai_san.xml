@@ -192,10 +192,10 @@
                             <page string="Lịch sử mượn trả">
                                 <field name="muon_tra_ids" readonly="1">
                                     <tree>
-                                        <field name="ma_muon_tra"/>
-                                        <field name="nguoi_muon_id"/>
-                                        <field name="ngay_muon"/>
-                                        <field name="ngay_tra"/>
+                                        <field name="ma_muon"/>
+                                        <field name="nhan_vien_id"/>
+                                        <field name="thoi_gian_muon"/>
+                                        <field name="thoi_gian_tra_thuc_te"/>
                                         <field name="trang_thai"/>
                                     </tree>
                                 </field>
@@ -227,9 +227,9 @@
                                     <tree>
                                         <field name="ma_dieu_chuyen"/>
                                         <field name="ngay_dieu_chuyen"/>
-                                        <field name="dia_diem_cu"/>
-                                        <field name="dia_diem_moi"/>
-                                        <field name="ly_do"/>
+                                        <field name="tu_dia_diem"/>
+                                        <field name="den_dia_diem"/>
+                                        <field name="ghi_chu"/>
                                     </tree>
                                 </field>
                             </page>
