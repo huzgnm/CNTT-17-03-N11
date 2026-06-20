@@ -28,11 +28,6 @@ class BaoTri(models.Model):
         ("huy", "Đã hủy"),
     ], string="Tình trạng", default="dang_cho_duyet")
 
-    # Thiết lập kế toán
-    )
-    )
-    )
-    )
 
     @api.model
     def create(self, vals):
@@ -84,5 +79,4 @@ class BaoTri(models.Model):
             if rec.account_move_id and rec.account_move_id.state == "posted":
                 rec.account_move_id.button_cancel()
                 rec.account_move_id.button_draft()
-                rec.account_move_id.unlink()
-            rec.write({"tinh_trang": "huy", "account_move_id": False})
+                rec.account_mo

@@ -92,6 +92,7 @@ class BaoCaoTaiChinh(models.Model):
         self._compute_tong()
         self.message_post(body="Đã tính toán lại số liệu báo cáo.")
 
+
     def action_duyet(self):
-        self.write({'trang_thai': 'da_duyet', 'nguoi_duyet_id': False})
-        self.message_post(body="Báo cáo đã được duyệt.")
+        self.write({"trang_thai": "da_duyet"})
+        self.message_post(body="Bao cao da duoc duyet.")

@@ -76,7 +76,7 @@ class NganSach(models.Model):
         self.write({'trang_thai': 'cho_duyet'})
 
     def action_duyet(self):
-        self.write({'trang_thai': 'da_duyet'})
+        self.write({"trang_thai": "da_duyet"})
 
     def action_huy(self):
-        self.write({'trang_thai': 'huy'})
+        self.write({"trang_thai": "huy"})
