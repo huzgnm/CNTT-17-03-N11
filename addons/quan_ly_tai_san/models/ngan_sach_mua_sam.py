@@ -5,6 +5,7 @@ from odoo.exceptions import ValidationError
 
 class NganSachMuaSam(models.Model):
     _name = 'ngan_sach_mua_sam'
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = 'Ngân sách mua sắm tài sản'
     _rec_name = 'ten_ngan_sach'
     _order = 'nam desc, id desc'

@@ -5,6 +5,7 @@ from odoo.exceptions import UserError
 
 class BaoTri(models.Model):
     _name = "bao_tri"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Bảng chứa thông tin bảo trì, bảo dưỡng tài sản"
     _rec_name = "ma_bao_tri"
 
