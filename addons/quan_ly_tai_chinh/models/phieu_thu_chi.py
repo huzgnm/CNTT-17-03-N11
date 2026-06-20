@@ -6,43 +6,43 @@ from ..utils.telegram_helper import send_telegram_message
 class PhieuThuChi(models.Model):
     _name = "tai_chinh.phieu_thu_chi"
     _inherit = ["mail.thread", "mail.activity.mixin"]
-    _description = "Phieu thu/chi tai chinh"
+    _description = "Phiếu thu/chi tài chính"
     _rec_name = "ma_phieu"
     _order = "ngay_lap desc, id desc"
 
-    ma_phieu = fields.Char("Ma phieu", required=True, copy=False, readonly=True, default="New")
+    ma_phieu = fields.Char("Mã phiếu", required=True, copy=False, readonly=True, default="New")
     loai_phieu = fields.Selection([
-        ("thu", "Phieu thu"),
-        ("chi", "Phieu chi"),
-    ], string="Loai phieu", required=True, default="chi", tracking=True)
+        ("thu", "Phiếu thu"),
+        ("chi", "Phiếu chi"),
+    ], string="Loại phiếu", required=True, default="chi", tracking=True)
     nguon_goc = fields.Selection([
-        ("bao_tri", "Chi phi bao tri tai san"),
-        ("mua_sam", "Mua sam tai san"),
-        ("thanh_ly", "Thu thanh ly tai san"),
-        ("luong", "Chi luong nhan vien"),
-        ("khac", "Khac"),
-    ], string="Nguon goc", required=True, default="khac")
-    ten_noi_dung = fields.Char("Noi dung", required=True)
-    so_tien = fields.Float("So tien (VND)", required=True)
-    ngay_lap = fields.Date("Ngay lap", required=True, default=fields.Date.today)
-    ngay_duyet = fields.Date("Ngay duyet", readonly=True)
+        ("bao_tri", "Chi phí bảo trì tài sản"),
+        ("mua_sam", "Mua sắm tài sản"),
+        ("thanh_ly", "Thu thanh lý tài sản"),
+        ("luong", "Chi lương nhân viên"),
+        ("khac", "Khác"),
+    ], string="Nguồn gốc", required=True, default="khac")
+    ten_noi_dung = fields.Char("Nội dung", required=True)
+    so_tien = fields.Float("Số tiền (VND)", required=True)
+    ngay_lap = fields.Date("Ngày lập", required=True, default=fields.Date.today)
+    ngay_duyet = fields.Date("Ngày duyệt", readonly=True)
 
-    nguoi_lap_id = fields.Many2one("nhan_vien", string="Nguoi lap", required=True)
-    nguoi_duyet_id = fields.Many2one("nhan_vien", string="Nguoi duyet")
-    phong_ban_id = fields.Many2one(related="nguoi_lap_id.phong_ban_id", string="Phong ban", readonly=True)
+    nguoi_lap_id = fields.Many2one("nhan_vien", string="Người lập", required=True)
+    nguoi_duyet_id = fields.Many2one("nhan_vien", string="Người duyệt")
+    phong_ban_id = fields.Many2one(related="nguoi_lap_id.phong_ban_id", string="Phòng ban", readonly=True)
 
-    tai_san_id = fields.Many2one("tai_san", string="Tai san lien quan")
-    bao_tri_id = fields.Many2one("bao_tri", string="Phieu bao tri")
-    thanh_ly_id = fields.Many2one("thanh_ly", string="Phieu thanh ly")
-    ngan_sach_id = fields.Many2one("tai_chinh.ngan_sach", string="Ngan sach")
+    tai_san_id = fields.Many2one("tai_san", string="Tài sản liên quan")
+    bao_tri_id = fields.Many2one("bao_tri", string="Phiếu bảo trì")
+    thanh_ly_id = fields.Many2one("thanh_ly", string="Phiếu thanh lý")
+    ngan_sach_id = fields.Many2one("tai_chinh.ngan_sach", string="Ngân sách")
 
-    ghi_chu = fields.Text("Ghi chu")
+    ghi_chu = fields.Text("Ghi chú")
     trang_thai = fields.Selection([
-        ("nhap", "Nhap"),
-        ("cho_duyet", "Cho duyet"),
-        ("da_duyet", "Da duyet"),
-        ("huy", "Da huy"),
-    ], string="Trang thai", default="nhap", tracking=True)
+        ("nhap", "Nháp"),
+        ("cho_duyet", "Chờ duyệt"),
+        ("da_duyet", "Đã duyệt"),
+        ("huy", "Đã hủy"),
+    ], string="Trạng thái", default="nhap", tracking=True)
 
     @api.model
     def create(self, vals):

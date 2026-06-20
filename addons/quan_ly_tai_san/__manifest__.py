@@ -23,5 +23,5 @@
         "views/thong_ke.xml",
         "views/menu.xml",
     ],
-    "demo": [
-        "demo
+    "license": "LGPL-3",
+}

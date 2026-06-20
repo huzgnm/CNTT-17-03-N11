@@ -7,21 +7,16 @@
             <field name="arch" type="xml">
                 <form string="Thanh lý tài sản">
                     <header>
-                        <button name="action_cho_duyet" string="Gửi duyệt"
-                            type="object" class="btn-primary"
-                            attrs="{'invisible': [('trang_thai', '!=', 'nhap')]}"/>
-                        <button name="action_duyet" string="Duyệt"
+                        <button name="action_duyet" string="Duyệt thanh lý"
                             type="object" class="btn-success"
-                            attrs="{'invisible': [('trang_thai', '!=', 'cho_duyet')]}"/>
-                        <button name="action_ghi_so_thanh_ly" string="Ghi sổ kế toán"
-                            type="object" class="btn-primary"
-                            attrs="{'invisible': [('trang_thai', '!=', 'da_duyet')]}"/>
+                            attrs="{'invisible': [('trang_thai', '!=', 'cho_duyet')]}"
+                            confirm="Xác nhận duyệt phiếu thanh lý này?"/>
                         <button name="action_huy" string="Hủy"
                             type="object" class="btn-danger"
-                            confirm="Bạn có chắc muốn hủy thanh lý này?"
-                            attrs="{'invisible': [('trang_thai', 'in', ['da_ghi_so', 'huy'])]}"/>
+                            confirm="Bạn có chắc muốn hủy phiếu thanh lý này?"
+                            attrs="{'invisible': [('trang_thai', '=', 'huy')]}"/>
                         <field name="trang_thai" widget="statusbar"
-                            statusbar_visible="nhap,cho_duyet,da_duyet,da_ghi_so"/>
+                            statusbar_visible="cho_duyet,da_duyet"/>
                     </header>
                     <sheet>
                         <div class="oe_title">
@@ -30,37 +25,17 @@
                         <group>
                             <group string="Thông tin cơ bản">
                                 <field name="tai_san_id"/>
-                                <field name="ten_tai_san" readonly="1"/>
+                                <field name="nguoi_lap_id"/>
                                 <field name="ngay_thanh_ly"/>
-                                <field name="nha_cung_cap_id"/>
-                                <field name="nhan_vien_id"/>
-                                <field name="nguoi_phe_duyet" readonly="1"/>
-                                <field name="chuc_vu_id" readonly="1"/>
-                                <field name="thong_ke_id"/>
                             </group>
                             <group string="Giá trị tài chính">
-                                <field name="nguyen_gia" readonly="1" widget="monetary"/>
-                                <field name="da_khau_hao" readonly="1" widget="monetary"/>
                                 <field name="gia_tri_con_lai" readonly="1" widget="monetary"/>
                                 <field name="gia_tri_thanh_ly" widget="monetary"/>
                                 <field name="lai_lo_thanh_ly" readonly="1" widget="monetary"/>
                             </group>
                         </group>
-                        <group string="Thiết lập kế toán"
-                            attrs="{'invisible': [('trang_thai', '=', 'nhap')]}">
-                            <group>
-                                <field name="journal_id"/>
-                                <field name="tai_khoan_nguyen_gia_id"/>
-                                <field name="tai_khoan_luy_ke_id"/>
-                            </group>
-                            <group>
-                                <field name="tai_khoan_thu_hoi_id"/>
-                                <field name="tai_khoan_lai_id"/>
-                                <field name="tai_khoan_lo_id"/>
-                                <field name="account_move_id" readonly="1"/>
-                            </group>
-                        </group>
                         <group>
+                            <field name="ly_do"/>
                             <field name="ghi_chu"/>
                         </group>
                     </sheet>
@@ -79,17 +54,14 @@
                 <tree string="Danh sách thanh lý">
                     <field name="ma_thanh_ly"/>
                     <field name="tai_san_id"/>
-                    <field name="ten_tai_san"/>
+                    <field name="nguoi_lap_id"/>
                     <field name="ngay_thanh_ly"/>
-                    <field name="nha_cung_cap_id"/>
-                    <field name="nguyen_gia" widget="monetary" sum="Tổng nguyên giá"/>
                     <field name="gia_tri_con_lai" widget="monetary" sum="Tổng còn lại"/>
                     <field name="gia_tri_thanh_ly" widget="monetary" sum="Tổng thu hồi"/>
                     <field name="lai_lo_thanh_ly" widget="monetary" sum="Lãi/(Lỗ)"/>
                     <field name="trang_thai" widget="badge"
-                        decoration-info="trang_thai == 'nhap'"
                         decoration-warning="trang_thai == 'cho_duyet'"
-                        decoration-success="trang_thai in ('da_duyet', 'da_ghi_so')"
+                        decoration-success="trang_thai == 'da_duyet'"
                         decoration-danger="trang_thai == 'huy'"/>
                 </tree>
             </field>
@@ -102,15 +74,13 @@
                 <search string="Tìm kiếm thanh lý">
                     <field name="ma_thanh_ly"/>
                     <field name="tai_san_id"/>
-                    <field name="nha_cung_cap_id"/>
-                    <filter string="Nháp" name="nhap"
-                        domain="[('trang_thai','=','nhap')]"/>
+                    <field name="nguoi_lap_id"/>
                     <filter string="Chờ duyệt" name="cho_duyet"
                         domain="[('trang_thai','=','cho_duyet')]"/>
                     <filter string="Đã duyệt" name="da_duyet"
                         domain="[('trang_thai','=','da_duyet')]"/>
-                    <filter string="Đã ghi sổ" name="da_ghi_so"
-                        domain="[('trang_thai','=','da_ghi_so')]"/>
+                    <filter string="Đã hủy" name="huy"
+                        domain="[('trang_thai','=','huy')]"/>
                     <separator/>
                     <group expand="0" string="Nhóm theo">
                         <filter string="Trạng thái" name="group_trang_thai"
