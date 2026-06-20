@@ -23,9 +23,7 @@ class TaiSan(models.Model):
 
     # -- Thoi gian --
     so_luong = fields.Integer("So luong", default=1)
-    gia_tri_tai_san = fields.Float(
-        "Tong gia tri (VND)", compute="_compute_tong_gia_tri", store=True
-    )
+    gia_tri_tai_san = fields.Float("Gia tri tai san (VND)")
     het_han_bao_hanh = fields.Date("Het han bao hanh")
     hinh_anh = fields.Binary("Hinh anh", attachment=True)
     hinh_anh_ten_file = fields.Char("Ten file hinh anh")
@@ -122,10 +120,6 @@ class TaiSan(models.Model):
     # ===================================
     # COMPUTE
     # ===================================
-    @api.depends("so_luong", "gia_tri_tai_san")
-    def _compute_tong_gia_tri(self):
-        for rec in self:
-            rec.tong_gia_tri = rec.so_luong * rec.gia_tri_tai_san
 
     @api.depends("gia_tri_tai_san", "thoi_gian_su_dung", "danh_muc_loai_tai_san_id.ty_le_khau_hao")
     def _compute_khau_hao(self):
@@ -156,13 +150,13 @@ class TaiSan(models.Model):
             else:
                 rec.tinh_trang_bao_hanh = "con_han"
 
-    @api.depends("lich_su_bao_tri_tai_san_ids", "lich_su_bao_tri_tai_san_ids.trang_thai",
+    @api.depends("lich_su_bao_tri_tai_san_ids", "lich_su_bao_tri_tai_san_ids.tinh_trang",
                  "lich_su_bao_tri_tai_san_ids.ngay_bao_tri")
     def _compute_ngay_bao_tri_gan_nhat(self):
         today = date.today()
         for rec in self:
             done = rec.lich_su_bao_tri_tai_san_ids.filtered(
-                lambda b: b.trang_thai == "da_xong"
+                lambda b: b.tinh_trang == "da_xong"
             ).sorted("ngay_bao_tri", reverse=True)
             if done:
                 rec.ngay_bao_tri_gan_nhat = done[0].ngay_bao_tri
@@ -174,17 +168,7 @@ class TaiSan(models.Model):
                 rec.so_ngay_chua_bao_tri = 0
                 rec.canh_bao_bao_tri = False
 
-    @api.depends("gia_tri_tai_san", "tong_da_khau_hao")
-    def _compute_phan_tram_khau_hao_da_trich(self):
-        for rec in self:
-            if rec.gia_tri_tai_san:
-                rec.phan_tram_khau_hao = min(100.0, rec.tong_da_khau_hao / rec.gia_tri_tai_san * 100)
-            else:
-                rec.phan_tram_khau_hao = 0.0
 
-    # ===================================
-    # COMPUTE - Thong ke su dung
-    # ===================================
     @api.depends("muon_tra_ids")
     def _compute_so_lan_muon(self):
         for rec in self:
