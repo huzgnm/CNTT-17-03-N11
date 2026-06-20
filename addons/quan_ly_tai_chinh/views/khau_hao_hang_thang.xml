@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_khau_hao_form" model="ir.ui.view">
+            <field name="name">tai_chinh.khau_hao.form</field>
+            <field name="model">tai_chinh.khau_hao</field>
+            <field name="arch" type="xml">
+                <form string="Khau hao hang thang">
+                    <header>
+                        <button name="action_ghi_so" string="Ghi so"
+                            type="object" class="btn-primary"
+                            attrs="{'invisible': [('trang_thai', '!=', 'nhap')]}"
+                            confirm="Xac nhan ghi so khau hao? Thao tac nay se cap nhat gia tri tai san."/>
+                        <field name="trang_thai" widget="statusbar"
+                            statusbar_visible="nhap,da_ghi_so"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="ma_khau_hao" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group string="Thong tin tai san">
+                                <field name="tai_san_id"/>
+                                <field name="ten_tai_san" readonly="1"/>
+                                <field name="danh_muc_loai_tai_san_id" readonly="1"/>
+                                <field name="ky_khau_hao"/>
+                            </group>
+                            <group string="Gia tri khau hao">
+                                <field name="gia_tri_truoc_kh" widget="monetary" readonly="1"/>
+                                <field name="so_tien_khau_hao" widget="monetary"/>
+                                <field name="gia_tri_sau_kh" widget="monetary" readonly="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="ghi_chu"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_khau_hao_tree" model="ir.ui.view">
+            <field name="name">tai_chinh.khau_hao.tree</field>
+            <field name="model">tai_chinh.khau_hao</field>
+            <field name="arch" type="xml">
+                <tree string="Khau hao hang thang"
+                    decoration-success="trang_thai == 'da_ghi_so'"
+                    decoration-muted="trang_thai == 'nhap'">
+                    <field name="ma_khau_hao"/>
+                    <field name="tai_san_id"/>
+                    <field name="ten_tai_san"/>
+                    <field name="danh_muc_loai_tai_san_id"/>
+                    <field name="ky_khau_hao"/>
+                    <field name="gia_tri_truoc_kh" widget="monetary" sum="Tong truoc KH"/>
+                    <field name="so_tien_khau_hao" widget="monetary" sum="Tong khau hao"/>
+                    <field name="gia_tri_sau_kh" widget="monetary" sum="Tong sau KH"/>
+                    <field name="trang_thai" widget="badge"
+                        decoration-success="trang_thai == 'da_ghi_so'"
+                        decoration-info="trang_thai == 'nhap'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_khau_hao_search" model="ir.ui.view">
+            <field name="name">tai_chinh.khau_hao.search</field>
+            <field name="model">tai_chinh.khau_hao</field>
+            <field name="arch" type="xml">
+                <search string="Tim kiem khau hao">
+                    <field name="tai_san_id"/>
+                    <field name="danh_muc_loai_tai_san_id"/>
+                    <filter string="Chua ghi so" name="nhap"
+                        domain="[('trang_thai','=','nhap')]"/>
+                    <filter string="Da ghi so" name="da_ghi_so"
+                        domain="[('trang_thai','=','da_ghi_so')]"/>
+                    <separator/>
+                    <group expand="0" string="Nhom theo">
+                        <filter string="Ky khau hao" name="group_ky"
+                            context="{'group_by': 'ky_khau_hao:month'}"/>
+                        <filter string="Loai tai san" name="group_loai"
+                            context="{'group_by': 'danh_muc_loai_tai_san_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_khau_hao" model="ir.actions.act_window">
+            <field name="name">Khau hao hang thang</field>
+            <field name="res_model">tai_chinh.khau_hao</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_khau_hao_search"/>
+        </record>
+
+        <!-- Cron job -->
+        <record id="ir_cron_khau_hao" model="ir.cron">
+            <field name="name">Khau hao hang thang - tu dong ngay 1</field>
+            <field name="model_id" ref="model_tai_chinh_khau_hao"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_khau_hao_hang_thang()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+        </record>
+    </data>
+</odoo>

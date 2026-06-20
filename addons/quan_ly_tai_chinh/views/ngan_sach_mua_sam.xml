@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_ngan_sach_mua_sam_form" model="ir.ui.view">
+            <field name="name">tai_chinh.ngan_sach_mua_sam.form</field>
+            <field name="model">tai_chinh.ngan_sach_mua_sam</field>
+            <field name="arch" type="xml">
+                <form string="Ngan sach mua sam tai san">
+                    <header>
+                        <button name="action_duyet" string="Duyet ngan sach"
+                            type="object" class="btn-success"
+                            attrs="{'invisible': [('trang_thai', '!=', 'nhap')]}"/>
+                        <button name="action_huy" string="Huy"
+                            type="object" class="btn-danger"
+                            attrs="{'invisible': [('trang_thai', 'in', ['da_duyet','huy'])]}"/>
+                        <field name="trang_thai" widget="statusbar"
+                            statusbar_visible="nhap,da_duyet"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="ma_ngan_sach" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group string="Thong tin chung">
+                                <field name="nam"/>
+                                <field name="danh_muc_loai_tai_san_id"/>
+                                <field name="so_tien_ke_hoach" widget="monetary"/>
+                            </group>
+                            <group string="Thuc hien">
+                                <field name="so_tien_thuc_te" widget="monetary" readonly="1"/>
+                                <field name="chenh_lech" widget="monetary" readonly="1"/>
+                                <field name="phan_tram_su_dung" widget="progressbar" readonly="1"/>
+                                <field name="canh_bao_vuot" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Chi tiet theo thang">
+                                <field name="chi_tiet_ids">
+                                    <tree editable="bottom">
+                                        <field name="ten_thang"/>
+                                        <field name="so_tien_ke_hoach" widget="monetary"/>
+                                        <field name="so_tien_thuc_te" widget="monetary"/>
+                                        <field name="chenh_lech" widget="monetary" readonly="1"/>
+                                        <field name="ghi_chu"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <group>
+                            <field name="ghi_chu"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_ngan_sach_mua_sam_tree" model="ir.ui.view">
+            <field name="name">tai_chinh.ngan_sach_mua_sam.tree</field>
+            <field name="model">tai_chinh.ngan_sach_mua_sam</field>
+            <field name="arch" type="xml">
+                <tree string="Ngan sach mua sam"
+                    decoration-danger="canh_bao_vuot == True"
+                    decoration-success="trang_thai == 'da_duyet'">
+                    <field name="ma_ngan_sach"/>
+                    <field name="nam"/>
+                    <field name="danh_muc_loai_tai_san_id"/>
+                    <field name="so_tien_ke_hoach" widget="monetary" sum="Tong ke hoach"/>
+                    <field name="so_tien_thuc_te" widget="monetary" sum="Tong thuc te"/>
+                    <field name="chenh_lech" widget="monetary"/>
+                    <field name="phan_tram_su_dung" widget="progressbar"/>
+                    <field name="canh_bao_vuot" string="Vuot NS" widget="boolean_toggle"/>
+                    <field name="trang_thai" widget="badge"
+                        decoration-success="trang_thai == 'da_duyet'"
+                        decoration-danger="trang_thai == 'huy'"
+                        decoration-info="trang_thai == 'nhap'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_ngan_sach_mua_sam_search" model="ir.ui.view">
+            <field name="name">tai_chinh.ngan_sach_mua_sam.search</field>
+            <field name="model">tai_chinh.ngan_sach_mua_sam</field>
+            <field name="arch" type="xml">
+                <search string="Tim kiem ngan sach mua sam">
+                    <field name="ma_ngan_sach"/>
+                    <field name="danh_muc_loai_tai_san_id"/>
+                    <filter string="Vuot ngan sach" name="vuot"
+                        domain="[('canh_bao_vuot','=',True)]"/>
+                    <filter string="Da duyet" name="da_duyet"
+                        domain="[('trang_thai','=','da_duyet')]"/>
+                    <separator/>
+                    <group expand="0" string="Nhom theo">
+                        <filter string="Nam" name="group_nam"
+                            context="{'group_by': 'nam'}"/>
+                        <filter string="Loai tai san" name="group_loai"
+                            context="{'group_by': 'danh_muc_loai_tai_san_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_ngan_sach_mua_sam" model="ir.actions.act_window">
+            <field name="name">Ngan sach mua sam</field>
+            <field name="res_model">tai_chinh.ngan_sach_mua_sam</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_ngan_sach_mua_sam_search"/>
+        </record>
+    </data>
+</odoo>
