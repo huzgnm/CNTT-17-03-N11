@@ -52,7 +52,9 @@ class TaiSan(models.Model):
     phan_tram_khau_hao = fields.Float(
         "% Đã khấu hao", compute="_compute_phan_tram_khau_hao", store=True
     )
+    nha_cung_cap_id = fields.Many2one("nha_cung_cap", string="Nhà cung cấp")
     ngay_mua = fields.Date("Ngày mua")
+    ngay_su_dung = fields.Date("Ngày đưa vào sử dụng")
     thoi_gian_su_dung = fields.Integer("Thời gian sử dụng (năm)", default=5)
 
     # ── Khấu hao ─────────────────────────────────────────────────────────────
