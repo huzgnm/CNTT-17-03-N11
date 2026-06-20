@@ -16,9 +16,6 @@
                         <button name="action_ghi_so_thanh_ly" string="Ghi sổ kế toán"
                             type="object" class="btn-primary"
                             attrs="{'invisible': [('trang_thai', '!=', 'da_duyet')]}"/>
-                        <button name="action_xem_but_toan" string="Xem bút toán"
-                            type="object"
-                            attrs="{'invisible': [('trang_thai', '!=', 'da_ghi_so')]}"/>
                         <button name="action_huy" string="Hủy"
                             type="object" class="btn-danger"
                             confirm="Bạn có chắc muốn hủy thanh lý này?"

@@ -44,32 +44,12 @@ class ThanhLy(models.Model):
     )
 
     # Thiết lập kế toán
-    journal_id = fields.Many2one(
-        "account.journal", string="Sổ nhật ký",
-        domain=[("type", "in", ["general", "sale"])]
     )
-    tai_khoan_nguyen_gia_id = fields.Many2one(
-        "account.account", string="TK Nguyên giá tài sản",
-        help="Ghi Có khi thanh lý (vd: 211)"
     )
-    tai_khoan_luy_ke_id = fields.Many2one(
-        "account.account", string="TK Khấu hao lũy kế",
-        help="Ghi Nợ khi thanh lý (vd: 2141)"
     )
-    tai_khoan_thu_hoi_id = fields.Many2one(
-        "account.account", string="TK Thu hồi / Tiền mặt",
-        help="Ghi Nợ cho phần tiền thu hồi (vd: 111, 131)"
     )
-    tai_khoan_lai_id = fields.Many2one(
-        "account.account", string="TK Lãi thanh lý",
-        help="Ghi Có khi thu hồi > giá trị còn lại (vd: 711)"
     )
-    tai_khoan_lo_id = fields.Many2one(
-        "account.account", string="TK Lỗ thanh lý",
-        help="Ghi Nợ khi thu hồi < giá trị còn lại (vd: 811)"
     )
-    account_move_id = fields.Many2one(
-        "account.move", string="Bút toán kế toán", readonly=True, copy=False
     )
 
     trang_thai = fields.Selection([
@@ -109,6 +89,26 @@ class ThanhLy(models.Model):
             if rec.trang_thai != "cho_duyet":
                 raise UserError("Chỉ có thể duyệt từ trạng thái Chờ duyệt.")
             rec.trang_thai = "da_duyet"
+            # Tự động chuyển trạng thái tài sản
+            rec.tai_san_id.write({"trang_thai": "da_thanh_ly"})
+
+            # ===== TRIGGER TỰ ĐỘNG (Mức 2) =====
+            # Thanh lý được duyệt → tự động tạo phiếu thu trong module Tài chính
+            if rec.gia_tri_thanh_ly > 0:
+                nguoi_lap = self.env['nhan_vien'].search([], limit=1)
+                self.env['tai_chinh.phieu_thu_chi'].create({
+                    'loai_phieu': 'thu',
+                    'nguon_goc': 'thanh_ly',
+                    'ten_noi_dung': f'Thu từ thanh lý tài sản: {rec.tai_san_id.ten_tai_san} ({rec.ma_thanh_ly})',
+                    'so_tien': rec.gia_tri_thanh_ly,
+                    'tai_san_id': rec.tai_san_id.id,
+                    'thanh_ly_id': rec.id,
+                    'nguoi_lap_id': nguoi_lap.id if nguoi_lap else False,
+                    'trang_thai': 'cho_duyet',
+                })
+                rec.message_post(
+                    body=f"✅ Tự động tạo phiếu thu tài chính: {rec.gia_tri_thanh_ly:,.0f} VNĐ"
+                )
 
     def action_ghi_so_thanh_ly(self):
         for rec in self:
@@ -172,19 +172,6 @@ class ThanhLy(models.Model):
                 rec.account_move_id.button_draft()
                 rec.account_move_id.unlink()
             rec.write({"trang_thai": "huy", "account_move_id": False})
-
-    def action_xem_but_toan(self):
-        self.ensure_one()
-        if not self.account_move_id:
-            raise UserError("Chưa có bút toán.")
-        return {
-            "type": "ir.actions.act_window",
-            "name": "Bút toán thanh lý",
-            "res_model": "account.move",
-            "res_id": self.account_move_id.id,
-            "view_mode": "form",
-            "target": "current",
-        }
 
     def _kiem_tra_tai_khoan(self, rec):
         missing = []

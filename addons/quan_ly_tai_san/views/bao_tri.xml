@@ -13,12 +13,6 @@
                         <button name="action_hoan_thanh" string="Hoàn thành"
                             type="object" class="btn-success"
                             attrs="{'invisible': [('tinh_trang', '!=', 'dang_bao_tri')]}"/>
-                        <button name="action_ghi_so_chi_phi" string="Ghi sổ chi phí"
-                            type="object" class="btn-primary"
-                            attrs="{'invisible': [('da_ghi_so', '=', True)]}"/>
-                        <button name="action_xem_but_toan" string="Xem bút toán"
-                            type="object"
-                            attrs="{'invisible': [('da_ghi_so', '=', False)]}"/>
                         <button name="action_huy" string="Hủy"
                             type="object" class="btn-danger"
                             confirm="Bạn có chắc muốn hủy bảo trì này?"

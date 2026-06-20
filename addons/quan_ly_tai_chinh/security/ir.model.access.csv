@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tai_chinh_ngan_sach_user,tai_chinh.ngan_sach user,model_tai_chinh_ngan_sach,,1,0,0,0
+access_tai_chinh_ngan_sach_manager,tai_chinh.ngan_sach manager,model_tai_chinh_ngan_sach,base.group_user,1,1,1,1
+access_tai_chinh_phieu_thu_chi_user,tai_chinh.phieu_thu_chi user,model_tai_chinh_phieu_thu_chi,,1,0,0,0
+access_tai_chinh_phieu_thu_chi_manager,tai_chinh.phieu_thu_chi manager,model_tai_chinh_phieu_thu_chi,base.group_user,1,1,1,1
+access_tai_chinh_bao_cao_user,tai_chinh.bao_cao user,model_tai_chinh_bao_cao,,1,0,0,0
+access_tai_chinh_bao_cao_manager,tai_chinh.bao_cao manager,model_tai_chinh_bao_cao,base.group_user,1,1,1,1

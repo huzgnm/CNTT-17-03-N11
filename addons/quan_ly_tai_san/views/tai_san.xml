@@ -69,15 +69,6 @@
             <field name="arch" type="xml">
                 <form string="Tài sản">
                     <header>
-                        <button name="action_ghi_so_mua_tai_san" string="Ghi sổ mua tài sản"
-                            type="object" class="btn-primary"
-                            attrs="{'invisible': [('da_ghi_so_mua', '=', True)]}"/>
-                        <button name="action_xem_but_toan_mua" string="Xem bút toán mua"
-                            type="object"
-                            attrs="{'invisible': [('da_ghi_so_mua', '=', False)]}"/>
-                        <button name="action_tinh_khau_hao_thang_nay" string="Tính KH tháng này"
-                            type="object"
-                            attrs="{'invisible': [('trang_thai', '!=', 'dang_su_dung')]}"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
@@ -102,7 +93,7 @@
                             options="{'image_preview': 'hinh_anh'}"/>
                         <div class="oe_title">
                             <h1><field name="ma_tai_san" readonly="1"/></h1>
-                            <field name="ma_vach" widget="barcode_handler" placeholder="Quét hoặc nhập mã vạch..."/>
+                            <field name="ma_vach" placeholder="Quét hoặc nhập mã vạch..."/>
                             <h2><field name="ten_tai_san" placeholder="Tên tài sản..."/></h2>
                         </div>
 
@@ -161,35 +152,6 @@
                         </group>
 
                         <notebook>
-                            <page string="Kế toán mua">
-                                <group>
-                                    <group string="Thiết lập kế toán mua">
-                                        <field name="journal_mua_id"
-                                            domain="[('type', 'in', ['general', 'purchase'])]"/>
-                                        <field name="tai_khoan_tai_san_id"/>
-                                        <field name="tai_khoan_thanh_toan_id"/>
-                                        <field name="da_ghi_so_mua" readonly="1"/>
-                                        <field name="account_move_mua_id" readonly="1"/>
-                                    </group>
-                                </group>
-                            </page>
-                            <page string="Kế toán khấu hao">
-                                <group>
-                                    <group string="Thiết lập kế toán khấu hao">
-                                        <field name="journal_id"/>
-                                        <field name="tai_khoan_khau_hao_id"/>
-                                        <field name="tai_khoan_luy_ke_id"/>
-                                    </group>
-                                </group>
-                                <field name="khau_hao_hang_thang_ids" readonly="1">
-                                    <tree string="Lịch khấu hao hàng tháng">
-                                        <field name="ky_thang"/>
-                                        <field name="ky_nam"/>
-                                        <field name="so_tien_khau_hao" widget="monetary" sum="Tổng KH"/>
-                                        <field name="trang_thai"/>
-                                    </tree>
-                                </field>
-                            </page>
                             <page string="Lịch sử mượn trả">
                                 <field name="muon_tra_ids" readonly="1">
                                     <tree>

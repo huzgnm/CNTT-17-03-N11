@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root menu -->
+    <menuitem id="menu_tai_chinh_root"
+              name="Quản lý Tài Chính"
+              sequence="40"/>
+
+    <!-- Sub-menus -->
+    <menuitem id="menu_tai_chinh_phieu_thu_chi"
+              name="Phiếu thu / chi"
+              parent="menu_tai_chinh_root"
+              sequence="10"/>
+
+    <menuitem id="menu_phieu_thu_chi_all"
+              name="Tất cả phiếu"
+              parent="menu_tai_chinh_phieu_thu_chi"
+              action="action_phieu_thu_chi"
+              sequence="10"/>
+
+    <menuitem id="menu_phieu_thu"
+              name="Phiếu thu"
+              parent="menu_tai_chinh_phieu_thu_chi"
+              action="action_phieu_thu"
+              sequence="20"/>
+
+    <menuitem id="menu_phieu_chi"
+              name="Phiếu chi"
+              parent="menu_tai_chinh_phieu_thu_chi"
+              action="action_phieu_chi"
+              sequence="30"/>
+
+    <menuitem id="menu_tai_chinh_ngan_sach"
+              name="Ngân sách"
+              parent="menu_tai_chinh_root"
+              action="action_ngan_sach"
+              sequence="20"/>
+
+    <menuitem id="menu_tai_chinh_bao_cao"
+              name="Báo cáo tài chính"
+              parent="menu_tai_chinh_root"
+              action="action_bao_cao_tai_chinh"
+              sequence="30"/>
+</odoo>

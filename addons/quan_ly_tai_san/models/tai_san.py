@@ -77,37 +77,15 @@ class TaiSan(models.Model):
     )
 
     # ── Kế toán - Khấu hao ───────────────────────────────────────────────────
-    journal_id = fields.Many2one(
-        "account.journal", string="Sổ nhật ký khấu hao",
-        domain=[("type", "in", ["general", "purchase"])]
     )
-    tai_khoan_khau_hao_id = fields.Many2one(
-        "account.account", string="TK Chi phí khấu hao",
-        help="Tài khoản ghi Nợ khi tính khấu hao (vd: 6274)"
     )
-    tai_khoan_luy_ke_id = fields.Many2one(
-        "account.account", string="TK Khấu hao lũy kế",
-        help="Tài khoản ghi Có khi tính khấu hao (vd: 2141)"
     )
 
     # ── Kế toán - Mua tài sản ────────────────────────────────────────────────
-    journal_mua_id = fields.Many2one(
-        "account.journal", string="Sổ nhật ký mua",
-        domain=[("type", "in", ["general", "purchase"])]
     )
-    tai_khoan_tai_san_id = fields.Many2one(
-        "account.account", string="TK Nguyên giá tài sản",
-        help="Tài khoản ghi Nợ khi mua (vd: 211)"
     )
-    tai_khoan_thanh_toan_id = fields.Many2one(
-        "account.account", string="TK Thanh toán / Phải trả",
-        help="Tài khoản ghi Có khi mua (vd: 331, 111, 112)"
     )
-    account_move_mua_id = fields.Many2one(
-        "account.move", string="Bút toán mua tài sản", readonly=True, copy=False
     )
-    da_ghi_so_mua = fields.Boolean(
-        "Đã ghi sổ mua", compute="_compute_da_ghi_so_mua", store=True
     )
 
     # ── Trạng thái ───────────────────────────────────────────────────────────
@@ -278,58 +256,6 @@ class TaiSan(models.Model):
 
     # =========================================================================
     # ACTIONS - Kế toán mua tài sản
-    # =========================================================================
-    def action_ghi_so_mua_tai_san(self):
-        for rec in self:
-            if rec.da_ghi_so_mua:
-                raise UserError(f"Tài sản {rec.ma_tai_san} đã ghi sổ mua rồi.")
-            missing = []
-            if not rec.journal_mua_id:
-                missing.append("Sổ nhật ký mua")
-            if not rec.tai_khoan_tai_san_id:
-                missing.append("TK Nguyên giá tài sản")
-            if not rec.tai_khoan_thanh_toan_id:
-                missing.append("TK Thanh toán / Phải trả")
-            if missing:
-                raise UserError(f"Chưa thiết lập: {', '.join(missing)}")
-
-            move = self.env["account.move"].create({
-                "journal_id": rec.journal_mua_id.id,
-                "date": rec.ngay_mua or fields.Date.today(),
-                "ref": f"Mua tài sản {rec.ma_tai_san} - {rec.ten_tai_san}",
-                "line_ids": [
-                    (0, 0, {
-                        "account_id": rec.tai_khoan_tai_san_id.id,
-                        "name": f"Nguyên giá TSCĐ: {rec.ten_tai_san}",
-                        "debit": rec.tong_gia_tri,
-                        "credit": 0.0,
-                    }),
-                    (0, 0, {
-                        "account_id": rec.tai_khoan_thanh_toan_id.id,
-                        "name": f"Phải trả / Thanh toán mua {rec.ten_tai_san}",
-                        "debit": 0.0,
-                        "credit": rec.tong_gia_tri,
-                    }),
-                ],
-            })
-            move.action_post()
-            rec.account_move_mua_id = move.id
-
-    def action_xem_but_toan_mua(self):
-        self.ensure_one()
-        if not self.account_move_mua_id:
-            raise UserError("Chưa có bút toán mua tài sản.")
-        return {
-            "type": "ir.actions.act_window",
-            "name": "Bút toán mua tài sản",
-            "res_model": "account.move",
-            "res_id": self.account_move_mua_id.id,
-            "view_mode": "form",
-            "target": "current",
-        }
-
-    # =========================================================================
-    # ACTIONS - Khấu hao
     # =========================================================================
     def _kiem_tra_da_khau_hao(self, thang, nam):
         self.ensure_one()
