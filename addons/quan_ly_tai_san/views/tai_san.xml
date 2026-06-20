@@ -127,14 +127,11 @@
                                     decoration-warning="trang_thai in ('bao_tri', 'sua_chua', 'cho_cap_phat')"
                                     decoration-danger="trang_thai in ('hong', 'mat', 'da_thanh_ly')"/>
                             </group>
-                            <group string="Thông tin tài chính">
+                            <group string="Gia tri tai san">
                                 <field name="so_luong"/>
                                 <field name="gia_tri_tai_san" widget="monetary"/>
                                 <field name="thoi_gian_su_dung"/>
-                                <field name="phan_tram_khau_hao" readonly="1"/>
-                                <field name="tong_da_khau_hao" readonly="1" widget="monetary"/>
                                 <field name="gia_tri_con_lai" readonly="1" widget="monetary"/>
-                                <field name="phan_tram_khau_hao" readonly="1" widget="progressbar"/>
                             </group>
                         </group>
 
