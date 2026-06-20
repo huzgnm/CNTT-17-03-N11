@@ -65,7 +65,7 @@ class TaiSan(models.Model):
         "Khau hao moi thang (VND)", compute="_compute_khau_hao", store=True
     )
     tong_da_khau_hao = fields.Float(
-        "Da khau hao luy ke (VND)", compute="_compute_tong_da_khau_hao", store=True
+        "Da khau hao luy ke (VND)", default=0.0
     )
     gia_tri_con_lai = fields.Float(
         "Gia tri con lai (VND)", compute="_compute_gia_tri_con_lai", store=True
@@ -118,9 +118,6 @@ class TaiSan(models.Model):
     lich_su_dieu_chuyen_tai_san_ids = fields.One2many(
         "dieu_chuyen_tai_san", "tai_san_id", string="Lich su dieu chuyen"
     )
-    khau_hao_hang_thang_ids = fields.One2many(
-        "khau_hao_hang_thang", "tai_san_id", string="Lich su khau hao"
-    )
 
     # ===================================
     # COMPUTE
@@ -140,11 +137,6 @@ class TaiSan(models.Model):
                 rec.khau_hao_moi_nam = 0.0
                 rec.khau_hao_moi_thang = 0.0
 
-    @api.depends("khau_hao_hang_thang_ids.so_tien_khau_hao", "khau_hao_hang_thang_ids.trang_thai")
-    def _compute_tong_da_khau_hao(self):
-        for rec in self:
-            da_ghi = rec.khau_hao_hang_thang_ids.filtered(lambda k: k.trang_thai == "da_ghi_so")
-            rec.tong_da_khau_hao = sum(da_ghi.mapped("so_tien_khau_hao"))
 
     @api.depends("tong_da_khau_hao", "gia_tri_tai_san")
     def _compute_gia_tri_con_lai(self):
@@ -237,98 +229,9 @@ class TaiSan(models.Model):
     # ===================================
     # ACTIONS - ao toan mua tai san
     # ===================================
-    def _kiem_tra_da_khau_hao(self, thang, nam):
-        return self.env["khau_hao_hang_thang"].search_count([
-            ("tai_san_id", "=", self.id),
-            ("ky_thang", "=", thang),
-            ("ky_nam", "=", nam),
-            ("trang_thai", "!=", "huy"),
-        ]) > 0
 
-    def _tao_khau_hao_thang(self, thang, nam):
-        self.ensure_one()
-        if self._kiem_tra_da_khau_hao(thang, nam):
-            return None
-        if self.khau_hao_moi_thang <= 0:
-            return None
-        return self.env["khau_hao_hang_thang"].create({
-            "tai_san_id": self.id,
-            "ky_thang": thang,
-            "ky_nam": nam,
-            "so_tien_khau_hao": self.khau_hao_moi_thang,
-            "ngay_ghi_nhan": date(nam, thang, 1),
-        })
 
-    def action_tinh_khau_hao_thang_nay(self):
-        today = date.today()
-        count = 0
-        for rec in self:
-            if rec.trang_thai not in ("dang_su_dung",):
-                continue
-            if not rec.journal_id or not rec.tai_khoan_khau_hao_id or not rec.tai_khoan_luy_ke_id:
-                raise UserError(
-                    f"Tai san {rec.ma_tai_san} chua thiet lap du thong tin ke toan khau hao."
-                )
-            kh = rec._tao_khau_hao_thang(today.month, today.year)
-            if kh:
-                kh.action_ghi_so()
-                count += 1
-        return {
-            "type": "ir.actions.client",
-            "tag": "display_notification",
-            "params": {
-                "title": "Khau hao",
-                "message": f"Da ghi {count} khau hao thang nay.",
-                "type": "success",
-                "sticky": False,
-            },
-        }
 
-    def action_tao_lich_su_khau_hao(self):
-        for rec in self:
-            if not rec.ngay_mua:
-                raise UserError(f"Tai san {rec.ma_tai_san} chua co ngay mua.")
-            today = date.today()
-            start = rec.ngay_mua
-            current = date(start.year, start.month, 1)
-            end = date(today.year, today.month, 1)
-            created = 0
-            while current <= end:
-                kh = rec._tao_khau_hao_thang(current.month, current.year)
-                if kh:
-                    try:
-                        kh.action_ghi_so()
-                    except Exception:
-                        pass
-                    created += 1
-                if current.month == 12:
-                    current = date(current.year + 1, 1, 1)
-                else:
-                    current = date(current.year, current.month + 1, 1)
-        return {
-            "type": "ir.actions.client",
-            "tag": "display_notification",
-            "params": {
-                "title": "Tao lich su khau hao",
-                "message": f"Da tao {created} ky khau hao.",
-                "type": "success",
-                "sticky": False,
-            },
-        }
-
-    @api.model
-    def cron_tinh_khau_hao_hang_thang(self):
-        today = date.today()
-        tai_san_list = self.search([("trang_thai", "=", "dang_su_dung")])
-        for rec in tai_san_list:
-            if not rec.journal_id or not rec.tai_khoan_khau_hao_id or not rec.tai_khoan_luy_ke_id:
-                continue
-            kh = rec._tao_khau_hao_thang(today.month, today.year)
-            if kh:
-                try:
-                    kh.action_ghi_so()
-                except Exception:
-                    pass
 
     @api.model
     def cron_canh_bao_bao_tri(self):
