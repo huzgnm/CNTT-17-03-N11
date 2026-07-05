@@ -156,13 +156,13 @@ class TaiSan(models.Model):
             else:
                 rec.tinh_trang_bao_hanh = "con_han"
 
-    @api.depends("lich_su_bao_tri_tai_san_ids", "lich_su_bao_tri_tai_san_ids.trang_thai",
+    @api.depends("lich_su_bao_tri_tai_san_ids", "lich_su_bao_tri_tai_san_ids.tinh_trang",
                  "lich_su_bao_tri_tai_san_ids.ngay_bao_tri")
     def _compute_ngay_bao_tri_gan_nhat(self):
         today = date.today()
         for rec in self:
             done = rec.lich_su_bao_tri_tai_san_ids.filtered(
-                lambda b: b.trang_thai == "da_xong"
+                lambda b: b.tinh_trang == "da_xong"
             ).sorted("ngay_bao_tri", reverse=True)
             if done:
                 rec.ngay_bao_tri_gan_nhat = done[0].ngay_bao_tri
@@ -278,28 +278,6 @@ class TaiSan(models.Model):
             "type": "ir.actions.act_window",
             "name": "Bao tri",
             "res_model": "bao_tri",
-            "view_mode": "tree,form",
-            "domain": [("tai_san_id", "=", self.id)],
-            "context": {"default_tai_san_id": self.id},
-        }
-
-    def action_view_thanh_ly(self):
-        self.ensure_one()
-        return {
-            "type": "ir.actions.act_window",
-            "name": "Thanh ly",
-            "res_model": "thanh_ly",
-            "view_mode": "tree,form",
-            "domain": [("tai_san_id", "=", self.id)],
-            "context": {"default_tai_san_id": self.id},
-        }
-
-    def action_view_dieu_chuyen(self):
-        self.ensure_one()
-        return {
-            "type": "ir.actions.act_window",
-            "name": "Dieu chuyen",
-            "res_model": "dieu_chuyen_tai_san",
             "view_mode": "tree,form",
             "domain": [("tai_san_id", "=", self.id)],
             "context": {"default_tai_san_id": self.id},
