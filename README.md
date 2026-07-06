@@ -8,7 +8,7 @@
 
 ---
 
-# Muc luc
+# Mục lục
 
 1. [Cai dat moi truong](#1-cai-dat-moi-truong)
 2. [Setup database](#2-setup-database)
@@ -21,7 +21,7 @@
 
 ---
 
-# 1. Cai dat moi truong
+# 1. Cài đặt môi trường
 
 ## 1.1. Clone project
 
