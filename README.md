@@ -101,9 +101,9 @@ Sau khi dang nhap, vao **Settings -> Apps -> Update Apps List** va cai theo thu 
 
 > **Phien ban:** 0.2 &nbsp;|&nbsp; **Phu thuoc:** `base`, `mail`, `nhan_su`
 
-Module quan ly toan bo vong doi tai san co dinh cua doanh nghiep.
+Module quản lý toàn bộ vòng đời tài sản cố định của doanh nghiệp.
 
-## 5.1. Cau truc thu muc
+## 5.1. Cấu trúc thư mục (Directory Structure)
 
 ```
 addons/quan_ly_tai_san/
@@ -126,9 +126,9 @@ addons/quan_ly_tai_san/
 └── __manifest__.py
 ```
 
-## 5.2. Tinh nang chinh
+## 5.2. Tính năng chính (Core Features)
 
-**Quan ly tai san co ban:**
+**Quản lý tài sản cơ bản:**
 - Tao tai san voi ma tu sinh (`TS00001`, `TS00002`, ...)
 - Trang thai vong doi: `Dang su dung -> Bao tri -> Hong -> Da thanh ly`
 - Canh bao bao tri tu dong khi tai san chua bao tri > 180 ngay
@@ -136,30 +136,30 @@ addons/quan_ly_tai_san/
 - Luu lich su day du: su dung, quan ly, dieu chuyen
 - Scan ma vach / barcode
 
-**Khau hao tai san:**
+**Khấu hao tài sản:**
 - Phuong phap duong thang: `Gia tri / Thoi gian su dung / 12`
 - Tinh toan tu dong: khau hao moi nam, moi thang, gia tri con lai
 - Ty le khau hao lay tu danh muc loai tai san
 
-**Bao tri tai san** — Luong: `Cho duyet -> Dang bao tri -> Da xong`
+**Bảo trì tài sản** — Luong: `Cho duyet -> Dang bao tri -> Da xong`
 - Ghi nhan chi phi bao tri, don vi thuc hien
 - **Trigger Muc 2:** Hoan thanh bao tri -> tu dong tao Phieu chi trong module Tai chinh
 
-**Thanh ly tai san** — Luong: `Cho duyet -> Da duyet`
+**Thanh lý tài sản** — Luong: `Cho duyet -> Da duyet`
 - Tinh toan lai/lo thanh ly tu dong
 - **Trigger Muc 2:** Duyet thanh ly -> tu dong tao Phieu thu trong module Tai chinh
 - Cap nhat trang thai tai san -> "Da thanh ly"
 
-**Muon / Tra tai san:**
+**Mượn / Trả tài sản:**
 - Theo doi nguoi muon, ngay muon, ngay tra du kien / thuc te
 - Xuat **don muon dinh dang `.docx`** (dung `python-docx`)
 - Kanban view theo trang thai
 
-**Dieu chuyen tai san:**
+**Điều chuyển tài sản:**
 - Ghi nhan dia diem cu -> moi, nguoi phe duyet
 - Ma tu sinh `DC00001`
 
-## 5.3. Danh sach Models
+## 5.3. Danh sách mô hình (Models List)
 
 | Model | Mo ta | Ma tu sinh |
 |-------|-------|-----------|
@@ -177,11 +177,11 @@ addons/quan_ly_tai_san/
 
 ---
 
-# 6. Module Quan ly Nhan su (`nhan_su`)
+# 6. Module Quản lý Nhân sự (Human Resource Management Module - nhan_su)
 
 > **Phien ban:** 0.1 &nbsp;|&nbsp; **Phu thuoc:** `base`
 
-## 6.1. Cau truc
+## 6.1. Cấu trúc (Structure)
 
 ```
 addons/nhan_su/
@@ -193,7 +193,7 @@ addons/nhan_su/
 └── views/
 ```
 
-## 6.2. Tinh nang chinh
+## 6.2. Tính năng chính (Core Features)
 
 - Quan ly nhan vien: ho ten, ma dinh danh, phong ban, chuc vu, email, so dien thoai
 - Lich su lam viec: chuyen phong ban, thay doi chuc vu
@@ -202,13 +202,13 @@ addons/nhan_su/
 
 ---
 
-# 7. Module Quan ly Tai chinh (`quan_ly_tai_chinh`)
+# 7. Module Quản lý Tài chính (Financial Management Module - quan_ly_tai_chinh)
 
 > **Phien ban:** 0.1 &nbsp;|&nbsp; **Phu thuoc:** `base`, `mail`, `nhan_su`, `quan_ly_tai_san`
 
 Module quan ly thu chi, ngan sach va bao cao tai chinh. Nhan du lieu tu dong tu cac su kien tai san.
 
-## 7.1. Cau truc thu muc
+## 7.1. Cấu trúc thư mục (Directory Structure)
 
 ```
 addons/quan_ly_tai_chinh/
@@ -225,7 +225,7 @@ addons/quan_ly_tai_chinh/
 └── security/ir.model.access.csv
 ```
 
-## 7.2. Tinh nang chinh
+## 7.2. Tính năng chính (Core Features)
 
 **Phieu Thu / Chi:**
 - Luong: `Nhap -> Cho duyet -> Da duyet` (co the Huy)
@@ -252,7 +252,7 @@ addons/quan_ly_tai_chinh/
 - Tong hop nguyen gia, khau hao, gia tri con lai, chi phi bao tri, thu thanh ly
 - Chi tiet theo loai tai san
 
-## 7.3. Cau hinh Telegram (Muc 3)
+## 7.3. Cấu hình Telegram (Telegram Configuration)
 
 Vao **Settings -> Technical -> System Parameters**, them 2 khoa:
 
@@ -263,7 +263,7 @@ Vao **Settings -> Technical -> System Parameters**, them 2 khoa:
 
 Neu chua cau hinh, he thong ghi log canh bao nhung khong crash.
 
-## 7.4. Triggers tu dong (Muc 2 & 3)
+## 7.4. Kích hoạt tự động (Automated Triggers)
 
 | Su kien | Ket qua tu dong |
 |---------|----------------|
@@ -275,7 +275,7 @@ Neu chua cau hinh, he thong ghi log canh bao nhung khong crash.
 
 ---
 
-# 8. Tinh nang nang cap so voi ban goc
+# 8. Tính năng nâng cấp so với bản gốc (Upgraded Features vs Original)
 
 | # | Tinh nang | Module |
 |---|-----------|--------|
@@ -303,7 +303,7 @@ Neu chua cau hinh, he thong ghi log canh bao nhung khong crash.
 
 ---
 
-## Thong tin nhom
+## Thông tin nhóm
 
 | | |
 |-|-|
