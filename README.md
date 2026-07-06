@@ -8,20 +8,20 @@
 
 ---
 
-# Mục lục
+# Mục lục (Table of Contents)
 
-1. [Cai dat moi truong](#1-cai-dat-moi-truong)
-2. [Setup database](#2-setup-database)
-3. [Cau hinh Odoo](#3-cau-hinh-odoo)
-4. [Chay he thong](#4-chay-he-thong)
-5. [Module Quan ly Tai san](#5-module-quan-ly-tai-san-quan_ly_tai_san)
-6. [Module Quan ly Nhan su](#6-module-quan-ly-nhan-su-nhan_su)
-7. [Module Quan ly Tai chinh](#7-module-quan-ly-tai-chinh-quan_ly_tai_chinh)
-8. [Tinh nang nang cap](#8-tinh-nang-nang-cap-so-voi-ban-goc)
+1. [Cài đặt môi trường (Environment Setup)](#1-cai-dat-moi-truong-environment-setup)
+2. [Cài đặt cơ sở dữ liệu (Database Setup)](#2-cai-dat-co-so-du-lieu-database-setup)
+3. [Cấu hình Odoo (Odoo Configuration)](#3-cau-hinh-odoo-odoo-configuration)
+4. [Chạy hệ thống (System Execution)](#4-chay-he-thong-system-execution)
+5. [Module Quản lý Tài sản (Asset Management Module - `quan_ly_tai_san`)](#5-module-quan-ly-tai-san-asset-management-module-quan_ly_tai_san)
+6. [Module Quản lý Nhân sự (Human Resource Management Module - `nhan_su`)](#6-module-quan-ly-nhan-su-human-resource-management-module-nhan_su)
+7. [Module Quản lý Tài chính (Financial Management Module - `quan_ly_tai_chinh`)](#7-module-quan-ly-tai-chinh-financial-management-module-quan_ly_tai_chinh)
+8. [Tính năng nâng cấp so với bản gốc (Upgraded Features vs Original)](#8-tinh-nang-nang-cap-so-vai-ban-goc-upgraded-features-vs-original)
 
 ---
 
-# 1. Cài đặt môi trường
+# 1. Cài đặt môi trường (Environment Setup)
 
 ## 1.1. Clone project
 
@@ -30,7 +30,7 @@ git clone https://github.com/huzgnm/CNTT-17-03-N11.git
 cd CNTT-17-03-N11
 ```
 
-## 1.2. Cai dat thu vien he thong
+## 1.2. Cài đặt thư viện hệ thống (System System Libraries Installation)
 
 ```bash
 sudo apt-get install libxml2-dev libxslt-dev libldap2-dev libsasl2-dev \
@@ -38,7 +38,7 @@ sudo apt-get install libxml2-dev libxslt-dev libldap2-dev libsasl2-dev \
   libffi-dev zlib1g-dev python3.10-venv libpq-dev
 ```
 
-## 1.3. Khoi tao moi truong ao va cai thu vien Python
+## 1.3. Khởi tạo môi trường ảo và cài thư viện Python (Virtual Environment Initialization & Python Packages Installation)
 
 ```bash
 python3.10 -m venv ./venv
@@ -47,15 +47,15 @@ pip3 install -r requirements.txt
 pip install python-docx requests
 ```
 
-> **Luu y:**
-> - `python-docx` can thiet cho tinh nang xuat don muon tai san ra file `.docx`
-> - `requests` can thiet cho tinh nang gui thong bao Telegram (Muc 3)
+> **Lưu ý (Note):**
+> - `python-docx` cần thiết cho tính năng xuất đơn mượn tài sản ra file `.docx`
+> - `requests` cần thiết cho tính năng gửi thông báo Telegram (Muc 3)
 
 ---
 
-# 2. Setup database
+# 2. Cài đặt cơ sở dữ liệu (Database Setup)
 
-Khoi tao database qua Docker:
+Khởi tạo cơ sở dữ liệu qua Docker:
 
 ```bash
 sudo apt install docker-compose
@@ -64,7 +64,7 @@ sudo docker-compose up -d
 
 ---
 
-# 3. Cau hinh Odoo
+# 3. Cấu hình Odoo (Odoo Configuration)
 
 Tao tep **odoo.conf**:
 
@@ -80,7 +80,7 @@ xmlrpc_port = 8069
 
 ---
 
-# 4. Chay he thong
+# 4. Chạy hệ thống (System Execution)
 
 ```bash
 source venv/bin/activate
@@ -97,7 +97,7 @@ Sau khi dang nhap, vao **Settings -> Apps -> Update Apps List** va cai theo thu 
 
 ---
 
-# 5. Module Quan ly Tai san (`quan_ly_tai_san`)
+# 5. Module Quản lý Tài sản (Asset Management Module - quan_ly_tai_san)
 
 > **Phien ban:** 0.2 &nbsp;|&nbsp; **Phu thuoc:** `base`, `mail`, `nhan_su`
 
