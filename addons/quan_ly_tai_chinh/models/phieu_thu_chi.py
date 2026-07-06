@@ -57,6 +57,7 @@ class PhieuThuChi(models.Model):
             num = int(last.ma_phieu[2:]) if last and len(last.ma_phieu) > 2 else 0
             vals["ma_phieu"] = "%s%05d" % (prefix, num + 1)
         record = super(PhieuThuChi, self).create(vals)
+        # Gui thong bao Telegram khi phieu duoc tao tu trigger tu dong
         if record.nguon_goc in ("bao_tri", "thanh_ly"):
             loai_text = "THU" if record.loai_phieu == "thu" else "CHI"
             msg = (
