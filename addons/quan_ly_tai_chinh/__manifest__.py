@@ -21,7 +21,9 @@
         "views/telegram_config.xml",
         "views/gemini_config.xml",
         "views/menu.xml",
+        "views/res_config_settings.xml",
         "views/ai_chat.xml",
+        "data/default_config.xml",
         "data/cleanup_menus.xml",
     ],
     "assets": {

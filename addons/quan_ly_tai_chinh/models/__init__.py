@@ -7,3 +7,4 @@ from . import ngan_sach_mua_sam
 from . import bao_cao_tai_san
 from . import dashboard
 from . import ai_chat
+from . import res_config_settings

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_qltc" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.qltc</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Quản lý Tài chính" string="Quản lý Tài chính" data-key="quan_ly_tai_chinh" groups="base.group_system">
+                        <h2>Thông báo tự động</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="qltc_bat_telegram"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="qltc_bat_telegram" string="Thông báo Telegram"/>
+                                    <div class="text-muted">Gửi Telegram khi tạo/duyệt phiếu, bảo trì, thanh lý</div>
+                                    <div class="content-group" attrs="{'invisible': [('qltc_bat_telegram','=',False)]}">
+                                        <div class="mt8">
+                                            <span class="o_form_label">Bot Token</span>
+                                            <field name="qltc_telegram_bot_token" placeholder="123456:ABC-..."/>
+                                        </div>
+                                        <div class="mt8">
+                                            <span class="o_form_label">Chat ID</span>
+                                            <field name="qltc_telegram_chat_id" placeholder="-1001234567890"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="qltc_bat_email"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="qltc_bat_email" string="Thông báo Email (SMTP)"/>
+                                    <div class="text-muted">Gửi email khi có sự kiện. Cần cấu hình Outgoing Mail Server.</div>
+                                    <div class="content-group" attrs="{'invisible': [('qltc_bat_email','=',False)]}">
+                                        <div class="mt8">
+                                            <span class="o_form_label">Email nhận thông báo</span>
+                                            <field name="qltc_email_nhan_thong_bao" placeholder="quanly@congty.vn"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Trí tuệ nhân tạo (Gemini)</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Gemini API Key</span>
+                                    <div class="text-muted">Lấy key tại aistudio.google.com/app/apikey (dạng AIza...)</div>
+                                    <div class="content-group">
+                                        <field name="qltc_gemini_api_key" password="True" placeholder="AIza..."/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_qltc_config_settings" model="ir.actions.act_window">
+            <field name="name">Cài đặt Quản lý Tài chính</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module': 'quan_ly_tai_chinh'}</field>
+        </record>
+
+        <menuitem id="menu_qltc_config_settings" name="Cài đặt chung"
+                  parent="menu_tai_chinh_cauhinh" action="action_qltc_config_settings" sequence="1"/>
+    </data>
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="qltc_param_bat_telegram" model="ir.config_parameter">
+        <field name="key">quan_ly_tai_chinh.bat_telegram</field>
+        <field name="value">True</field>
+    </record>
+    <record id="qltc_param_bat_email" model="ir.config_parameter">
+        <field name="key">quan_ly_tai_chinh.bat_email</field>
+        <field name="value">True</field>
+    </record>
+</odoo>

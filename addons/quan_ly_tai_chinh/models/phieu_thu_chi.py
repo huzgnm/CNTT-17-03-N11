@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models
 from odoo.exceptions import UserError
-from ..utils.telegram_helper import send_telegram_message
+from ..utils.notify_helper import gui_thong_bao
 
 
 class PhieuThuChi(models.Model):
@@ -73,7 +73,7 @@ class PhieuThuChi(models.Model):
                 "{:,.0f}".format(record.so_tien),
                 dict(self._fields["nguon_goc"].selection).get(record.nguon_goc, record.nguon_goc),
             )
-            send_telegram_message(self.env, msg)
+            gui_thong_bao(self.env, msg)
         return record
 
     def action_gui_duyet(self):
@@ -100,7 +100,7 @@ class PhieuThuChi(models.Model):
                 rec.ten_noi_dung,
                 "{:,.0f}".format(rec.so_tien),
             )
-            send_telegram_message(self.env, msg)
+            gui_thong_bao(self.env, msg)
 
     def action_huy(self):
         for rec in self:
