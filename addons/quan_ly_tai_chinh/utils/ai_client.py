@@ -5,7 +5,7 @@ import requests
 
 _logger = logging.getLogger(__name__)
 
-DEFAULT_BASE = "https://9rt.nhuuduc.com/v1"
+DEFAULT_BASE = "http://localhost:20128/v1"
 DEFAULT_MODEL = "gemini-2.5-flash"
 
 

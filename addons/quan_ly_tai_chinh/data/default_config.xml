@@ -10,7 +10,7 @@
     </record>
     <record id="qltc_param_ai_base_url" model="ir.config_parameter">
         <field name="key">quan_ly_tai_chinh.ai_base_url</field>
-        <field name="value">https://9rt.nhuuduc.com/v1</field>
+        <field name="value">http://localhost:20128/v1</field>
     </record>
     <record id="qltc_param_ai_model" model="ir.config_parameter">
         <field name="key">quan_ly_tai_chinh.ai_model</field>

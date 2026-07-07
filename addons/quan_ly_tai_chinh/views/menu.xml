@@ -83,10 +83,4 @@
               name="Cấu hình"
               parent="menu_tai_chinh_root"
               sequence="99"/>
-
-    <menuitem id="menu_telegram_config"
-              name="Cấu hình Telegram"
-              parent="menu_tai_chinh_cauhinh"
-              action="action_telegram_config"
-              sequence="10"/>
 </odoo>

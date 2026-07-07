@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_tai_chinh_cau_hinh_form" model="ir.ui.view">
+            <field name="name">tai_chinh.cau_hinh.form</field>
+            <field name="model">tai_chinh.cau_hinh</field>
+            <field name="arch" type="xml">
+                <form string="Cấu hình Quản lý Tài chính">
+                    <header>
+                        <button name="action_luu" string="Lưu cấu hình" type="object" class="btn-primary"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title"><h1>Cấu hình Quản lý Tài chính</h1></div>
+                        <group string="Thông báo Telegram">
+                            <field name="bat_telegram"/>
+                            <field name="telegram_bot_token" attrs="{'invisible':[('bat_telegram','=',False)]}" placeholder="123456:ABC-..."/>
+                            <field name="telegram_chat_id" attrs="{'invisible':[('bat_telegram','=',False)]}" placeholder="-1001234567890"/>
+                        </group>
+                        <group string="Thông báo Email (SMTP)">
+                            <field name="bat_email"/>
+                            <field name="email_nhan_thong_bao" attrs="{'invisible':[('bat_email','=',False)]}" placeholder="quanly@congty.vn"/>
+                            <div class="text-muted" colspan="2">Cần cấu hình Outgoing Mail Server (Settings → Technical) để email gửi thật.</div>
+                        </group>
+                        <group string="Trợ lý AI / AI Agent">
+                            <field name="ai_base_url" placeholder="http://localhost:20128/v1"/>
+                            <field name="ai_api_key" password="True" placeholder="sk-..."/>
+                            <field name="ai_model" placeholder="gemini-2.5-flash"/>
+                            <div class="text-muted" colspan="2">9Router chạy local (npm i -g 9router). Base URL mặc định http://localhost:20128/v1.</div>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_tai_chinh_cau_hinh" model="ir.actions.act_window">
+            <field name="name">Cài đặt</field>
+            <field name="res_model">tai_chinh.cau_hinh</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+        </record>
+
+        <menuitem id="menu_tai_chinh_cau_hinh" name="Cài đặt"
+                  parent="menu_tai_chinh_cauhinh" action="action_tai_chinh_cau_hinh" sequence="1"/>
+    </data>
+</odoo>
