@@ -24,6 +24,12 @@
         "views/ai_chat.xml",
         "data/cleanup_menus.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "quan_ly_tai_chinh/static/src/css/ai_chat_widget.css",
+            "quan_ly_tai_chinh/static/src/js/ai_chat_widget.js",
+        ],
+    },
     "installable": True,
     "application": True,
 }

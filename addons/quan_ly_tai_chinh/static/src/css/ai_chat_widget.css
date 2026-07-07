@@ -1,0 +1,30 @@
+#qltc_ai_btn {
+    position: fixed; bottom: 24px; left: 24px;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #8e44ad; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; cursor: pointer; z-index: 1051;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+}
+#qltc_ai_btn:hover { background: #9b59b6; }
+#qltc_ai_panel {
+    position: fixed; bottom: 92px; left: 24px;
+    width: 340px; height: 460px; max-height: 72vh;
+    background: #fff; border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    z-index: 1051; display: none; flex-direction: column; overflow: hidden;
+    font-size: 14px;
+}
+#qltc_ai_head {
+    background: #8e44ad; color: #fff; padding: 12px 14px;
+    font-weight: bold; display: flex; justify-content: space-between; align-items: center;
+}
+#qltc_ai_close { cursor: pointer; font-size: 20px; line-height: 1; }
+#qltc_ai_msgs { flex: 1; overflow-y: auto; padding: 12px; background: #f4f6f9; }
+.qltc_ai_msg { margin-bottom: 8px; padding: 8px 12px; border-radius: 10px; max-width: 88%; word-wrap: break-word; line-height: 1.45; }
+.qltc_ai_bot { background: #fff; border: 1px solid #e0e0e0; color: #2c3e50; }
+.qltc_ai_user { background: #8e44ad; color: #fff; margin-left: auto; }
+#qltc_ai_inputbar { display: flex; border-top: 1px solid #e0e0e0; padding: 8px; gap: 6px; background: #fff; }
+#qltc_ai_input { flex: 1; border: 1px solid #ccc; border-radius: 8px; padding: 8px; outline: none; }
+#qltc_ai_send { background: #8e44ad; color: #fff; border: none; border-radius: 8px; padding: 8px 14px; cursor: pointer; white-space: nowrap; }
+#qltc_ai_send:hover { background: #9b59b6; }
