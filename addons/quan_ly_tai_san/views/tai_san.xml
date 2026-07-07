@@ -260,8 +260,6 @@
                         domain="[('canh_bao_bao_tri','=',True)]"/>
                     <filter string="⏰ Sắp hết bảo hành" name="sap_het_bao_hanh"
                         domain="[('tinh_trang_bao_hanh','=','sap_het')]"/>
-                    <filter string="Chưa ghi sổ mua" name="chua_ghi_so_mua"
-                        domain="[('da_ghi_so_mua','=',False)]"/>
                     <separator/>
                     <group expand="0" string="Nhóm theo">
                         <filter string="Loại tài sản" name="group_loai"
