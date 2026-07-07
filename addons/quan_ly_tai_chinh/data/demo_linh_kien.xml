@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- ===================== NHÂN SỰ ===================== -->
+    <record id="dl_cv_gd" model="chuc_vu"><field name="ten_chuc_vu">Giám đốc</field></record>
+    <record id="dl_cv_tp" model="chuc_vu"><field name="ten_chuc_vu">Trưởng phòng</field></record>
+    <record id="dl_cv_kt" model="chuc_vu"><field name="ten_chuc_vu">Kỹ thuật viên</field></record>
+    <record id="dl_cv_ketoan" model="chuc_vu"><field name="ten_chuc_vu">Kế toán</field></record>
+    <record id="dl_cv_kho" model="chuc_vu"><field name="ten_chuc_vu">Nhân viên kho</field></record>
+
+    <record id="dl_pb_gd" model="phong_ban"><field name="ten_phong_ban">Ban Giám đốc</field></record>
+    <record id="dl_pb_kd" model="phong_ban"><field name="ten_phong_ban">Phòng Kinh doanh</field></record>
+    <record id="dl_pb_kt" model="phong_ban"><field name="ten_phong_ban">Phòng Kỹ thuật</field></record>
+    <record id="dl_pb_kho" model="phong_ban"><field name="ten_phong_ban">Phòng Kho vận</field></record>
+    <record id="dl_pb_ketoan" model="phong_ban"><field name="ten_phong_ban">Phòng Kế toán</field></record>
+
+    <record id="dl_nv_1" model="nhan_vien">
+        <field name="ma_dinh_danh">NV101</field><field name="ho_ten_dem">Nguyễn Văn</field><field name="ten">Hùng</field>
+        <field name="ngay_sinh">1982-05-10</field><field name="email">hung.nv@dienstu.vn</field><field name="so_dien_thoai">0901000001</field>
+        <field name="phong_ban_id" ref="dl_pb_gd"/><field name="chuc_vu_id" ref="dl_cv_gd"/>
+    </record>
+    <record id="dl_nv_2" model="nhan_vien">
+        <field name="ma_dinh_danh">NV102</field><field name="ho_ten_dem">Trần Thị</field><field name="ten">Mai</field>
+        <field name="ngay_sinh">1990-09-22</field><field name="email">mai.tt@dienstu.vn</field><field name="so_dien_thoai">0901000002</field>
+        <field name="phong_ban_id" ref="dl_pb_kd"/><field name="chuc_vu_id" ref="dl_cv_tp"/>
+    </record>
+    <record id="dl_nv_3" model="nhan_vien">
+        <field name="ma_dinh_danh">NV103</field><field name="ho_ten_dem">Lê Văn</field><field name="ten">Khoa</field>
+        <field name="ngay_sinh">1995-03-14</field><field name="email">khoa.lv@dienstu.vn</field><field name="so_dien_thoai">0901000003</field>
+        <field name="phong_ban_id" ref="dl_pb_kt"/><field name="chuc_vu_id" ref="dl_cv_kt"/>
+    </record>
+    <record id="dl_nv_4" model="nhan_vien">
+        <field name="ma_dinh_danh">NV104</field><field name="ho_ten_dem">Phạm Thị</field><field name="ten">Lan</field>
+        <field name="ngay_sinh">1992-11-30</field><field name="email">lan.pt@dienstu.vn</field><field name="so_dien_thoai">0901000004</field>
+        <field name="phong_ban_id" ref="dl_pb_ketoan"/><field name="chuc_vu_id" ref="dl_cv_ketoan"/>
+    </record>
+    <record id="dl_nv_5" model="nhan_vien">
+        <field name="ma_dinh_danh">NV105</field><field name="ho_ten_dem">Đỗ Văn</field><field name="ten">Nam</field>
+        <field name="ngay_sinh">1998-07-08</field><field name="email">nam.dv@dienstu.vn</field><field name="so_dien_thoai">0901000005</field>
+        <field name="phong_ban_id" ref="dl_pb_kho"/><field name="chuc_vu_id" ref="dl_cv_kho"/>
+    </record>
+
+    <!-- ===================== DANH MỤC LOẠI LINH KIỆN ===================== -->
+    <record id="dl_dm_cpu" model="danh_muc_loai_tai_san">
+        <field name="ma_loai_tai_san">LK-CPU</field><field name="ten_loai_tai_san">CPU - Bộ vi xử lý</field>
+        <field name="nhom_tai_san_id">Linh kiện</field><field name="phuong_thuc_khau_hao">duong_thang</field>
+        <field name="thoi_gian_khau_hao">3</field><field name="ty_le_khau_hao">33.33</field>
+    </record>
+    <record id="dl_dm_ram" model="danh_muc_loai_tai_san">
+        <field name="ma_loai_tai_san">LK-RAM</field><field name="ten_loai_tai_san">RAM - Bộ nhớ trong</field>
+        <field name="nhom_tai_san_id">Linh kiện</field><field name="thoi_gian_khau_hao">3</field><field name="ty_le_khau_hao">33.33</field>
+    </record>
+    <record id="dl_dm_ssd" model="danh_muc_loai_tai_san">
+        <field name="ma_loai_tai_san">LK-SSD</field><field name="ten_loai_tai_san">Ổ cứng SSD/HDD</field>
+        <field name="nhom_tai_san_id">Linh kiện</field><field name="thoi_gian_khau_hao">4</field><field name="ty_le_khau_hao">25.0</field>
+    </record>
+    <record id="dl_dm_gpu" model="danh_muc_loai_tai_san">
+        <field name="ma_loai_tai_san">LK-GPU</field><field name="ten_loai_tai_san">Card đồ họa (GPU)</field>
+        <field name="nhom_tai_san_id">Linh kiện</field><field name="thoi_gian_khau_hao">3</field><field name="ty_le_khau_hao">33.33</field>
+    </record>
+    <record id="dl_dm_main" model="danh_muc_loai_tai_san">
+        <field name="ma_loai_tai_san">LK-MB</field><field name="ten_loai_tai_san">Mainboard - Bo mạch chủ</field>
+        <field name="nhom_tai_san_id">Linh kiện</field><field name="thoi_gian_khau_hao">4</field><field name="ty_le_khau_hao">25.0</field>
+    </record>
+    <record id="dl_dm_psu" model="danh_muc_loai_tai_san">
+        <field name="ma_loai_tai_san">LK-PSU</field><field name="ten_loai_tai_san">Nguồn máy tính (PSU)</field>
+        <field name="nhom_tai_san_id">Linh kiện</field><field name="thoi_gian_khau_hao">5</field><field name="ty_le_khau_hao">20.0</field>
+    </record>
+    <record id="dl_dm_man" model="danh_muc_loai_tai_san">
+        <field name="ma_loai_tai_san">TB-MAN</field><field name="ten_loai_tai_san">Màn hình</field>
+        <field name="nhom_tai_san_id">Thiết bị</field><field name="thoi_gian_khau_hao">5</field><field name="ty_le_khau_hao">20.0</field>
+    </record>
+    <record id="dl_dm_thietbi" model="danh_muc_loai_tai_san">
+        <field name="ma_loai_tai_san">TB-TEST</field><field name="ten_loai_tai_san">Thiết bị test / sửa chữa</field>
+        <field name="nhom_tai_san_id">Thiết bị</field><field name="thoi_gian_khau_hao">6</field><field name="ty_le_khau_hao">16.67</field>
+    </record>
+
+    <!-- ===================== NHÀ CUNG CẤP ===================== -->
+    <record id="dl_ncc_intel" model="nha_cung_cap">
+        <field name="ma_nha_cung_cap">NCC001</field><field name="ten_nha_cung_cap">Intel Vietnam</field>
+        <field name="so_dien_thoai">02839999001</field><field name="email">sales@intel.vn</field><field name="dia_chi">Quận 1, TP.HCM</field>
+    </record>
+    <record id="dl_ncc_samsung" model="nha_cung_cap">
+        <field name="ma_nha_cung_cap">NCC002</field><field name="ten_nha_cung_cap">Samsung Electronics</field>
+        <field name="so_dien_thoai">02839999002</field><field name="email">b2b@samsung.vn</field><field name="dia_chi">Bắc Ninh</field>
+    </record>
+    <record id="dl_ncc_kingston" model="nha_cung_cap">
+        <field name="ma_nha_cung_cap">NCC003</field><field name="ten_nha_cung_cap">Kingston Technology</field>
+        <field name="so_dien_thoai">02839999003</field><field name="email">vn@kingston.com</field><field name="dia_chi">Quận 7, TP.HCM</field>
+    </record>
+    <record id="dl_ncc_asus" model="nha_cung_cap">
+        <field name="ma_nha_cung_cap">NCC004</field><field name="ten_nha_cung_cap">ASUS Distribution</field>
+        <field name="so_dien_thoai">02839999004</field><field name="email">reseller@asus.vn</field><field name="dia_chi">Cầu Giấy, Hà Nội</field>
+    </record>
+    <record id="dl_ncc_fpt" model="nha_cung_cap">
+        <field name="ma_nha_cung_cap">NCC005</field><field name="ten_nha_cung_cap">FPT Synnex phân phối</field>
+        <field name="so_dien_thoai">02439999005</field><field name="email">pc@fptsynnex.vn</field><field name="dia_chi">Nam Từ Liêm, Hà Nội</field>
+    </record>
+
+    <!-- ===================== TÀI SẢN / LINH KIỆN ===================== -->
+    <record id="dl_ts_cpu1" model="tai_san">
+        <field name="ten_tai_san">CPU Intel Core i7-13700K</field><field name="ma_vach">LK13700K</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_cpu"/><field name="nha_cung_cap_id" ref="dl_ncc_intel"/>
+        <field name="so_luong">5</field><field name="gia_tri_tai_san">9500000</field>
+        <field name="ngay_mua">2026-01-15</field><field name="ngay_su_dung">2026-01-20</field><field name="thoi_gian_su_dung">3</field>
+        <field name="het_han_bao_hanh">2029-01-15</field><field name="vi_tri">Kho A - Kệ 1</field>
+        <field name="trang_thai">dang_su_dung</field><field name="hien_trang_su_dung">dang_su_dung</field>
+    </record>
+    <record id="dl_ts_cpu2" model="tai_san">
+        <field name="ten_tai_san">CPU Intel Core i5-13400</field><field name="ma_vach">LK13400</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_cpu"/><field name="nha_cung_cap_id" ref="dl_ncc_intel"/>
+        <field name="so_luong">8</field><field name="gia_tri_tai_san">5200000</field>
+        <field name="ngay_mua">2026-02-10</field><field name="thoi_gian_su_dung">3</field><field name="het_han_bao_hanh">2029-02-10</field>
+        <field name="vi_tri">Kho A - Kệ 1</field><field name="trang_thai">dang_su_dung</field>
+    </record>
+    <record id="dl_ts_ram1" model="tai_san">
+        <field name="ten_tai_san">RAM Kingston Fury 16GB DDR5</field><field name="ma_vach">LKKF16D5</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_ram"/><field name="nha_cung_cap_id" ref="dl_ncc_kingston"/>
+        <field name="so_luong">20</field><field name="gia_tri_tai_san">1350000</field>
+        <field name="ngay_mua">2026-03-01</field><field name="thoi_gian_su_dung">3</field><field name="het_han_bao_hanh">2029-03-01</field>
+        <field name="vi_tri">Kho A - Kệ 2</field><field name="trang_thai">dang_su_dung</field>
+    </record>
+    <record id="dl_ts_ram2" model="tai_san">
+        <field name="ten_tai_san">RAM Samsung 8GB DDR4</field><field name="ma_vach">LKSS8D4</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_ram"/><field name="nha_cung_cap_id" ref="dl_ncc_samsung"/>
+        <field name="so_luong">15</field><field name="gia_tri_tai_san">650000</field>
+        <field name="ngay_mua">2025-11-05</field><field name="thoi_gian_su_dung">3</field><field name="het_han_bao_hanh">2028-11-05</field>
+        <field name="vi_tri">Kho A - Kệ 2</field><field name="trang_thai">dang_su_dung</field>
+    </record>
+    <record id="dl_ts_ssd1" model="tai_san">
+        <field name="ten_tai_san">SSD Samsung 980 Pro 1TB NVMe</field><field name="ma_vach">LK980P1T</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_ssd"/><field name="nha_cung_cap_id" ref="dl_ncc_samsung"/>
+        <field name="so_luong">12</field><field name="gia_tri_tai_san">2800000</field>
+        <field name="ngay_mua">2026-02-18</field><field name="thoi_gian_su_dung">4</field><field name="het_han_bao_hanh">2031-02-18</field>
+        <field name="vi_tri">Kho A - Kệ 3</field><field name="trang_thai">dang_su_dung</field>
+    </record>
+    <record id="dl_ts_ssd2" model="tai_san">
+        <field name="ten_tai_san">SSD Kingston NV2 500GB</field><field name="ma_vach">LKNV2500</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_ssd"/><field name="nha_cung_cap_id" ref="dl_ncc_kingston"/>
+        <field name="so_luong">10</field><field name="gia_tri_tai_san">950000</field>
+        <field name="ngay_mua">2026-04-02</field><field name="thoi_gian_su_dung">4</field><field name="het_han_bao_hanh">2031-04-02</field>
+        <field name="vi_tri">Kho A - Kệ 3</field><field name="trang_thai">dang_su_dung</field>
+    </record>
+    <record id="dl_ts_gpu1" model="tai_san">
+        <field name="ten_tai_san">GPU ASUS Dual RTX 4060 Ti</field><field name="ma_vach">LK4060TI</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_gpu"/><field name="nha_cung_cap_id" ref="dl_ncc_asus"/>
+        <field name="so_luong">3</field><field name="gia_tri_tai_san">12000000</field>
+        <field name="ngay_mua">2026-01-25</field><field name="thoi_gian_su_dung">3</field><field name="het_han_bao_hanh">2029-01-25</field>
+        <field name="vi_tri">Kho B - Kệ 1</field><field name="trang_thai">bao_tri</field>
+    </record>
+    <record id="dl_ts_gpu2" model="tai_san">
+        <field name="ten_tai_san">GPU ASUS RTX 3060 12GB</field><field name="ma_vach">LK3060</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_gpu"/><field name="nha_cung_cap_id" ref="dl_ncc_asus"/>
+        <field name="so_luong">2</field><field name="gia_tri_tai_san">7500000</field>
+        <field name="ngay_mua">2025-06-10</field><field name="thoi_gian_su_dung">3</field><field name="het_han_bao_hanh">2028-06-10</field>
+        <field name="vi_tri">Kho B - Kệ 1</field><field name="trang_thai">hong</field>
+    </record>
+    <record id="dl_ts_main1" model="tai_san">
+        <field name="ten_tai_san">Mainboard ASUS Prime B760M-A</field><field name="ma_vach">LKB760M</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_main"/><field name="nha_cung_cap_id" ref="dl_ncc_asus"/>
+        <field name="so_luong">6</field><field name="gia_tri_tai_san">3200000</field>
+        <field name="ngay_mua">2026-03-12</field><field name="thoi_gian_su_dung">4</field><field name="het_han_bao_hanh">2031-03-12</field>
+        <field name="vi_tri">Kho A - Kệ 4</field><field name="trang_thai">dang_su_dung</field>
+    </record>
+    <record id="dl_ts_psu1" model="tai_san">
+        <field name="ten_tai_san">Nguồn Corsair RM650 650W</field><field name="ma_vach">LKRM650</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_psu"/><field name="nha_cung_cap_id" ref="dl_ncc_fpt"/>
+        <field name="so_luong">7</field><field name="gia_tri_tai_san">1800000</field>
+        <field name="ngay_mua">2026-02-28</field><field name="thoi_gian_su_dung">5</field><field name="het_han_bao_hanh">2033-02-28</field>
+        <field name="vi_tri">Kho A - Kệ 5</field><field name="trang_thai">dang_su_dung</field>
+    </record>
+    <record id="dl_ts_man1" model="tai_san">
+        <field name="ten_tai_san">Màn hình ASUS VA24 24 inch</field><field name="ma_vach">TBVA24</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_man"/><field name="nha_cung_cap_id" ref="dl_ncc_asus"/>
+        <field name="so_luong">4</field><field name="gia_tri_tai_san">2500000</field>
+        <field name="ngay_mua">2025-12-01</field><field name="ngay_su_dung">2025-12-05</field><field name="thoi_gian_su_dung">5</field>
+        <field name="het_han_bao_hanh">2028-12-01</field><field name="vi_tri">Phòng Kỹ thuật</field><field name="trang_thai">dang_su_dung</field>
+    </record>
+    <record id="dl_ts_tb1" model="tai_san">
+        <field name="ten_tai_san">Máy test nguồn ATX</field><field name="ma_vach">TBTEST01</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_thietbi"/><field name="nha_cung_cap_id" ref="dl_ncc_fpt"/>
+        <field name="so_luong">1</field><field name="gia_tri_tai_san">1200000</field>
+        <field name="ngay_mua">2025-09-15</field><field name="ngay_su_dung">2025-09-20</field><field name="thoi_gian_su_dung">6</field>
+        <field name="vi_tri">Phòng Kỹ thuật</field><field name="trang_thai">bao_tri</field>
+    </record>
+    <record id="dl_ts_tb2" model="tai_san">
+        <field name="ten_tai_san">Trạm hàn khò sửa mainboard</field><field name="ma_vach">TBTEST02</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_thietbi"/><field name="nha_cung_cap_id" ref="dl_ncc_fpt"/>
+        <field name="so_luong">2</field><field name="gia_tri_tai_san">3500000</field>
+        <field name="ngay_mua">2025-08-01</field><field name="ngay_su_dung">2025-08-05</field><field name="thoi_gian_su_dung">6</field>
+        <field name="vi_tri">Phòng Kỹ thuật</field><field name="trang_thai">dang_su_dung</field>
+    </record>
+    <record id="dl_ts_old1" model="tai_san">
+        <field name="ten_tai_san">CPU Intel Core i3-8100 (cũ)</field><field name="ma_vach">LK8100OLD</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_cpu"/>
+        <field name="so_luong">4</field><field name="gia_tri_tai_san">1200000</field>
+        <field name="ngay_mua">2021-05-10</field><field name="thoi_gian_su_dung">3</field>
+        <field name="vi_tri">Kho thanh lý</field><field name="trang_thai">da_thanh_ly</field><field name="hien_trang_su_dung">khong_su_dung</field>
+    </record>
+
+    <!-- ===================== BẢO TRÌ ===================== -->
+    <record id="dl_bt_1" model="bao_tri">
+        <field name="tai_san_id" ref="dl_ts_gpu1"/><field name="ngay_bao_tri">2026-07-02</field>
+        <field name="noi_dung_bao_tri">Vệ sinh, tra keo tản nhiệt card RTX 4060 Ti</field>
+        <field name="chi_phi_bao_tri">250000</field><field name="nha_cung_cap_id" ref="dl_ncc_asus"/><field name="tinh_trang">dang_bao_tri</field>
+    </record>
+    <record id="dl_bt_2" model="bao_tri">
+        <field name="tai_san_id" ref="dl_ts_tb1"/><field name="ngay_bao_tri">2026-07-05</field>
+        <field name="noi_dung_bao_tri">Kiểm tra hiệu chuẩn máy test nguồn</field>
+        <field name="chi_phi_bao_tri">150000</field><field name="tinh_trang">dang_cho_duyet</field>
+    </record>
+    <record id="dl_bt_3" model="bao_tri">
+        <field name="tai_san_id" ref="dl_ts_gpu2"/><field name="ngay_bao_tri">2026-07-01</field>
+        <field name="noi_dung_bao_tri">Sửa lỗi không xuất hình RTX 3060</field>
+        <field name="chi_phi_bao_tri">500000</field><field name="nha_cung_cap_id" ref="dl_ncc_asus"/><field name="tinh_trang">da_xong</field>
+    </record>
+    <record id="dl_bt_4" model="bao_tri">
+        <field name="tai_san_id" ref="dl_ts_man1"/><field name="ngay_bao_tri">2026-06-15</field>
+        <field name="noi_dung_bao_tri">Thay cáp nguồn màn hình</field>
+        <field name="chi_phi_bao_tri">80000</field><field name="tinh_trang">da_xong</field>
+    </record>
+
+    <!-- ===================== MƯỢN TRẢ ===================== -->
+    <record id="dl_mt_1" model="muon_tra">
+        <field name="nhan_vien_id" ref="dl_nv_3"/><field name="tai_san_id" ref="dl_ts_ssd2"/>
+        <field name="thoi_gian_muon">2026-07-01</field><field name="thoi_gian_tra_du_kien">2026-07-20</field>
+        <field name="ghi_chu">Mượn SSD test máy khách</field>
+    </record>
+    <record id="dl_mt_2" model="muon_tra">
+        <field name="nhan_vien_id" ref="dl_nv_5"/><field name="tai_san_id" ref="dl_ts_ram2"/>
+        <field name="thoi_gian_muon">2026-06-10</field><field name="thoi_gian_tra_du_kien">2026-06-25</field>
+        <field name="thoi_gian_tra_thuc_te">2026-06-24</field><field name="ghi_chu">Mượn RAM demo, đã trả</field>
+    </record>
+    <record id="dl_mt_3" model="muon_tra">
+        <field name="nhan_vien_id" ref="dl_nv_3"/><field name="tai_san_id" ref="dl_ts_psu1"/>
+        <field name="thoi_gian_muon">2026-06-01</field><field name="thoi_gian_tra_du_kien">2026-06-10</field>
+        <field name="ghi_chu">Mượn nguồn test, quá hạn chưa trả</field>
+    </record>
+
+    <!-- ===================== ĐIỀU CHUYỂN ===================== -->
+    <record id="dl_dc_1" model="dieu_chuyen_tai_san">
+        <field name="tai_san_id" ref="dl_ts_ssd1"/><field name="tu_dia_diem" ref="dl_pb_kho"/><field name="den_dia_diem" ref="dl_pb_kt"/>
+        <field name="ngay_dieu_chuyen">2026-07-03</field><field name="nhan_vien_id" ref="dl_nv_1"/>
+        <field name="trang_thai">da_duyet</field><field name="ghi_chu">Chuyển SSD sang phòng kỹ thuật lắp máy</field>
+    </record>
+    <record id="dl_dc_2" model="dieu_chuyen_tai_san">
+        <field name="tai_san_id" ref="dl_ts_main1"/><field name="tu_dia_diem" ref="dl_pb_kho"/><field name="den_dia_diem" ref="dl_pb_kd"/>
+        <field name="ngay_dieu_chuyen">2026-06-20</field><field name="nhan_vien_id" ref="dl_nv_1"/>
+        <field name="trang_thai">hoan_thanh</field><field name="ghi_chu">Chuyển mainboard trưng bày</field>
+    </record>
+
+    <!-- ===================== THANH LÝ ===================== -->
+    <record id="dl_tl_1" model="thanh_ly">
+        <field name="tai_san_id" ref="dl_ts_old1"/><field name="nguoi_lap_id" ref="dl_nv_4"/>
+        <field name="ngay_thanh_ly">2026-07-04</field><field name="ly_do">Linh kiện lỗi thời, không còn nhu cầu sử dụng</field>
+        <field name="gia_tri_thanh_ly">400000</field><field name="trang_thai">cho_duyet</field>
+    </record>
+    <record id="dl_tl_2" model="thanh_ly">
+        <field name="tai_san_id" ref="dl_ts_gpu2"/><field name="nguoi_lap_id" ref="dl_nv_4"/>
+        <field name="ngay_thanh_ly">2026-07-06</field><field name="ly_do">Card hỏng không sửa được, thanh lý thu hồi</field>
+        <field name="gia_tri_thanh_ly">800000</field><field name="trang_thai">cho_duyet</field>
+    </record>
+
+    <!-- ===================== NGÂN SÁCH ===================== -->
+    <record id="dl_ns_1" model="tai_chinh.ngan_sach">
+        <field name="ten_ngan_sach">Ngân sách bảo trì 2026</field><field name="nam">2026</field>
+        <field name="loai_ngan_sach">bao_tri</field><field name="tong_ngan_sach">50000000</field><field name="nguoi_lap_id" ref="dl_nv_4"/>
+    </record>
+    <record id="dl_ns_2" model="tai_chinh.ngan_sach">
+        <field name="ten_ngan_sach">Ngân sách mua sắm linh kiện 2026</field><field name="nam">2026</field>
+        <field name="loai_ngan_sach">mua_sam</field><field name="tong_ngan_sach">500000000</field><field name="nguoi_lap_id" ref="dl_nv_4"/>
+    </record>
+    <record id="dl_ns_3" model="tai_chinh.ngan_sach">
+        <field name="ten_ngan_sach">Ngân sách vận hành 2026</field><field name="nam">2026</field>
+        <field name="loai_ngan_sach">van_hanh</field><field name="tong_ngan_sach">100000000</field><field name="nguoi_lap_id" ref="dl_nv_4"/>
+    </record>
+
+    <!-- ===================== PHIẾU THU / CHI ===================== -->
+    <record id="dl_pc_1" model="tai_chinh.phieu_thu_chi">
+        <field name="loai_phieu">chi</field><field name="nguon_goc">mua_sam</field>
+        <field name="ten_noi_dung">Mua lô CPU Intel i7-13700K</field><field name="so_tien">47500000</field>
+        <field name="ngay_lap">2026-07-01</field><field name="ngay_duyet">2026-07-02</field>
+        <field name="nguoi_lap_id" ref="dl_nv_4"/><field name="trang_thai">da_duyet</field>
+    </record>
+    <record id="dl_pc_2" model="tai_chinh.phieu_thu_chi">
+        <field name="loai_phieu">chi</field><field name="nguon_goc">luong</field>
+        <field name="ten_noi_dung">Chi lương phòng kỹ thuật tháng 7</field><field name="so_tien">20000000</field>
+        <field name="ngay_lap">2026-07-05</field><field name="ngay_duyet">2026-07-05</field>
+        <field name="nguoi_lap_id" ref="dl_nv_4"/><field name="trang_thai">da_duyet</field>
+    </record>
+    <record id="dl_pc_3" model="tai_chinh.phieu_thu_chi">
+        <field name="loai_phieu">chi</field><field name="nguon_goc">khac</field>
+        <field name="ten_noi_dung">Chi phí vận chuyển hàng nhập</field><field name="so_tien">1500000</field>
+        <field name="ngay_lap">2026-07-06</field>
+        <field name="nguoi_lap_id" ref="dl_nv_4"/><field name="trang_thai">cho_duyet</field>
+    </record>
+    <record id="dl_pt_1" model="tai_chinh.phieu_thu_chi">
+        <field name="loai_phieu">thu</field><field name="nguon_goc">khac</field>
+        <field name="ten_noi_dung">Thu bán linh kiện tồn kho</field><field name="so_tien">8000000</field>
+        <field name="ngay_lap">2026-07-02</field><field name="ngay_duyet">2026-07-03</field>
+        <field name="nguoi_lap_id" ref="dl_nv_4"/><field name="trang_thai">da_duyet</field>
+    </record>
+    <record id="dl_pt_2" model="tai_chinh.phieu_thu_chi">
+        <field name="loai_phieu">thu</field><field name="nguon_goc">khac</field>
+        <field name="ten_noi_dung">Thu tiền sửa chữa máy khách</field><field name="so_tien">3000000</field>
+        <field name="ngay_lap">2026-07-06</field>
+        <field name="nguoi_lap_id" ref="dl_nv_4"/><field name="trang_thai">cho_duyet</field>
+    </record>
+
+    <!-- ===================== KHẤU HAO HÀNG THÁNG ===================== -->
+    <record id="dl_kh_1" model="tai_chinh.khau_hao">
+        <field name="tai_san_id" ref="dl_ts_cpu1"/><field name="ky_khau_hao">2026-07-01</field>
+        <field name="gia_tri_truoc_kh">9500000</field><field name="so_tien_khau_hao">263888</field><field name="trang_thai">da_ghi_so</field>
+    </record>
+    <record id="dl_kh_2" model="tai_chinh.khau_hao">
+        <field name="tai_san_id" ref="dl_ts_ssd1"/><field name="ky_khau_hao">2026-07-01</field>
+        <field name="gia_tri_truoc_kh">2800000</field><field name="so_tien_khau_hao">58333</field><field name="trang_thai">da_ghi_so</field>
+    </record>
+    <record id="dl_kh_3" model="tai_chinh.khau_hao">
+        <field name="tai_san_id" ref="dl_ts_gpu1"/><field name="ky_khau_hao">2026-06-01</field>
+        <field name="gia_tri_truoc_kh">12000000</field><field name="so_tien_khau_hao">333333</field><field name="trang_thai">da_ghi_so</field>
+    </record>
+
+    <!-- ===================== NGÂN SÁCH MUA SẮM ===================== -->
+    <record id="dl_nsms_1" model="tai_chinh.ngan_sach_mua_sam">
+        <field name="nam">2026</field><field name="danh_muc_loai_tai_san_id" ref="dl_dm_cpu"/>
+        <field name="so_tien_ke_hoach">200000000</field><field name="so_tien_thuc_te">47500000</field><field name="trang_thai">da_duyet</field>
+    </record>
+    <record id="dl_nsms_2" model="tai_chinh.ngan_sach_mua_sam">
+        <field name="nam">2026</field><field name="danh_muc_loai_tai_san_id" ref="dl_dm_gpu"/>
+        <field name="so_tien_ke_hoach">150000000</field><field name="so_tien_thuc_te">36000000</field><field name="trang_thai">da_duyet</field>
+    </record>
+
+</odoo>

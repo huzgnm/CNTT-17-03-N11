@@ -21,6 +21,7 @@
         "views/telegram_config.xml",
         "views/gemini_config.xml",
         "views/menu.xml",
+        "data/demo_linh_kien.xml",
     ],
     "installable": True,
     "application": True,
