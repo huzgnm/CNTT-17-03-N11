@@ -32,6 +32,8 @@ class TaiChinhDashboard(models.TransientModel):
     # === THANH LY ===
     thanh_ly_cho_duyet = fields.Integer("Thanh ly cho duyet", compute="_compute_all")
 
+    currency_id = fields.Many2one("res.currency", string="Tien te", compute="_compute_all")
+
     @api.depends()
     def _compute_all(self):
         today = date.today()
@@ -44,6 +46,7 @@ class TaiChinhDashboard(models.TransientModel):
             cuoi_thang = "%04d-%02d-01" % (nam, thang + 1)
 
         for rec in self:
+            rec.currency_id = self.env.company.currency_id
             TaiSan = self.env["tai_san"]
             rec.tong_tai_san = TaiSan.search_count([])
             rec.tai_san_dang_su_dung = TaiSan.search_count([("trang_thai", "=", "dang_su_dung")])

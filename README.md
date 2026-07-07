@@ -89,7 +89,8 @@ python3 odoo-bin -c odoo.conf
 
 Truy cap: **http://localhost:8069/**
 
-Sau khi dang nhap, vao **Settings -> Apps -> Update Apps List** va cai theo thu tu:
+Sau khi dang nhap, vao **Settings -> Apps -> Update Apps List** va cai theo thu tu
+(module `account` se tu dong duoc cai kem khi cai `quan_ly_tai_san` do phu thuoc):
 
 1. `Quan ly Nhan su` (`nhan_su`)
 2. `Quan ly Tai san` (`quan_ly_tai_san`)
@@ -99,7 +100,7 @@ Sau khi dang nhap, vao **Settings -> Apps -> Update Apps List** va cai theo thu 
 
 # 5. Module Quan ly Tai san (`quan_ly_tai_san`)
 
-> **Phien ban:** 0.2 &nbsp;|&nbsp; **Phu thuoc:** `base`, `mail`, `nhan_su`
+> **Phien ban:** 0.2 &nbsp;|&nbsp; **Phu thuoc:** `base`, `mail`, `nhan_su`, `account`
 
 Module quan ly toan bo vong doi tai san co dinh cua doanh nghiep.
 
@@ -256,7 +257,9 @@ addons/quan_ly_tai_chinh/
 - **Phan tich AI:** bam nut "Phan tich AI (Gemini)" de nhan nhan xet tu dong tu Gemini 1.5 Flash
 
 **Dashboard tong hop:**
+- Giao dien the KPI truc quan (card co mau + icon), nhom theo: Tai san / Bao tri & Thanh ly / Thu chi thang / Khau hao
 - Hien thi so lieu tong quan: so tai san theo trang thai, bao tri dang cho/thuc hien, thu chi thang nay, khau hao
+- Nut "Lam moi" tinh lai so lieu; hien thi tien te theo dinh dang cong ty (VND)
 - Mo tu menu Quan ly Tai Chinh -> Dashboard
 
 ## 7.3. Cau hinh Telegram (Muc 3)
@@ -319,6 +322,19 @@ Neu chua cau hinh, nut "Phan tich AI" tra ve huong dan thay vi crash.
 | 21 | Du lieu mau (demo data) cho ca 3 module | Tat ca |
 | 22 | Dashboard tong hop quan ly tai chinh | QLTC |
 | 23 | Phan tich AI tu dong (Gemini 1.5 Flash) tren bao cao tai san | QLTC -> Gemini API |
+
+---
+
+# 9. Cap nhat / Sua loi gan day
+
+| # | Noi dung | File |
+|---|----------|------|
+| 1 | Them field `tong_gia_tri` (= so_luong x gia_tri_tai_san); tach `gia_tri_tai_san` thanh nguyen gia nhap tay | `tai_san.py` |
+| 2 | Sua `@depends` sai: `bao_tri.trang_thai` -> `bao_tri.tinh_trang` trong compute ngay bao tri gan nhat | `tai_san.py` |
+| 3 | Sua tao lich su dieu chuyen: chi truyen `dieu_chuyen_tai_san_id`, cac field khac lay tu related | `dieu_chuyen_tai_san.py` |
+| 4 | Sua Dashboard goi sai model: `tai_chinh.khau_hao_hang_thang` -> `tai_chinh.khau_hao` | `dashboard.py` |
+| 5 | Them phu thuoc `account` vao manifest (module tao but toan `account.move`) | `__manifest__.py` |
+| 6 | Thiet ke lai Dashboard dang the KPI co mau + icon, them `currency_id` hien thi tien te | `dashboard.py`, `dashboard.xml` |
 
 ---
 
