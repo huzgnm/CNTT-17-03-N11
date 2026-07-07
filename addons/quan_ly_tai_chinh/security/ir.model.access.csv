@@ -17,3 +17,4 @@ access_tai_chinh_bao_cao_tai_san_ct_user,tai_chinh.bao_cao_tai_san.chi_tiet user
 access_tai_chinh_bao_cao_tai_san_ct_manager,tai_chinh.bao_cao_tai_san.chi_tiet manager,model_tai_chinh_bao_cao_tai_san_chi_tiet,base.group_user,1,1,1,1
 access_tai_chinh_dashboard_user,tai_chinh.dashboard user,model_tai_chinh_dashboard,,1,1,1,1
 access_tai_chinh_dashboard_manager,tai_chinh.dashboard manager,model_tai_chinh_dashboard,base.group_user,1,1,1,1
+access_ai_chat,tai_chinh.ai_chat,model_tai_chinh_ai_chat,base.group_user,1,1,1,1
