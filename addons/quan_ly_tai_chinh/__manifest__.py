@@ -19,7 +19,6 @@
         "views/ngan_sach_mua_sam.xml",
         "views/bao_cao_tai_san.xml",
         "views/telegram_config.xml",
-        "views/gemini_config.xml",
         "views/menu.xml",
         "views/res_config_settings.xml",
         "views/ai_chat.xml",
