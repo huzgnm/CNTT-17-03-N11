@@ -111,7 +111,6 @@
             </kanban>
         </field>
     </record>
-
     <record id="view_phieu_thu_chi_search" model="ir.ui.view">
         <field name="name">tai_chinh.phieu_thu_chi.search</field>
         <field name="model">tai_chinh.phieu_thu_chi</field>
