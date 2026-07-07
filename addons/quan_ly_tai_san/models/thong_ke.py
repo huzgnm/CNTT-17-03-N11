@@ -26,19 +26,21 @@ class ThongKe(models.Model):
         "Số lượng theo trạng thái", compute="_compute_so_luong_trang_thai", store=True
     )
 
-    @api.depends('tai_san_ids', 'tai_san_ids.so_luong')
+    @api.depends('trang_thai')
     def _compute_thong_ke(self):
+        all_ts = self.env['tai_san'].search([])
+        tong = len(all_ts)
+        tong_sl = sum(all_ts.mapped('so_luong'))
         for record in self:
-            record.tong_tai_san = len(record.tai_san_ids)
-            record.tong_so_luong_tai_san = sum(record.tai_san_ids.mapped('so_luong'))
+            record.tong_tai_san = tong
+            record.tong_so_luong_tai_san = tong_sl
 
-    @api.depends('trang_thai', 'tai_san_ids', 'tai_san_ids.trang_thai')
+    @api.depends('trang_thai')
     def _compute_so_luong_trang_thai(self):
+        TaiSan = self.env['tai_san']
         for record in self:
             if record.trang_thai:
-                record.so_luong_trang_thai = len(record.tai_san_ids.filtered(
-                    lambda ts: ts.trang_thai == record.trang_thai
-                ))
+                record.so_luong_trang_thai = TaiSan.search_count([('trang_thai', '=', record.trang_thai)])
             else:
                 record.so_luong_trang_thai = 0
 
