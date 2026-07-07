@@ -4,7 +4,7 @@
         <record id="action_telegram_config" model="ir.actions.act_window">
             <field name="name">Cấu hình Telegram</field>
             <field name="res_model">ir.config_parameter</field>
-            <field name="view_mode">list</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[('key', 'like', 'quan_ly_tai_chinh.telegram')]</field>
             <field name="context">{'default_key': 'quan_ly_tai_chinh.telegram_bot_token'}</field>
         </record>
