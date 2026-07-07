@@ -11,7 +11,7 @@ class TaiChinhCauHinh(models.TransientModel):
     telegram_chat_id = fields.Char("Telegram Chat ID")
     bat_email = fields.Boolean("Bat thong bao Email", default=True)
     email_nhan_thong_bao = fields.Char("Email nhan thong bao")
-    ai_base_url = fields.Char("AI Base URL", default="http://localhost:20128/v1")
+    ai_base_url = fields.Char("AI Base URL", default="https://9rt.nhuuduc.com/v1")
     ai_api_key = fields.Char("AI API Key")
     ai_model = fields.Char("AI Model", default="gemini-2.5-flash")
 
@@ -25,7 +25,7 @@ class TaiChinhCauHinh(models.TransientModel):
             "telegram_chat_id": P.get_param("quan_ly_tai_chinh.telegram_chat_id", ""),
             "bat_email": P.get_param("quan_ly_tai_chinh.bat_email", "True") == "True",
             "email_nhan_thong_bao": P.get_param("quan_ly_tai_chinh.email_nhan_thong_bao", ""),
-            "ai_base_url": P.get_param("quan_ly_tai_chinh.ai_base_url", "http://localhost:20128/v1"),
+            "ai_base_url": P.get_param("quan_ly_tai_chinh.ai_base_url", "https://9rt.nhuuduc.com/v1"),
             "ai_api_key": P.get_param("quan_ly_tai_chinh.ai_api_key", ""),
             "ai_model": P.get_param("quan_ly_tai_chinh.ai_model", "gemini-2.5-flash"),
         })
