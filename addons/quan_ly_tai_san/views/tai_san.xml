@@ -132,7 +132,6 @@
                                 <field name="gia_tri_tai_san" widget="monetary"/>
                                 <field name="tong_gia_tri" readonly="1" widget="monetary"/>
                                 <field name="thoi_gian_su_dung"/>
-                                <field name="ty_le_khau_hao" readonly="1"/>
                                 <field name="tong_da_khau_hao" readonly="1" widget="monetary"/>
                                 <field name="gia_tri_con_lai" readonly="1" widget="monetary"/>
                                 <field name="phan_tram_khau_hao" readonly="1" widget="progressbar"/>

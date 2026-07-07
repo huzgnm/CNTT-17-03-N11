@@ -34,19 +34,6 @@
                             </group>
                             <group string="Chi phí">
                                 <field name="chi_phi_bao_tri" widget="monetary"/>
-                                <field name="da_ghi_so" readonly="1"/>
-                                <field name="account_move_id" readonly="1"/>
-                            </group>
-                        </group>
-                        <group string="Thiết lập kế toán"
-                            attrs="{'invisible': [('tinh_trang', '=', 'dang_cho_duyet')]}">
-                            <group>
-                                <field name="journal_id"
-                                    domain="[('type', 'in', ['general', 'purchase'])]"/>
-                                <field name="tai_khoan_chi_phi_id"/>
-                            </group>
-                            <group>
-                                <field name="tai_khoan_phai_tra_id"/>
                             </group>
                         </group>
                         <group>
@@ -106,7 +93,6 @@
                     <field name="ngay_bao_tri"/>
                     <field name="nha_cung_cap_id"/>
                     <field name="chi_phi_bao_tri" widget="monetary" sum="Tổng chi phí"/>
-                    <field name="da_ghi_so" string="Đã ghi sổ"/>
                     <field name="tinh_trang" widget="badge"
                         decoration-info="tinh_trang == 'dang_cho_duyet'"
                         decoration-warning="tinh_trang == 'dang_bao_tri'"
@@ -130,8 +116,6 @@
                         domain="[('tinh_trang','=','dang_bao_tri')]"/>
                     <filter string="Đã xong" name="da_xong"
                         domain="[('tinh_trang','=','da_xong')]"/>
-                    <filter string="Chưa ghi sổ" name="chua_ghi_so"
-                        domain="[('da_ghi_so','=',False),('tinh_trang','=','da_xong')]"/>
                     <separator/>
                     <group expand="0" string="Nhóm theo">
                         <filter string="Tình trạng" name="group_tinh_trang"
