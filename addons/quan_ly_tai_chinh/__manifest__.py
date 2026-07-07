@@ -22,7 +22,6 @@
         "views/gemini_config.xml",
         "views/menu.xml",
         "data/cleanup_menus.xml",
-        "data/demo_linh_kien.xml",
     ],
     "installable": True,
     "application": True,
