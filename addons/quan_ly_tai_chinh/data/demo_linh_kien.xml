@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="1">
+<odoo noupdate="0">
 
     <!-- ===================== NHÂN SỰ ===================== -->
     <record id="dl_cv_gd" model="chuc_vu"><field name="ma_chuc_vu">CV01</field><field name="ten_chuc_vu">Giám đốc</field></record>
@@ -329,6 +329,61 @@
     <record id="dl_nsms_2" model="tai_chinh.ngan_sach_mua_sam">
         <field name="nam">2026</field><field name="danh_muc_loai_tai_san_id" ref="dl_dm_gpu"/>
         <field name="so_tien_ke_hoach">150000000</field><field name="so_tien_thuc_te">36000000</field><field name="trang_thai">da_duyet</field>
+    </record>
+
+    <!-- ===================== BO SUNG THEM ===================== -->
+    <record id="dl_ts_ram3" model="tai_san">
+        <field name="ten_tai_san">RAM Corsair Vengeance 32GB DDR5</field><field name="ma_vach">LKCV32D5</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_ram"/><field name="nha_cung_cap_id" ref="dl_ncc_fpt"/>
+        <field name="so_luong">10</field><field name="gia_tri_tai_san">2600000</field>
+        <field name="ngay_mua">2026-04-10</field><field name="thoi_gian_su_dung">3</field><field name="het_han_bao_hanh">2029-04-10</field>
+        <field name="vi_tri">Kho A - Ke 2</field><field name="trang_thai">dang_su_dung</field>
+    </record>
+    <record id="dl_ts_ssd3" model="tai_san">
+        <field name="ten_tai_san">SSD Samsung 990 Pro 2TB</field><field name="ma_vach">LK990P2T</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_ssd"/><field name="nha_cung_cap_id" ref="dl_ncc_samsung"/>
+        <field name="so_luong">6</field><field name="gia_tri_tai_san">4500000</field>
+        <field name="ngay_mua">2026-05-01</field><field name="thoi_gian_su_dung">4</field><field name="het_han_bao_hanh">2031-05-01</field>
+        <field name="vi_tri">Kho A - Ke 3</field><field name="trang_thai">dang_su_dung</field>
+    </record>
+    <record id="dl_ts_gpu3" model="tai_san">
+        <field name="ten_tai_san">GPU MSI RTX 4070 Super</field><field name="ma_vach">LK4070S</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_gpu"/><field name="nha_cung_cap_id" ref="dl_ncc_asus"/>
+        <field name="so_luong">4</field><field name="gia_tri_tai_san">16500000</field>
+        <field name="ngay_mua">2026-05-20</field><field name="thoi_gian_su_dung">3</field><field name="het_han_bao_hanh">2029-05-20</field>
+        <field name="vi_tri">Kho B - Ke 1</field><field name="trang_thai">dang_su_dung</field>
+    </record>
+    <record id="dl_ts_main2" model="tai_san">
+        <field name="ten_tai_san">Mainboard MSI B650 Tomahawk</field><field name="ma_vach">LKB650</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_main"/><field name="nha_cung_cap_id" ref="dl_ncc_fpt"/>
+        <field name="so_luong">5</field><field name="gia_tri_tai_san">4200000</field>
+        <field name="ngay_mua">2026-04-25</field><field name="thoi_gian_su_dung">4</field><field name="het_han_bao_hanh">2031-04-25</field>
+        <field name="vi_tri">Kho A - Ke 4</field><field name="trang_thai">dang_su_dung</field>
+    </record>
+    <record id="dl_ts_man2" model="tai_san">
+        <field name="ten_tai_san">Man hinh Dell UltraSharp 27"</field><field name="ma_vach">TBDELL27</field>
+        <field name="danh_muc_loai_tai_san_id" ref="dl_dm_man"/><field name="nha_cung_cap_id" ref="dl_ncc_fpt"/>
+        <field name="so_luong">3</field><field name="gia_tri_tai_san">6500000</field>
+        <field name="ngay_mua">2026-03-15</field><field name="ngay_su_dung">2026-03-18</field><field name="thoi_gian_su_dung">5</field>
+        <field name="het_han_bao_hanh">2029-03-15</field><field name="vi_tri">Phong Kinh doanh</field><field name="trang_thai">dang_su_dung</field>
+    </record>
+
+    <record id="dl_pc_4" model="tai_chinh.phieu_thu_chi">
+        <field name="loai_phieu">chi</field><field name="nguon_goc">mua_sam</field>
+        <field name="ten_noi_dung">Mua lo GPU RTX 4070 Super</field><field name="so_tien">66000000</field>
+        <field name="ngay_lap">2026-07-04</field><field name="ngay_duyet">2026-07-04</field>
+        <field name="nguoi_lap_id" ref="dl_nv_4"/><field name="trang_thai">da_duyet</field>
+    </record>
+    <record id="dl_pt_3" model="tai_chinh.phieu_thu_chi">
+        <field name="loai_phieu">thu</field><field name="nguon_goc">khac</field>
+        <field name="ten_noi_dung">Thu tien lap dat PC cho khach doanh nghiep</field><field name="so_tien">15000000</field>
+        <field name="ngay_lap">2026-07-05</field><field name="ngay_duyet">2026-07-06</field>
+        <field name="nguoi_lap_id" ref="dl_nv_4"/><field name="trang_thai">da_duyet</field>
+    </record>
+    <record id="dl_mt_4" model="muon_tra">
+        <field name="nhan_vien_id" ref="dl_nv_3"/><field name="tai_san_id" ref="dl_ts_gpu3"/>
+        <field name="thoi_gian_muon">2026-07-03</field><field name="thoi_gian_tra_du_kien">2026-07-25</field>
+        <field name="ghi_chu">Muon GPU test cau hinh gaming</field>
     </record>
 
 </odoo>
