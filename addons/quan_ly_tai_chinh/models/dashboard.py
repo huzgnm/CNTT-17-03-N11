@@ -10,7 +10,7 @@ class TaiChinhDashboard(models.TransientModel):
     # === TAI SAN ===
     tong_tai_san = fields.Integer("Tong tai san", compute="_compute_all")
     tai_san_dang_su_dung = fields.Integer("Dang su dung", compute="_compute_all")
-    tai_san_bao_tri = fields.Integer("Dang bao tri", compute="_compute_all")
+    tai_san_bao_tri = fields.Integer("Tai san dang bao tri", compute="_compute_all")
     tai_san_hong = fields.Integer("Bi hong", compute="_compute_all")
     tai_san_da_thanh_ly = fields.Integer("Da thanh ly", compute="_compute_all")
 

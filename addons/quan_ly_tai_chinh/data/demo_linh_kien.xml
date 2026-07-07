@@ -2,17 +2,17 @@
 <odoo noupdate="1">
 
     <!-- ===================== NHÂN SỰ ===================== -->
-    <record id="dl_cv_gd" model="chuc_vu"><field name="ten_chuc_vu">Giám đốc</field></record>
-    <record id="dl_cv_tp" model="chuc_vu"><field name="ten_chuc_vu">Trưởng phòng</field></record>
-    <record id="dl_cv_kt" model="chuc_vu"><field name="ten_chuc_vu">Kỹ thuật viên</field></record>
-    <record id="dl_cv_ketoan" model="chuc_vu"><field name="ten_chuc_vu">Kế toán</field></record>
-    <record id="dl_cv_kho" model="chuc_vu"><field name="ten_chuc_vu">Nhân viên kho</field></record>
+    <record id="dl_cv_gd" model="chuc_vu"><field name="ma_chuc_vu">CV01</field><field name="ten_chuc_vu">Giám đốc</field></record>
+    <record id="dl_cv_tp" model="chuc_vu"><field name="ma_chuc_vu">CV02</field><field name="ten_chuc_vu">Trưởng phòng</field></record>
+    <record id="dl_cv_kt" model="chuc_vu"><field name="ma_chuc_vu">CV03</field><field name="ten_chuc_vu">Kỹ thuật viên</field></record>
+    <record id="dl_cv_ketoan" model="chuc_vu"><field name="ma_chuc_vu">CV04</field><field name="ten_chuc_vu">Kế toán</field></record>
+    <record id="dl_cv_kho" model="chuc_vu"><field name="ma_chuc_vu">CV05</field><field name="ten_chuc_vu">Nhân viên kho</field></record>
 
-    <record id="dl_pb_gd" model="phong_ban"><field name="ten_phong_ban">Ban Giám đốc</field></record>
-    <record id="dl_pb_kd" model="phong_ban"><field name="ten_phong_ban">Phòng Kinh doanh</field></record>
-    <record id="dl_pb_kt" model="phong_ban"><field name="ten_phong_ban">Phòng Kỹ thuật</field></record>
-    <record id="dl_pb_kho" model="phong_ban"><field name="ten_phong_ban">Phòng Kho vận</field></record>
-    <record id="dl_pb_ketoan" model="phong_ban"><field name="ten_phong_ban">Phòng Kế toán</field></record>
+    <record id="dl_pb_gd" model="phong_ban"><field name="ma_phong_ban">PB01</field><field name="ten_phong_ban">Ban Giám đốc</field></record>
+    <record id="dl_pb_kd" model="phong_ban"><field name="ma_phong_ban">PB02</field><field name="ten_phong_ban">Phòng Kinh doanh</field></record>
+    <record id="dl_pb_kt" model="phong_ban"><field name="ma_phong_ban">PB03</field><field name="ten_phong_ban">Phòng Kỹ thuật</field></record>
+    <record id="dl_pb_kho" model="phong_ban"><field name="ma_phong_ban">PB04</field><field name="ten_phong_ban">Phòng Kho vận</field></record>
+    <record id="dl_pb_ketoan" model="phong_ban"><field name="ma_phong_ban">PB05</field><field name="ten_phong_ban">Phòng Kế toán</field></record>
 
     <record id="dl_nv_1" model="nhan_vien">
         <field name="ma_dinh_danh">NV101</field><field name="ho_ten_dem">Nguyễn Văn</field><field name="ten">Hùng</field>
@@ -207,7 +207,7 @@
     <record id="dl_bt_2" model="bao_tri">
         <field name="tai_san_id" ref="dl_ts_tb1"/><field name="ngay_bao_tri">2026-07-05</field>
         <field name="noi_dung_bao_tri">Kiểm tra hiệu chuẩn máy test nguồn</field>
-        <field name="chi_phi_bao_tri">150000</field><field name="tinh_trang">dang_cho_duyet</field>
+        <field name="chi_phi_bao_tri">150000</field><field name="nha_cung_cap_id" ref="dl_ncc_fpt"/><field name="tinh_trang">dang_cho_duyet</field>
     </record>
     <record id="dl_bt_3" model="bao_tri">
         <field name="tai_san_id" ref="dl_ts_gpu2"/><field name="ngay_bao_tri">2026-07-01</field>
@@ -217,7 +217,7 @@
     <record id="dl_bt_4" model="bao_tri">
         <field name="tai_san_id" ref="dl_ts_man1"/><field name="ngay_bao_tri">2026-06-15</field>
         <field name="noi_dung_bao_tri">Thay cáp nguồn màn hình</field>
-        <field name="chi_phi_bao_tri">80000</field><field name="tinh_trang">da_xong</field>
+        <field name="chi_phi_bao_tri">80000</field><field name="nha_cung_cap_id" ref="dl_ncc_asus"/><field name="tinh_trang">da_xong</field>
     </record>
 
     <!-- ===================== MƯỢN TRẢ ===================== -->

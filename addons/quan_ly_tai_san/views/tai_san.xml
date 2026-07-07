@@ -24,10 +24,10 @@
                             <div t-attf-class="oe_kanban_card oe_kanban_global_click
                                 #{record.canh_bao_bao_tri.raw_value ? 'border-danger' : ''}">
                                 <div class="o_kanban_image">
-                                    <img t-if="record.hinh_anh.raw_value"
+                                    <img alt="Hinh anh tai san" t-if="record.hinh_anh.raw_value"
                                         t-att-src="'/web/image/tai_san/' + record.id + '/hinh_anh'"
                                         style="width:64px;height:64px;object-fit:cover;border-radius:4px;"/>
-                                    <img t-else=""
+                                    <img alt="Khong co hinh anh" t-else=""
                                         src="/web/static/img/placeholder.png"
                                         style="width:64px;height:64px;object-fit:cover;border-radius:4px;opacity:0.3;"/>
                                 </div>

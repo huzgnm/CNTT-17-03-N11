@@ -27,7 +27,7 @@ class KhauHaoHangThang(models.Model):
     trang_thai = fields.Selection([
         ("nhap", "Nháp"),
         ("da_ghi_so", "Đã ghi sổ"),
-    ], string="Trạng thái", default="nhap", tracking=True)
+    ], string="Trạng thái", default="nhap")
 
     ghi_chu = fields.Text("Ghi chú")
 
