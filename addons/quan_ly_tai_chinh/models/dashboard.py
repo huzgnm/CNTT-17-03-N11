@@ -80,7 +80,7 @@ class TaiChinhDashboard(models.TransientModel):
             ])
             rec.tong_chi_thang = sum(chi_thang.mapped("so_tien"))
 
-            KhauHao = self.env["tai_chinh.khau_hao_hang_thang"]
+            KhauHao = self.env["tai_chinh.khau_hao"]
             kh_thang = KhauHao.search([
                 ("ky_khau_hao", ">=", dau_thang),
                 ("ky_khau_hao", "<", cuoi_thang),

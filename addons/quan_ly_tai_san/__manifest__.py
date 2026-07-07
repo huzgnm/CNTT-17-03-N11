@@ -7,7 +7,7 @@
     "website": "https://github.com/huzgnm",
     "category": "Inventory",
     "version": "0.2",
-    "depends": ["base", "mail", "nhan_su"],
+    "depends": ["base", "mail", "nhan_su", "account"],
     "data": [
         "security/ir.model.access.csv",
         "views/muon_tra.xml",
