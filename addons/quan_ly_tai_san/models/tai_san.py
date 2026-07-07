@@ -23,7 +23,8 @@ class TaiSan(models.Model):
 
     # -- Thoi gian --
     so_luong = fields.Integer("So luong", default=1)
-    gia_tri_tai_san = fields.Float(
+    gia_tri_tai_san = fields.Float("Nguyen gia / Don gia (VND)")
+    tong_gia_tri = fields.Float(
         "Tong gia tri (VND)", compute="_compute_tong_gia_tri", store=True
     )
     het_han_bao_hanh = fields.Date("Het han bao hanh")
@@ -156,13 +157,13 @@ class TaiSan(models.Model):
             else:
                 rec.tinh_trang_bao_hanh = "con_han"
 
-    @api.depends("lich_su_bao_tri_tai_san_ids", "lich_su_bao_tri_tai_san_ids.trang_thai",
+    @api.depends("lich_su_bao_tri_tai_san_ids", "lich_su_bao_tri_tai_san_ids.tinh_trang",
                  "lich_su_bao_tri_tai_san_ids.ngay_bao_tri")
     def _compute_ngay_bao_tri_gan_nhat(self):
         today = date.today()
         for rec in self:
             done = rec.lich_su_bao_tri_tai_san_ids.filtered(
-                lambda b: b.trang_thai == "da_xong"
+                lambda b: b.tinh_trang == "da_xong"
             ).sorted("ngay_bao_tri", reverse=True)
             if done:
                 rec.ngay_bao_tri_gan_nhat = done[0].ngay_bao_tri

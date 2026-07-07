@@ -55,12 +55,6 @@ class DieuChuyenTaiSan(models.Model):
 
         # Ghi lịch sử điều chuyển
         self.env['lich_su_dieu_chuyen_tai_san'].create({
-            'tai_san_id': new_record.tai_san_id.id,
-            'tu_dia_diem': new_record.tu_dia_diem.id,
-            'den_dia_diem': new_record.den_dia_diem.id,
-            'ngay_dieu_chuyen': new_record.ngay_dieu_chuyen,
-            'nhan_vien_id': new_record.nhan_vien_id.id,
-            'trang_thai': new_record.trang_thai,
-            'ghi_chu': new_record.ghi_chu,
+            'dieu_chuyen_tai_san_id': new_record.id,
         })
         return new_record
