@@ -21,6 +21,7 @@
         "views/telegram_config.xml",
         "views/gemini_config.xml",
         "views/menu.xml",
+        "views/ai_chat.xml",
         "data/cleanup_menus.xml",
     ],
     "installable": True,

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_ai_chat_form" model="ir.ui.view">
+            <field name="name">tai_chinh.ai_chat.form</field>
+            <field name="model">tai_chinh.ai_chat</field>
+            <field name="arch" type="xml">
+                <form string="Trợ lý AI Gemini">
+                    <header>
+                        <button name="action_hoi" string="Hỏi AI" type="object" class="btn-primary"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>Trợ lý AI - Gemini</h1>
+                            <p class="text-muted">Hỏi bất cứ điều gì về tài sản, tài chính, khấu hao, mua sắm linh kiện...</p>
+                        </div>
+                        <group>
+                            <field name="cau_hoi" nolabel="1"
+                                placeholder="VD: Nên ưu tiên mua linh kiện nào năm nay? Tài sản nào sắp hết khấu hao? Cách tối ưu chi phí bảo trì?"/>
+                        </group>
+                        <separator string="Câu trả lời của AI"/>
+                        <field name="cau_tra_loi" nolabel="1" readonly="1"
+                            placeholder="Nhập câu hỏi phía trên rồi bấm nút 'Hỏi AI'..."/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_ai_chat" model="ir.actions.act_window">
+            <field name="name">Trợ lý AI</field>
+            <field name="res_model">tai_chinh.ai_chat</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+        </record>
+
+        <menuitem id="menu_ai_chat" name="Trợ lý AI (Hỏi đáp)"
+                  parent="menu_tai_chinh_root" action="action_ai_chat" sequence="5"/>
+    </data>
+</odoo>
