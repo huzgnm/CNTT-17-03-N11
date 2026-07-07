@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_tai_chinh_dashboard_form" model="ir.ui.view">
+            <field name="name">tai_chinh.dashboard.form</field>
+            <field name="model">tai_chinh.dashboard</field>
+            <field name="arch" type="xml">
+                <form string="Dashboard Quan ly Tai Chinh" create="false" edit="false">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>Dashboard Quan ly Tai Chinh</h1>
+                        </div>
+
+                        <group string="Tai san co dinh">
+                            <group>
+                                <field name="tong_tai_san" string="Tong so tai san"/>
+                                <field name="tai_san_dang_su_dung" string="Dang su dung"/>
+                                <field name="tai_san_bao_tri" string="Dang bao tri"/>
+                            </group>
+                            <group>
+                                <field name="tai_san_hong" string="Bi hong"/>
+                                <field name="tai_san_da_thanh_ly" string="Da thanh ly"/>
+                                <field name="tai_san_het_khau_hao" string="Het khau hao"/>
+                            </group>
+                        </group>
+
+                        <group string="Bao tri &amp; Thanh ly">
+                            <group>
+                                <field name="bao_tri_cho_duyet" string="Bao tri cho duyet"/>
+                                <field name="bao_tri_dang_thuc_hien" string="Dang thuc hien"/>
+                                <field name="bao_tri_hoan_thanh_thang" string="Hoan thanh thang nay"/>
+                            </group>
+                            <group>
+                                <field name="thanh_ly_cho_duyet" string="Thanh ly cho duyet"/>
+                            </group>
+                        </group>
+
+                        <group string="Thu chi thang nay">
+                            <group>
+                                <field name="phieu_thu_cho_duyet" string="Phieu thu cho duyet"/>
+                                <field name="tong_thu_thang" string="Tong thu da duyet (VND)" widget="monetary"/>
+                            </group>
+                            <group>
+                                <field name="phieu_chi_cho_duyet" string="Phieu chi cho duyet"/>
+                                <field name="tong_chi_thang" string="Tong chi da duyet (VND)" widget="monetary"/>
+                            </group>
+                        </group>
+
+                        <group string="Khau hao">
+                            <field name="khau_hao_thang" string="Da ghi so thang nay (VND)" widget="monetary"/>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_tai_chinh_dashboard" model="ir.actions.act_window">
+            <field name="name">Dashboard</field>
+            <field name="res_model">tai_chinh.dashboard</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+    </data>
+</odoo>

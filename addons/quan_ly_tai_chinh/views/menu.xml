@@ -1,43 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Root menu -->
     <menuitem id="menu_tai_chinh_root"
-              name="Quản lý Tài Chính"
+              name="Quan ly Tai Chinh"
               sequence="40"/>
 
-    <!-- Sub-menus -->
+    <!-- Dashboard -->
+    <menuitem id="menu_tai_chinh_dashboard"
+              name="Dashboard"
+              parent="menu_tai_chinh_root"
+              action="action_tai_chinh_dashboard"
+              sequence="1"/>
+
+    <!-- Phieu thu chi -->
     <menuitem id="menu_tai_chinh_phieu_thu_chi"
-              name="Phiếu thu / chi"
+              name="Phieu thu / chi"
               parent="menu_tai_chinh_root"
               sequence="10"/>
 
     <menuitem id="menu_phieu_thu_chi_all"
-              name="Tất cả phiếu"
+              name="Tat ca phieu"
               parent="menu_tai_chinh_phieu_thu_chi"
               action="action_phieu_thu_chi"
               sequence="10"/>
 
     <menuitem id="menu_phieu_thu"
-              name="Phiếu thu"
+              name="Phieu thu"
               parent="menu_tai_chinh_phieu_thu_chi"
               action="action_phieu_thu"
               sequence="20"/>
 
     <menuitem id="menu_phieu_chi"
-              name="Phiếu chi"
+              name="Phieu chi"
               parent="menu_tai_chinh_phieu_thu_chi"
               action="action_phieu_chi"
               sequence="30"/>
 
+    <!-- Ngan sach -->
     <menuitem id="menu_tai_chinh_ngan_sach"
-              name="Ngân sách"
+              name="Ngan sach"
               parent="menu_tai_chinh_root"
-              action="action_ngan_sach"
               sequence="20"/>
 
+    <menuitem id="menu_ngan_sach_thu_chi"
+              name="Ngan sach thu chi"
+              parent="menu_tai_chinh_ngan_sach"
+              action="action_ngan_sach"
+              sequence="10"/>
+
+    <menuitem id="menu_ngan_sach_mua_sam"
+              name="Ngan sach mua sam"
+              parent="menu_tai_chinh_ngan_sach"
+              action="action_ngan_sach_mua_sam"
+              sequence="20"/>
+
+    <!-- Bao cao -->
     <menuitem id="menu_tai_chinh_bao_cao"
-              name="Báo cáo tài chính"
+              name="Bao cao"
               parent="menu_tai_chinh_root"
-              action="action_bao_cao_tai_chinh"
               sequence="30"/>
+
+    <menuitem id="menu_bao_cao_tai_chinh"
+              name="Bao cao tai chinh"
+              parent="menu_tai_chinh_bao_cao"
+              action="action_bao_cao_tai_chinh"
+              sequence="10"/>
+
+    <menuitem id="menu_bao_cao_tai_san"
+              name="Bao cao tai san"
+              parent="menu_tai_chinh_bao_cao"
+              action="action_bao_cao_tai_san"
+              sequence="20"/>
+
+    <!-- Khau hao -->
+    <menuitem id="menu_khau_hao_hang_thang"
+              name="Khau hao hang thang"
+              parent="menu_tai_chinh_root"
+              action="action_khau_hao_hang_thang"
+              sequence="40"/>
+
+    <!-- Cau hinh -->
+    <menuitem id="menu_tai_chinh_cauhinh"
+              name="Cau hinh"
+              parent="menu_tai_chinh_root"
+              sequence="99"/>
+
+    <menuitem id="menu_telegram_config"
+              name="Cau hinh Telegram"
+              parent="menu_tai_chinh_cauhinh"
+              action="action_telegram_config"
+              sequence="10"/>
+
+    <menuitem id="menu_gemini_config"
+              name="Cau hinh Gemini AI"
+              parent="menu_tai_chinh_cauhinh"
+              action="action_gemini_config"
+              sequence="20"/>
 </odoo>

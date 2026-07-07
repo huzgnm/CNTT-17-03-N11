@@ -213,14 +213,16 @@ Module quan ly thu chi, ngan sach va bao cao tai chinh. Nhan du lieu tu dong tu 
 ```
 addons/quan_ly_tai_chinh/
 ├── models/
+│   ├── dashboard.py             # Dashboard tong hop (TransientModel)
 │   ├── phieu_thu_chi.py         # Phieu thu / chi
 │   ├── ngan_sach.py             # Ngan sach tai chinh
 │   ├── bao_cao_tai_chinh.py     # Bao cao tai chinh tong hop
 │   ├── khau_hao_hang_thang.py   # Khau hao hang thang
 │   ├── ngan_sach_mua_sam.py     # Ngan sach mua sam tai san
-│   └── bao_cao_tai_san.py       # Bao cao tai san tong hop
+│   └── bao_cao_tai_san.py       # Bao cao tai san (+ phan tich Gemini AI)
 ├── utils/
-│   └── telegram_helper.py       # Gui thong bao Telegram (Muc 3)
+│   ├── telegram_helper.py       # Gui thong bao Telegram
+│   └── gemini_helper.py         # Phan tich AI (Gemini 1.5 Flash)
 ├── views/
 └── security/ir.model.access.csv
 ```
@@ -251,6 +253,11 @@ addons/quan_ly_tai_chinh/
 **Bao cao tai san:**
 - Tong hop nguyen gia, khau hao, gia tri con lai, chi phi bao tri, thu thanh ly
 - Chi tiet theo loai tai san
+- **Phan tich AI:** bam nut "Phan tich AI (Gemini)" de nhan nhan xet tu dong tu Gemini 1.5 Flash
+
+**Dashboard tong hop:**
+- Hien thi so lieu tong quan: so tai san theo trang thai, bao tri dang cho/thuc hien, thu chi thang nay, khau hao
+- Mo tu menu Quan ly Tai Chinh -> Dashboard
 
 ## 7.3. Cau hinh Telegram (Muc 3)
 
@@ -263,7 +270,17 @@ Vao **Settings -> Technical -> System Parameters**, them 2 khoa:
 
 Neu chua cau hinh, he thong ghi log canh bao nhung khong crash.
 
-## 7.4. Triggers tu dong (Muc 2 & 3)
+## 7.4. Cau hinh Gemini AI
+
+Vao **Settings -> Technical -> System Parameters**, them khoa:
+
+| Khoa | Gia tri |
+|------|---------|
+| `quan_ly_tai_chinh.gemini_api_key` | API key lay tu https://aistudio.google.com/app/apikey |
+
+Neu chua cau hinh, nut "Phan tich AI" tra ve huong dan thay vi crash.
+
+## 7.5. Triggers tu dong (Muc 2 & 3)
 
 | Su kien | Ket qua tu dong |
 |---------|----------------|
@@ -300,6 +317,8 @@ Neu chua cau hinh, he thong ghi log canh bao nhung khong crash.
 | 19 | Tinh toan lai/lo thanh ly tu dong | QLTS |
 | 20 | So do nghiep vu Swimlane end-to-end | docs/business-flow/ |
 | 21 | Du lieu mau (demo data) cho ca 3 module | Tat ca |
+| 22 | Dashboard tong hop quan ly tai chinh | QLTC |
+| 23 | Phan tich AI tu dong (Gemini 1.5 Flash) tren bao cao tai san | QLTC -> Gemini API |
 
 ---
 

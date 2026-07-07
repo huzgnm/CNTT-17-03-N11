@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_gemini_config" model="ir.actions.act_url">
+            <field name="name">Cau hinh Gemini AI</field>
+            <field name="url">/odoo/settings?searchTerms=quan_ly_tai_chinh.gemini_api_key</field>
+            <field name="target">self</field>
+        </record>
+    </data>
+</odoo>

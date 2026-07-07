@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_bao_cao_tai_san_form" model="ir.ui.view">
+            <field name="name">tai_chinh.bao_cao_tai_san.form</field>
+            <field name="model">tai_chinh.bao_cao_tai_san</field>
+            <field name="arch" type="xml">
+                <form string="Bao cao tai san tong hop">
+                    <header>
+                        <button name="action_tinh_toan" string="Tinh toan"
+                            type="object" class="btn-primary"
+                            attrs="{'invisible': [('trang_thai', 'not in', ['nhap','cho_duyet'])]}"/>
+                        <button name="action_duyet" string="Duyet bao cao"
+                            type="object" class="btn-success"
+                            attrs="{'invisible': [('trang_thai', '!=', 'cho_duyet')]}"/>
+                        <button name="action_phan_tich_ai" string="Phan tich AI (Gemini)"
+                            type="object" class="btn-info"
+                            attrs="{'invisible': [('trang_thai', '=', 'nhap')]}"
+                            icon="fa-robot"/>
+                        <field name="trang_thai" widget="statusbar"
+                            statusbar_visible="nhap,cho_duyet,da_duyet"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="ma_bao_cao" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group string="Thong tin bao cao">
+                                <field name="nam_bao_cao"/>
+                                <field name="ngay_lap"/>
+                                <field name="nguoi_lap_id"/>
+                                <field name="nguoi_duyet_id" readonly="1"/>
+                                <field name="ngay_duyet" readonly="1"/>
+                            </group>
+                            <group string="Tong hop">
+                                <field name="tong_tai_san"/>
+                                <field name="tong_nguyen_gia" widget="monetary"/>
+                                <field name="tong_da_khau_hao" widget="monetary"/>
+                                <field name="tong_gia_tri_con_lai" widget="monetary"/>
+                                <field name="tong_chi_phi_bao_tri" widget="monetary"/>
+                                <field name="tong_thu_thanh_ly" widget="monetary"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Chi tiet theo loai tai san">
+                                <field name="chi_tiet_ids" readonly="1">
+                                    <tree>
+                                        <field name="danh_muc_loai_tai_san_id"/>
+                                        <field name="so_tai_san"/>
+                                        <field name="tong_nguyen_gia" widget="monetary" sum="Tong"/>
+                                        <field name="tong_da_khau_hao" widget="monetary" sum="Tong"/>
+                                        <field name="tong_gia_tri_con_lai" widget="monetary" sum="Tong"/>
+                                        <field name="ty_le_con_lai" widget="progressbar"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Phan tich AI (Gemini)"
+                                attrs="{'invisible': [('trang_thai_ai', '=', 'chua_phan_tich')]}">
+                                <group>
+                                    <field name="trang_thai_ai" widget="badge"
+                                        decoration-success="trang_thai_ai == 'hoan_thanh'"
+                                        decoration-danger="trang_thai_ai == 'loi'"/>
+                                </group>
+                                <field name="phan_tich_ai" readonly="1"
+                                    widget="html" nolabel="1"
+                                    placeholder="Nhan nut 'Phan tich AI' de Gemini phan tich bao cao..."/>
+                            </page>
+                        </notebook>
+                        <group>
+                            <field name="ghi_chu"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_bao_cao_tai_san_tree" model="ir.ui.view">
+            <field name="name">tai_chinh.bao_cao_tai_san.tree</field>
+            <field name="model">tai_chinh.bao_cao_tai_san</field>
+            <field name="arch" type="xml">
+                <tree string="Bao cao tai san tong hop"
+                    decoration-success="trang_thai == 'da_duyet'">
+                    <field name="ma_bao_cao"/>
+                    <field name="nam_bao_cao"/>
+                    <field name="ngay_lap"/>
+                    <field name="nguoi_lap_id"/>
+                    <field name="tong_tai_san"/>
+                    <field name="tong_nguyen_gia" widget="monetary"/>
+                    <field name="tong_gia_tri_con_lai" widget="monetary"/>
+                    <field name="trang_thai" widget="badge"
+                        decoration-info="trang_thai == 'nhap'"
+                        decoration-warning="trang_thai == 'cho_duyet'"
+                        decoration-success="trang_thai == 'da_duyet'"/>
+                    <field name="trang_thai_ai" widget="badge"
+                        decoration-success="trang_thai_ai == 'hoan_thanh'"
+                        decoration-muted="trang_thai_ai == 'chua_phan_tich'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_bao_cao_tai_san" model="ir.actions.act_window">
+            <field name="name">Bao cao tai san tong hop</field>
+            <field name="res_model">tai_chinh.bao_cao_tai_san</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>
