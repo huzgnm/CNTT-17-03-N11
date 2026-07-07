@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    "name": "Quan ly Tai San",
+    "name": "Quản lý Tài sản",
     "summary": "Quan ly tai san, khau hao, muon tra, bao tri, dieu chuyen",
     "description": "Module quan ly toan bo vong doi tai san: mua sam, su dung, bao tri, khau hao tu dong hang thang, dieu chuyen va thanh ly.",
     "author": "Nhom CNTT-17-03-N11",

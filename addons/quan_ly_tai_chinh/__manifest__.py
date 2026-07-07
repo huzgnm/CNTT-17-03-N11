@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    "name": "Quan ly Tai Chinh",
+    "name": "Quản lý Tài chính",
     "summary": "Quan ly tai chinh: ngan sach, thu chi, lien ket tai san va nhan su",
     "description": "Module quan ly tai chinh: lap ngan sach, ghi nhan phieu thu/chi, tu dong tao phieu khi bao tri hoan thanh hoac thanh ly duoc duyet. Tich hop Telegram Bot thong bao (Muc 3). Dashboard tong hop + Phan tich AI (Gemini).",
     "author": "Nhom CNTT-17-03-N11",

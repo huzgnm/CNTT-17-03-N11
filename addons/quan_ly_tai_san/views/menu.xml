@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <menuitem id="menu_root" name="QLTS" sequence="0"/>
+        <menuitem id="menu_root" name="Quản lý Tài sản" sequence="0"/>
 
         <menuitem name="Thống kê tài sản"
             id="menu_thong_ke" parent="menu_root" sequence="1"
