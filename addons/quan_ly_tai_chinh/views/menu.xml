@@ -93,6 +93,6 @@
     <menuitem id="menu_gemini_config"
               name="Cấu hình Gemini AI"
               parent="menu_tai_chinh_cauhinh"
-              action="action_gemini_config"
+              action="action_gemini_ai"
               sequence="20"/>
 </odoo>

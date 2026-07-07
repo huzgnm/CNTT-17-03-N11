@@ -2,5 +2,6 @@
 <odoo>
     <data noupdate="0">
         <delete model="ir.ui.menu" search="[('parent_id','=',False),('name','in',['Ngan sach Mua sam','Ngan sach mua sam','Bao cao Tai san','Bao cao tai san','Khau hao hang thang'])]"/>
+        <delete model="ir.actions.act_url" search="[('url','like','/odoo/settings')]"/>
     </data>
 </odoo>
