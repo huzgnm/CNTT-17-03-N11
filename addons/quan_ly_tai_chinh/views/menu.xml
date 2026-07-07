@@ -75,7 +75,7 @@
     <menuitem id="menu_khau_hao_hang_thang"
               name="Khau hao hang thang"
               parent="menu_tai_chinh_root"
-              action="action_khau_hao_hang_thang"
+              action="action_khau_hao"
               sequence="40"/>
 
     <!-- Cau hinh -->
