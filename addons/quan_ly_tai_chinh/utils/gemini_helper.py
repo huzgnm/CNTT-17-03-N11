@@ -4,7 +4,7 @@ import requests
 
 _logger = logging.getLogger(__name__)
 
-GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent"
 
 
 def ask_gemini(api_key: str, prompt: str) -> str:
@@ -28,7 +28,9 @@ def ask_gemini(api_key: str, prompt: str) -> str:
         return data["candidates"][0]["content"]["parts"][0]["text"]
     except Exception as e:
         _logger.error("Gemini API loi: %s", str(e))
-        raise
+        raise Exception(
+            "%s | Neu 404: model da doi ten. Neu 403/API_KEY_INVALID: kiem tra key "
+            "(lay key moi dang AIza... tai https://aistudio.google.com/app/apikey)" % str(e))
 
 
 def phan_tich_tai_san(env, bao_cao) -> str:
