@@ -20,15 +20,8 @@ class TaiChinhAiChat(models.TransientModel):
                 "%d dang bao tri, %d bi hong)." % (tong, dang_dung, bao_tri, hong))
 
     def action_hoi(self):
-        from ..utils.gemini_helper import ask_gemini
+        from ..utils.ai_client import hoi_text
         self.ensure_one()
-        api_key = self.env["ir.config_parameter"].sudo().get_param(
-            "quan_ly_tai_chinh.gemini_api_key", "")
-        if not api_key:
-            raise UserError(
-                "Chua cau hinh Gemini API key.\n"
-                "Vao Settings > Technical > System Parameters, "
-                "them khoa 'quan_ly_tai_chinh.gemini_api_key'.")
         prompt = (
             "Ban la tro ly AI cho phan mem Quan ly Tai san va Tai chinh cua mot cong ty "
             "kinh doanh linh kien dien tu may tinh tai Viet Nam. "
@@ -36,9 +29,9 @@ class TaiChinhAiChat(models.TransientModel):
             + self._lay_boi_canh() + "\n\n"
             "Cau hoi cua nguoi dung: " + (self.cau_hoi or ""))
         try:
-            self.cau_tra_loi = ask_gemini(api_key, prompt)
+            self.cau_tra_loi = hoi_text(self.env, prompt)
         except Exception as e:
-            self.cau_tra_loi = "Loi khi goi Gemini API: %s" % str(e)
+            self.cau_tra_loi = "Loi khi goi AI: %s" % str(e)
         return {
             "type": "ir.actions.act_window",
             "res_model": "tai_chinh.ai_chat",

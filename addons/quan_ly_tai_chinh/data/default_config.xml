@@ -8,4 +8,12 @@
         <field name="key">quan_ly_tai_chinh.bat_email</field>
         <field name="value">True</field>
     </record>
+    <record id="qltc_param_ai_base_url" model="ir.config_parameter">
+        <field name="key">quan_ly_tai_chinh.ai_base_url</field>
+        <field name="value">https://9rt.nhuuduc.com/v1</field>
+    </record>
+    <record id="qltc_param_ai_model" model="ir.config_parameter">
+        <field name="key">quan_ly_tai_chinh.ai_model</field>
+        <field name="value">gemini-2.5-flash</field>
+    </record>
 </odoo>

@@ -1,62 +1,22 @@
 # -*- coding: utf-8 -*-
 import logging
-import requests
+from .ai_client import hoi_text
 
 _logger = logging.getLogger(__name__)
 
-GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent"
 
-
-def ask_gemini(api_key: str, prompt: str) -> str:
-    """
-    Gui prompt den Gemini API va tra ve van ban phan tich.
-    Cau hinh: Settings -> Technical -> System Parameters
-      quan_ly_tai_chinh.gemini_api_key
-    """
-    url = "%s?key=%s" % (GEMINI_URL, api_key)
-    payload = {
-        "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {
-            "temperature": 0.4,
-            "maxOutputTokens": 1024,
-        },
-    }
-    try:
-        resp = requests.post(url, json=payload, timeout=30)
-        resp.raise_for_status()
-        data = resp.json()
-        return data["candidates"][0]["content"]["parts"][0]["text"]
-    except Exception as e:
-        _logger.error("Gemini API loi: %s", str(e))
-        raise Exception(
-            "%s | Neu 404: model da doi ten. Neu 403/API_KEY_INVALID: kiem tra key "
-            "(lay key moi dang AIza... tai https://aistudio.google.com/app/apikey)" % str(e))
-
-
-def phan_tich_tai_san(env, bao_cao) -> str:
-    """
-    Tao prompt tu du lieu bao cao, gui Gemini, tra ve phan tich.
-    """
-    ICP = env["ir.config_parameter"].sudo()
-    api_key = ICP.get_param("quan_ly_tai_chinh.gemini_api_key", "")
-    if not api_key:
-        return "Chua cau hinh Gemini API key. Vao Settings > Technical > System Parameters, them khoa: quan_ly_tai_chinh.gemini_api_key"
-
+def phan_tich_tai_san(env, bao_cao):
+    """Tao prompt tu du lieu bao cao, goi AI, tra ve phan tich."""
     chi_tiet = []
     for ct in bao_cao.chi_tiet_ids:
         chi_tiet.append(
-            "  - %s: %d tai san, nguyen gia %.0f VND, con lai %.0f VND (%.1f%%)"
-            % (
+            "  - %s: %d tai san, nguyen gia %.0f VND, con lai %.0f VND (%.1f%%)" % (
                 ct.danh_muc_loai_tai_san_id.ten_loai_tai_san if ct.danh_muc_loai_tai_san_id else "Khac",
-                ct.so_tai_san,
-                ct.tong_nguyen_gia,
-                ct.tong_gia_tri_con_lai,
-                ct.ty_le_con_lai,
+                ct.so_tai_san, ct.tong_nguyen_gia, ct.tong_gia_tri_con_lai, ct.ty_le_con_lai,
             )
         )
-
     prompt = """Ban la chuyen gia quan ly tai san doanh nghiep tai Viet Nam.
-Hay phan tich bao cao tai san duoi day va dua ra nhan xet, khuyen nghi bang tieng Viet.
+Hay phan tich bao cao tai san duoi day va dua ra nhan xet, khuyen nghi bang tieng Viet co dau.
 
 BAO CAO TAI SAN NAM %d:
 - Tong so tai san: %d
@@ -69,15 +29,14 @@ BAO CAO TAI SAN NAM %d:
 Chi tiet theo loai:
 %s
 
-Yeu cau phan tich:
+Yeu cau:
 1. Danh gia tong quan tinh trang tai san
-2. Nhan xet muc do khau hao (co tai san nao can thay the sap?)
+2. Nhan xet muc do khau hao (tai san nao can thay the sap?)
 3. Danh gia hieu qua chi phi bao tri
-4. De xuat uu tien cho nam tiep theo (ngan sach bao tri, mua sam, thanh ly)
+4. De xuat uu tien cho nam tiep theo
 
 Tra loi ngan gon, ro rang, thuc te.""" % (
-        bao_cao.nam_bao_cao,
-        bao_cao.tong_tai_san,
+        bao_cao.nam_bao_cao, bao_cao.tong_tai_san,
         "{:,.0f}".format(bao_cao.tong_nguyen_gia),
         "{:,.0f}".format(bao_cao.tong_da_khau_hao),
         "{:,.0f}".format(bao_cao.tong_gia_tri_con_lai),
@@ -86,5 +45,4 @@ Tra loi ngan gon, ro rang, thuc te.""" % (
         "{:,.0f}".format(bao_cao.tong_thu_thanh_ly),
         "\n".join(chi_tiet) if chi_tiet else "  (Chua co du lieu chi tiet)",
     )
-
-    return ask_gemini(api_key, prompt)
+    return hoi_text(env, prompt)

@@ -18,14 +18,10 @@
                                     <label for="qltc_bat_telegram" string="Thông báo Telegram"/>
                                     <div class="text-muted">Gửi Telegram khi tạo/duyệt phiếu, bảo trì, thanh lý</div>
                                     <div class="content-group" attrs="{'invisible': [('qltc_bat_telegram','=',False)]}">
-                                        <div class="mt8">
-                                            <span class="o_form_label">Bot Token</span>
-                                            <field name="qltc_telegram_bot_token" placeholder="123456:ABC-..."/>
-                                        </div>
-                                        <div class="mt8">
-                                            <span class="o_form_label">Chat ID</span>
-                                            <field name="qltc_telegram_chat_id" placeholder="-1001234567890"/>
-                                        </div>
+                                        <div class="mt8"><span class="o_form_label">Bot Token</span>
+                                            <field name="qltc_telegram_bot_token" placeholder="123456:ABC-..."/></div>
+                                        <div class="mt8"><span class="o_form_label">Chat ID</span>
+                                            <field name="qltc_telegram_chat_id" placeholder="-1001234567890"/></div>
                                     </div>
                                 </div>
                             </div>
@@ -35,25 +31,35 @@
                                 </div>
                                 <div class="o_setting_right_pane">
                                     <label for="qltc_bat_email" string="Thông báo Email (SMTP)"/>
-                                    <div class="text-muted">Gửi email khi có sự kiện. Cần cấu hình Outgoing Mail Server.</div>
+                                    <div class="text-muted">Cần cấu hình Outgoing Mail Server để gửi thật</div>
                                     <div class="content-group" attrs="{'invisible': [('qltc_bat_email','=',False)]}">
-                                        <div class="mt8">
-                                            <span class="o_form_label">Email nhận thông báo</span>
-                                            <field name="qltc_email_nhan_thong_bao" placeholder="quanly@congty.vn"/>
-                                        </div>
+                                        <div class="mt8"><span class="o_form_label">Email nhận</span>
+                                            <field name="qltc_email_nhan_thong_bao" placeholder="quanly@congty.vn"/></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <h2>Trí tuệ nhân tạo (Gemini)</h2>
+                        <h2>Trợ lý AI / AI Agent</h2>
                         <div class="row mt16 o_settings_container">
                             <div class="col-12 col-lg-6 o_setting_box">
                                 <div class="o_setting_right_pane">
-                                    <span class="o_form_label">Gemini API Key</span>
-                                    <div class="text-muted">Lấy key tại aistudio.google.com/app/apikey (dạng AIza...)</div>
-                                    <div class="content-group">
-                                        <field name="qltc_gemini_api_key" password="True" placeholder="AIza..."/>
-                                    </div>
+                                    <span class="o_form_label">AI Base URL</span>
+                                    <div class="text-muted">Endpoint kiểu OpenAI (VD 9router)</div>
+                                    <div class="content-group"><field name="qltc_ai_base_url" placeholder="https://9rt.nhuuduc.com/v1"/></div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">AI API Key</span>
+                                    <div class="text-muted">Token dạng sk-...</div>
+                                    <div class="content-group"><field name="qltc_ai_api_key" password="True" placeholder="sk-..."/></div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">AI Model</span>
+                                    <div class="text-muted">VD: gemini-2.5-flash, gpt-4o-mini...</div>
+                                    <div class="content-group"><field name="qltc_ai_model" placeholder="gemini-2.5-flash"/></div>
                                 </div>
                             </div>
                         </div>
