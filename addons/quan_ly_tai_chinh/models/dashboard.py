@@ -98,7 +98,8 @@ class TaiChinhDashboard(models.TransientModel):
     def action_refresh(self):
         return {
             "type": "ir.actions.act_window",
+            "name": "Dashboard",
             "res_model": "tai_chinh.dashboard",
             "view_mode": "form",
-            "target": "inline",
+            "target": "main",
         }
