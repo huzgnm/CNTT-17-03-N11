@@ -1,340 +1,97 @@
----
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
-![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
+![Odoo](https://img.shields.io/badge/Odoo%2015-714B67?style=for-the-badge&logo=odoo&logoColor=white)
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Python](https://img.shields.io/badge/python-v3.10+-blue.svg)
 
-> **Nhom:** CNTT-17-03-N11 &nbsp;|&nbsp; **GitHub:** [huzgnm](https://github.com/huzgnm) &nbsp;|&nbsp; **Nen tang:** Odoo 15 Community
+# Hệ thống Quản lý Tài sản & Tài chính — CNTT-17-03-N11
+
+> **Nhóm:** CNTT-17-03-N11 &nbsp;|&nbsp; **Nền tảng:** Odoo 15 Community &nbsp;|&nbsp; **Dựa trên bản gốc (K15):** [thang0305/TTDN-15-02-N3](https://github.com/thang0305/TTDN-15-02-N3)
+
+Phát triển từ một module quản lý tài sản CRUD cơ bản của khoá 15, nhóm mở rộng thành **hệ thống 3 module liên thông** quản lý toàn bộ vòng đời *tài sản → chi phí → dòng tiền → kế toán*, có **tự động hoá**, **thông báo real-time (Telegram + Email)** và **AI Agent (Gemini)** biết tự thao tác dữ liệu.
 
 ---
 
-# Mục lục (Table of Contents)
-
-1. [Cài đặt môi trường (Environment Setup)](#1-cai-dat-moi-truong-environment-setup)
-2. [Cài đặt cơ sở dữ liệu (Database Setup)](#2-cai-dat-co-so-du-lieu-database-setup)
-3. [Cấu hình Odoo (Odoo Configuration)](#3-cau-hinh-odoo-odoo-configuration)
-4. [Chạy hệ thống (System Execution)](#4-chay-he-thong-system-execution)
-5. [Module Quản lý Tài sản (Asset Management Module - `quan_ly_tai_san`)](#5-module-quan-ly-tai-san-asset-management-module-quan_ly_tai_san)
-6. [Module Quản lý Nhân sự (Human Resource Management Module - `nhan_su`)](#6-module-quan-ly-nhan-su-human-resource-management-module-nhan_su)
-7. [Module Quản lý Tài chính (Financial Management Module - `quan_ly_tai_chinh`)](#7-module-quan-ly-tai-chinh-financial-management-module-quan_ly_tai_chinh)
-8. [Tính năng nâng cấp so với bản gốc (Upgraded Features vs Original)](#8-tinh-nang-nang-cap-so-vai-ban-goc-upgraded-features-vs-original)
-
----
-
-# 1. Cài đặt môi trường (Environment Setup)
-
-## 1.1. Clone project
+## 1. Cài đặt & chạy
 
 ```bash
 git clone https://github.com/huzgnm/CNTT-17-03-N11.git
 cd CNTT-17-03-N11
-```
-
-## 1.2. Cài đặt thư viện hệ thống (System System Libraries Installation)
-
-```bash
-sudo apt-get install libxml2-dev libxslt-dev libldap2-dev libsasl2-dev \
-  libssl-dev python3.10-distutils python3.10-dev build-essential \
-  libffi-dev zlib1g-dev python3.10-venv libpq-dev
-```
-
-## 1.3. Khởi tạo môi trường ảo và cài thư viện Python (Virtual Environment Initialization & Python Packages Installation)
-
-```bash
-python3.10 -m venv ./venv
-source venv/bin/activate
+python3.10 -m venv ./venv && source venv/bin/activate
 pip3 install -r requirements.txt
 pip install python-docx requests
-```
 
-> **Lưu ý (Note):**
-> - `python-docx` cần thiết cho tính năng xuất đơn mượn tài sản ra file `.docx`
-> - `requests` cần thiết cho tính năng gửi thông báo Telegram (Muc 3)
-
----
-
-# 2. Cài đặt cơ sở dữ liệu (Database Setup)
-
-Khởi tạo cơ sở dữ liệu qua Docker:
-
-```bash
-sudo apt install docker-compose
-sudo docker-compose up -d
-```
-
----
-
-# 3. Cấu hình Odoo (Odoo Configuration)
-
-Tao tep **odoo.conf**:
-
-```ini
-[options]
-addons_path = addons
-db_host = localhost
-db_password = odoo
-db_user = odoo
-db_port = 5432
-xmlrpc_port = 8069
-```
-
----
-
-# 4. Chạy hệ thống (System Execution)
-
-```bash
-source venv/bin/activate
+# odoo.conf: addons_path = addons
 python3 odoo-bin -c odoo.conf
 ```
 
-Truy cap: **http://localhost:8069/**
+Truy cập http://localhost:8069 → **Settings → Apps → Update Apps List**, cài theo thứ tự (Odoo tự lo phụ thuộc):
 
-Sau khi dang nhap, vao **Settings -> Apps -> Update Apps List** va cai theo thu tu
-(module `account` se tu dong duoc cai kem khi cai `quan_ly_tai_san` do phu thuoc):
-
-1. `Quan ly Nhan su` (`nhan_su`)
-2. `Quan ly Tai san` (`quan_ly_tai_san`)
-3. `Quan ly Tai chinh` (`quan_ly_tai_chinh`)
+1. `nhan_su` — Quản lý Nhân sự
+2. `quan_ly_tai_san` — Quản lý Tài sản
+3. `quan_ly_tai_chinh` — Quản lý Tài chính
 
 ---
 
-# 5. Module Quản lý Tài sản (Asset Management Module - quan_ly_tai_san)
+## 2. Ba module
 
-> **Phien ban:** 0.2 &nbsp;|&nbsp; **Phu thuoc:** `base`, `mail`, `nhan_su`, `account`
-
-Module quản lý toàn bộ vòng đời tài sản cố định của doanh nghiệp.
-
-## 5.1. Cấu trúc thư mục (Directory Structure)
-
-```
-addons/quan_ly_tai_san/
-├── models/
-│   ├── tai_san.py                      # Tai san co dinh (model trung tam)
-│   ├── bao_tri.py                      # Bao tri tai san
-│   ├── thanh_ly.py                     # Thanh ly tai san
-│   ├── muon_tra.py                     # Muon / tra tai san
-│   ├── dieu_chuyen_tai_san.py          # Dieu chuyen tai san
-│   ├── don_muon.py                     # Xuat don muon DOCX
-│   ├── thong_ke.py                     # Thong ke tai san
-│   ├── danh_muc_loai_tai_san.py        # Danh muc loai tai san
-│   ├── nha_cung_cap.py                 # Nha cung cap
-│   ├── lich_su_su_dung_tai_san.py      # Lich su su dung
-│   ├── lich_su_quan_ly_tai_san.py      # Lich su quan ly
-│   └── lich_su_dieu_chuyen_tai_san.py  # Lich su dieu chuyen
-├── views/                              # 13 file XML views
-├── demo/demo.xml                       # Du lieu mau
-├── security/ir.model.access.csv
-└── __manifest__.py
-```
-
-## 5.2. Tính năng chính (Core Features)
-
-**Quản lý tài sản cơ bản:**
-- Tao tai san voi ma tu sinh (`TS00001`, `TS00002`, ...)
-- Trang thai vong doi: `Dang su dung -> Bao tri -> Hong -> Da thanh ly`
-- Canh bao bao tri tu dong khi tai san chua bao tri > 180 ngay
-- Canh bao het han bao hanh
-- Luu lich su day du: su dung, quan ly, dieu chuyen
-- Scan ma vach / barcode
-
-**Khấu hao tài sản:**
-- Phuong phap duong thang: `Gia tri / Thoi gian su dung / 12`
-- Tinh toan tu dong: khau hao moi nam, moi thang, gia tri con lai
-- Ty le khau hao lay tu danh muc loai tai san
-
-**Bảo trì tài sản** — Luong: `Cho duyet -> Dang bao tri -> Da xong`
-- Ghi nhan chi phi bao tri, don vi thuc hien
-- **Trigger Muc 2:** Hoan thanh bao tri -> tu dong tao Phieu chi trong module Tai chinh
-
-**Thanh lý tài sản** — Luong: `Cho duyet -> Da duyet`
-- Tinh toan lai/lo thanh ly tu dong
-- **Trigger Muc 2:** Duyet thanh ly -> tu dong tao Phieu thu trong module Tai chinh
-- Cap nhat trang thai tai san -> "Da thanh ly"
-
-**Mượn / Trả tài sản:**
-- Theo doi nguoi muon, ngay muon, ngay tra du kien / thuc te
-- Xuat **don muon dinh dang `.docx`** (dung `python-docx`)
-- Kanban view theo trang thai
-
-**Điều chuyển tài sản:**
-- Ghi nhan dia diem cu -> moi, nguoi phe duyet
-- Ma tu sinh `DC00001`
-
-## 5.3. Danh sách mô hình (Models List)
-
-| Model | Mo ta | Ma tu sinh |
-|-------|-------|-----------|
-| `tai_san` | Tai san co dinh | `TS00001` |
-| `bao_tri` | Phieu bao tri | `BC00001` |
-| `thanh_ly` | Phieu thanh ly | `TL00001` |
-| `muon_tra` | Phieu muon tra | `MT00001` |
-| `dieu_chuyen_tai_san` | Phieu dieu chuyen | `DC00001` |
-| `thong_ke` | Thong ke tai san | `MTK001` |
-| `danh_muc_loai_tai_san` | Loai tai san | — |
-| `nha_cung_cap` | Nha cung cap | — |
-| `lich_su_su_dung_tai_san` | Lich su su dung | — |
-| `lich_su_quan_ly_tai_san` | Lich su quan ly | — |
-| `lich_su_dieu_chuyen_tai_san` | Lich su dieu chuyen | — |
+| Thư mục | Tên | Vai trò |
+|---------|-----|---------|
+| `nhan_su` | Quản lý Nhân sự | Nhân viên, phòng ban, chức vụ, lịch sử làm việc |
+| `quan_ly_tai_san` | Quản lý Tài sản | Vòng đời tài sản: mua → dùng → bảo trì → thanh lý |
+| `quan_ly_tai_chinh` | Quản lý Tài chính | Thu/chi, ngân sách, khấu hao, báo cáo, kế toán, AI |
 
 ---
 
-# 6. Module Quản lý Nhân sự (Human Resource Management Module - nhan_su)
+## 3. Chức năng chính (nâng cấp so với bản gốc K15)
 
-> **Phien ban:** 0.1 &nbsp;|&nbsp; **Phu thuoc:** `base`
+> Bản gốc K15 chỉ là **1 module quản lý tài sản CRUD**. Dưới đây là những gì nhóm K17-N11 phát triển thêm.
 
-## 6.1. Cấu trúc (Structure)
+### 3.1. Kiến trúc & nghiệp vụ tài sản
+- **1 module → 3 module liên thông** qua `depends`, dữ liệu chảy giữa các module.
+- Vòng đời tài sản đầy đủ: trạng thái `Đang dùng → Bảo trì → Hỏng → Thanh lý`, **mã tự sinh** (TS/BC/TL/DC…).
+- **Khấu hao đường thẳng** tự tính (năm/tháng/giá trị còn lại); **cảnh báo** quá hạn bảo trì (>180 ngày) & hết bảo hành.
+- Bảo trì, thanh lý (tính lãi/lỗ), mượn/trả (xuất **đơn mượn `.docx`**), điều chuyển; lịch sử đầy đủ; barcode; Kanban.
 
-```
-addons/nhan_su/
-├── models/
-│   ├── nhan_vien.py       # Nhan vien
-│   ├── phong_ban.py       # Phong ban
-│   └── chuc_vu.py         # Chuc vu
-├── demo/demo.xml           # Du lieu mau (4 nhan vien, 4 phong ban)
-└── views/
-```
+### 3.2. Module Tài chính (hoàn toàn mới)
+- Phiếu thu/chi có luồng duyệt; ngân sách theo tháng + cảnh báo vượt; ngân sách mua sắm.
+- Khấu hao hàng tháng + **cron tự chạy ngày 1**; sinh **bút toán kế toán** (`account.move`).
+- Báo cáo tài sản tổng hợp.
 
-## 6.2. Tính năng chính (Core Features)
+### 3.3. Tự động hoá (trigger liên module)
+- Bảo trì hoàn thành → **tự tạo Phiếu chi**.
+- Thanh lý được duyệt → **tự tạo Phiếu thu**.
+- Cron khấu hao ngày 1 hàng tháng.
 
-- Quan ly nhan vien: ho ten, ma dinh danh, phong ban, chuc vu, email, so dien thoai
-- Lich su lam viec: chuyen phong ban, thay doi chuc vu
-- Rang buoc: nhan vien phai tren 18 tuoi (`@api.constrains`)
-- Thong ke nhan vien theo do tuoi
+### 3.4. Thông báo real-time
+- **Telegram Bot** + **Email (SMTP)** gửi khi tạo/duyệt phiếu, bảo trì, thanh lý.
+- Bật/tắt từng kênh trong trang Cấu hình.
 
----
+### 3.5. Dashboard KPI
+- Thẻ KPI trực quan (màu + icon): tài sản theo trạng thái, bảo trì, thu/chi tháng, khấu hao.
+- Số liệu tính real-time khi mở, hiển thị tiền tệ VND.
 
-# 7. Module Quản lý Tài chính (Financial Management Module - quan_ly_tai_chinh)
+### 3.6. AI Agent (Gemini) — điểm nhấn
+- **Chat widget nổi** góc màn hình + trợ lý hỏi đáp bằng tiếng Việt.
+- **AI Agent tự thao tác** qua *function calling*: tra cứu số liệu thật, **tạo / sửa / xoá bản ghi, duyệt phiếu…** trên mọi model bằng ngôn ngữ tự nhiên.
+- **Phân tích AI** trên báo cáo tài sản (nhận xét & khuyến nghị).
+- Gọi AI qua endpoint OpenAI-compatible (**9Router**), cấu hình base URL / key / model linh hoạt.
 
-> **Phien ban:** 0.1 &nbsp;|&nbsp; **Phu thuoc:** `base`, `mail`, `nhan_su`, `quan_ly_tai_san`
-
-Module quan ly thu chi, ngan sach va bao cao tai chinh. Nhan du lieu tu dong tu cac su kien tai san.
-
-## 7.1. Cấu trúc thư mục (Directory Structure)
-
-```
-addons/quan_ly_tai_chinh/
-├── models/
-│   ├── dashboard.py             # Dashboard tong hop (TransientModel)
-│   ├── phieu_thu_chi.py         # Phieu thu / chi
-│   ├── ngan_sach.py             # Ngan sach tai chinh
-│   ├── bao_cao_tai_chinh.py     # Bao cao tai chinh tong hop
-│   ├── khau_hao_hang_thang.py   # Khau hao hang thang
-│   ├── ngan_sach_mua_sam.py     # Ngan sach mua sam tai san
-│   └── bao_cao_tai_san.py       # Bao cao tai san (+ phan tich Gemini AI)
-├── utils/
-│   ├── telegram_helper.py       # Gui thong bao Telegram
-│   └── gemini_helper.py         # Phan tich AI (Gemini 1.5 Flash)
-├── views/
-└── security/ir.model.access.csv
-```
-
-## 7.2. Tính năng chính (Core Features)
-
-**Phieu Thu / Chi:**
-- Luong: `Nhap -> Cho duyet -> Da duyet` (co the Huy)
-- Phan loai nguon goc: Bao tri / Mua sam / Thanh ly / Luong / Khac
-- Lien ket truc tiep voi tai san, phieu bao tri, phieu thanh ly
-- Ma tu sinh: `PT00001` (thu), `PC00001` (chi)
-- Tich hop chatter theo doi lich su duyet
-
-**Ngan sach:**
-- Dat ngan sach thu / chi theo thang
-- Theo doi % su dung ngan sach (progressbar)
-- Canh bao khi vuot ngan sach
-
-**Khau hao hang thang:**
-- Ghi so khau hao tung tai san theo ky
-- Cron job tu dong chay ngay 1 hang thang
-- Cap nhat gia tri tai san sau khi ghi so
-
-**Ngan sach mua sam:**
-- Lap ke hoach theo nam, theo loai tai san
-- Chi tiet tung thang, theo doi chenh lech ke hoach / thuc te
-
-**Bao cao tai san:**
-- Tong hop nguyen gia, khau hao, gia tri con lai, chi phi bao tri, thu thanh ly
-- Chi tiet theo loai tai san
-- **Phan tich AI:** bam nut "Phan tich AI (Gemini)" de nhan nhan xet tu dong tu Gemini 1.5 Flash
-
-**Dashboard tong hop:**
-- Giao dien the KPI truc quan (card co mau + icon), nhom theo: Tai san / Bao tri & Thanh ly / Thu chi thang / Khau hao
-- Hien thi so lieu tong quan: so tai san theo trang thai, bao tri dang cho/thuc hien, thu chi thang nay, khau hao
-- Nut "Lam moi" tinh lai so lieu; hien thi tien te theo dinh dang cong ty (VND)
-- Mo tu menu Quan ly Tai Chinh -> Dashboard
-
-## 7.3. Cấu hình Telegram (Telegram Configuration)
-
-Vao **Settings -> Technical -> System Parameters**, them 2 khoa:
-
-| Khoa | Gia tri |
-|------|---------|
-| `quan_ly_tai_chinh.telegram_bot_token` | Token cua bot Telegram (lay tu @BotFather) |
-| `quan_ly_tai_chinh.telegram_chat_id` | ID nhom / kenh nhan thong bao |
-
-Neu chua cau hinh, he thong ghi log canh bao nhung khong crash.
-
-## 7.4. Cau hinh Gemini AI
-
-Vao **Settings -> Technical -> System Parameters**, them khoa:
-
-| Khoa | Gia tri |
-|------|---------|
-| `quan_ly_tai_chinh.gemini_api_key` | API key lay tu https://aistudio.google.com/app/apikey |
-
-Neu chua cau hinh, nut "Phan tich AI" tra ve huong dan thay vi crash.
-
-## 7.5. Triggers tu dong (Muc 2 & 3)
-
-| Su kien | Ket qua tu dong |
-|---------|----------------|
-| Bao tri hoan thanh | Tao Phieu chi (chi phi bao tri) |
-| Thanh ly duoc duyet | Tao Phieu thu (thu hoi tai san) |
-| Phieu thu/chi tao tu dong | Gui thong bao Telegram |
-| Phieu thu/chi duoc duyet | Gui thong bao Telegram |
-| Ngay 1 hang thang | Tu dong tao ban ghi khau hao |
+### 3.7. Trang Cấu hình tập trung
+- Gom **Telegram + Email + AI** vào một chỗ: **Quản lý Tài chính → Cấu hình → Cài đặt** (thay cho việc chỉnh System Parameters thủ công).
 
 ---
 
-# 8. Tính năng nâng cấp so với bản gốc (Upgraded Features vs Original)
+## 4. Cấu hình nhanh
 
-| # | Tinh nang | Module |
-|---|-----------|--------|
-| 1 | Ma tu sinh cho tat ca model (TS, TL, BC, DC, PT, PC...) | Tat ca |
-| 2 | Chatter / mail.thread tren tat ca form chinh | Tat ca |
-| 3 | Kanban view cho Tai san, Muon tra, Bao tri, Phieu thu chi | QLTS / QLTC |
-| 4 | Canh bao bao tri tu dong (> 180 ngay) | QLTS |
-| 5 | Tinh toan khau hao tu dong (nam / thang / gia tri con lai) | QLTS |
-| 6 | Canh bao het han bao hanh | QLTS |
-| 7 | Ket noi Nha cung cap vao Bao tri | QLTS |
-| 8 | Scan ma vach / barcode | QLTS |
-| 9 | Xuat don muon DOCX | QLTS |
-| 10 | Module Tai chinh doc lap (Phieu thu/chi, Ngan sach, Bao cao) | QLTC |
-| 11 | Trigger Muc 2: Bao tri xong -> tu dong tao Phieu chi | QLTS -> QLTC |
-| 12 | Trigger Muc 2: Thanh ly duyet -> tu dong tao Phieu thu | QLTS -> QLTC |
-| 13 | Trigger Muc 3: Telegram Bot thong bao khi tao/duyet phieu | QLTC -> Telegram API |
-| 14 | Khau hao hang thang + Cron job tu dong | QLTC |
-| 15 | Ngan sach mua sam theo nam/thang/loai tai san | QLTC |
-| 16 | Bao cao tai san tong hop cuoi nam | QLTC |
-| 17 | Lich su su dung / quan ly / dieu chuyen tai san | QLTS |
-| 18 | Thong ke tai san theo trang thai | QLTS |
-| 19 | Tinh toan lai/lo thanh ly tu dong | QLTS |
-| 20 | So do nghiep vu Swimlane end-to-end | docs/business-flow/ |
-| 21 | Du lieu mau (demo data) cho ca 3 module | Tat ca |
-| 22 | Dashboard tong hop quan ly tai chinh | QLTC |
-| 23 | Phan tich AI tu dong (Gemini 1.5 Flash) tren bao cao tai san | QLTC -> Gemini API |
+Vào **Quản lý Tài chính → Cấu hình → Cài đặt**:
 
----
-
-# 9. Cap nhat / Sua loi gan day
-
-| # | Noi dung | File |
-|---|----------|------|
-| 1 | Them field `tong_gia_tri` (= so_luong x gia_tri_tai_san); tach `gia_tri_tai_san` thanh nguyen gia nhap tay | `tai_san.py` |
-| 2 | Sua `@depends` sai: `bao_tri.trang_thai` -> `bao_tri.tinh_trang` trong compute ngay bao tri gan nhat | `tai_san.py` |
-| 3 | Sua tao lich su dieu chuyen: chi truyen `dieu_chuyen_tai_san_id`, cac field khac lay tu related | `dieu_chuyen_tai_san.py` |
-| 4 | Sua Dashboard goi sai model: `tai_chinh.khau_hao_hang_thang` -> `tai_chinh.khau_hao` | `dashboard.py` |
-| 5 | Them phu thuoc `account` vao manifest (module tao but toan `account.move`) | `__manifest__.py` |
-| 6 | Thiet ke lai Dashboard dang the KPI co mau + icon, them `currency_id` hien thi tien te | `dashboard.py`, `dashboard.xml` |
+| Mục | Giá trị |
+|-----|---------|
+| Telegram Bot Token / Chat ID | Lấy từ @BotFather |
+| Email nhận thông báo | Cần cấu hình Outgoing Mail Server (Settings → Technical) |
+| AI Base URL | `http://localhost:20128/v1` (9Router local) hoặc URL tunnel |
+| AI API Key | Token dạng `sk-...` |
+| AI Model | `gemini-2.5-flash`… |
 
 ---
 
@@ -342,7 +99,7 @@ Neu chua cau hinh, nut "Phan tich AI" tra ve huong dan thay vi crash.
 
 | | |
 |-|-|
-| **Nhom** | CNTT-17-03-N11 |
-| **Truong** | Dai hoc Dai Nam — Khoa Cong nghe Thong tin |
+| **Nhóm** | CNTT-17-03-N11 |
+| **Trường** | Đại học Đại Nam — Khoa Công nghệ Thông tin |
 | **Repository** | https://github.com/huzgnm/CNTT-17-03-N11 |
-| **Dua tren** | https://github.com/thang0305/TTDN-15-02-N3 |
+| **Dựa trên** | https://github.com/thang0305/TTDN-15-02-N3 |

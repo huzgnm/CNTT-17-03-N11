@@ -7,27 +7,27 @@ class TaiChinhDashboard(models.TransientModel):
     _name = "tai_chinh.dashboard"
     _description = "Dashboard Quan ly Tai Chinh"
 
-    tong_tai_san = fields.Integer("Tong tai san")
-    tai_san_dang_su_dung = fields.Integer("Dang su dung")
-    tai_san_bao_tri = fields.Integer("Tai san dang bao tri")
-    tai_san_hong = fields.Integer("Bi hong")
-    tai_san_da_thanh_ly = fields.Integer("Da thanh ly")
+    tong_tai_san = fields.Integer("Tong tai san", readonly=True)
+    tai_san_dang_su_dung = fields.Integer("Dang su dung", readonly=True)
+    tai_san_bao_tri = fields.Integer("Tai san dang bao tri", readonly=True)
+    tai_san_hong = fields.Integer("Bi hong", readonly=True)
+    tai_san_da_thanh_ly = fields.Integer("Da thanh ly", readonly=True)
 
-    bao_tri_cho_duyet = fields.Integer("Cho duyet")
-    bao_tri_dang_thuc_hien = fields.Integer("Dang bao tri")
-    bao_tri_hoan_thanh_thang = fields.Integer("Hoan thanh thang nay")
+    bao_tri_cho_duyet = fields.Integer("Cho duyet", readonly=True)
+    bao_tri_dang_thuc_hien = fields.Integer("Dang bao tri", readonly=True)
+    bao_tri_hoan_thanh_thang = fields.Integer("Hoan thanh thang nay", readonly=True)
 
-    phieu_thu_cho_duyet = fields.Integer("Phieu thu cho duyet")
-    phieu_chi_cho_duyet = fields.Integer("Phieu chi cho duyet")
-    tong_thu_thang = fields.Float("Tong thu thang nay (VND)")
-    tong_chi_thang = fields.Float("Tong chi thang nay (VND)")
+    phieu_thu_cho_duyet = fields.Integer("Phieu thu cho duyet", readonly=True)
+    phieu_chi_cho_duyet = fields.Integer("Phieu chi cho duyet", readonly=True)
+    tong_thu_thang = fields.Float("Tong thu thang nay (VND)", readonly=True)
+    tong_chi_thang = fields.Float("Tong chi thang nay (VND)", readonly=True)
 
-    khau_hao_thang = fields.Float("Khau hao thang nay (VND)")
-    tai_san_het_khau_hao = fields.Integer("Tai san het khau hao")
+    khau_hao_thang = fields.Float("Khau hao thang nay (VND)", readonly=True)
+    tai_san_het_khau_hao = fields.Integer("Tai san het khau hao", readonly=True)
 
-    thanh_ly_cho_duyet = fields.Integer("Thanh ly cho duyet")
+    thanh_ly_cho_duyet = fields.Integer("Thanh ly cho duyet", readonly=True)
 
-    currency_id = fields.Many2one("res.currency", string="Tien te")
+    currency_id = fields.Many2one("res.currency", string="Tien te", readonly=True)
 
     @api.model
     def default_get(self, fields_list):
