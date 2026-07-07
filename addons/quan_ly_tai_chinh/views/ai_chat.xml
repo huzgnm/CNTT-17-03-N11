@@ -32,8 +32,5 @@
             <field name="view_mode">form</field>
             <field name="target">current</field>
         </record>
-
-        <menuitem id="menu_ai_chat" name="Trợ lý AI (Hỏi đáp)"
-                  parent="menu_tai_chinh_root" action="action_ai_chat" sequence="5"/>
     </data>
 </odoo>
