@@ -10,8 +10,8 @@ class ThongKe(models.Model):
     ma_thong_ke = fields.Char("Mã thống kê", required=True, copy=False, readonly=True, default="New")
     tai_san_ids = fields.One2many('tai_san', 'thong_ke_id', string="Danh sách tài sản")
 
-    tong_tai_san = fields.Integer("Tổng tài sản", compute="_compute_thong_ke", store=True)
-    tong_so_luong_tai_san = fields.Integer("Tổng số lượng tài sản", compute="_compute_thong_ke", store=True)
+    tong_tai_san = fields.Integer("Tổng tài sản", compute="_compute_thong_ke")
+    tong_so_luong_tai_san = fields.Integer("Tổng số lượng tài sản", compute="_compute_thong_ke")
 
     trang_thai = fields.Selection([
         ('dang_su_dung', 'Đang sử dụng'),
@@ -23,7 +23,7 @@ class ThongKe(models.Model):
     ], string="Trạng thái")
 
     so_luong_trang_thai = fields.Integer(
-        "Số lượng theo trạng thái", compute="_compute_so_luong_trang_thai", store=True
+        "Số lượng theo trạng thái", compute="_compute_so_luong_trang_thai"
     )
 
     @api.depends('trang_thai')
