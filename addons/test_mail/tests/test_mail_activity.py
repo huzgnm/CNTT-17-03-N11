@@ -105,7 +105,6 @@ class TestActivityRights(TestActivityCommon):
                     ['summary'],
                     ['summary'],
                 )
-
         # cannot read activities if no access to the document
         with patch.object(MailTestActivity, 'check_access_rights', autospec=True, side_effect=_employee_crash):
             with self.assertRaises(exceptions.AccessError):
@@ -136,7 +135,6 @@ class TestActivityRights(TestActivityCommon):
                 activity = self.test_record.with_user(self.user_employee).activity_schedule(
                     'test_mail.mail_act_test_todo',
                     user_id=self.user_admin.id)
-
 
 @tests.tagged('mail_activity')
 class TestActivityFlow(TestActivityCommon):
@@ -510,7 +508,6 @@ class TestActivityMixin(TestActivityCommon):
             {'name': 'Record %i' % record_i}
             for record_i in range(5)
         ])
-
         origin_1, origin_2 = self.env['mail.test.activity'].search([], limit=2)
 
         with patch('odoo.addons.mail.models.mail_activity.datetime', MockedDatetime), \
