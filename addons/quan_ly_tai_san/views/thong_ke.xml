@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="view_thong_ke_form" model="ir.ui.view">
-            <field name="name">thong.ke.form</field>
+        <record id="view_thong_ke_kanban" model="ir.ui.view">
+            <field name="name">thong_ke_kanban</field>
             <field name="model">thong_ke</field>
             <field name="arch" type="xml">
-                <form string="Thống kê tài sản">
-                    <sheet>
-                        <group>
-                            <group>
-                                <field name="tong_tai_san"/>
-                                <field name="tong_so_luong_tai_san"/>
-                                <field name="trang_thai"/>
-                                <field name="so_luong_trang_thai"/>
-                            </group>
-                        </group>
-                    </sheet>
-                </form>
+                <kanban create="false" class="o_kanban_view">
+                    <field name="trang_thai"/>
+                    <field name="so_luong_trang_thai"/>
+                    <field name="tong_tai_san"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click"
+                                 t-attf-style="background:#fff; border-top:5px solid #{record.trang_thai.raw_value == 'dang_su_dung' and '#27ae60' or record.trang_thai.raw_value == 'bao_tri' and '#e67e22' or record.trang_thai.raw_value == 'hong' and '#e74c3c' or record.trang_thai.raw_value == 'sua_chua' and '#3498db' or record.trang_thai.raw_value == 'cho_cap_phat' and '#9b59b6' or '#95a5a6'}; box-shadow:0 2px 6px rgba(0,0,0,.1); padding:18px; text-align:center; margin:6px;">
+                                <div style="font-size:38px; font-weight:700; color:#2c3e50; line-height:1;">
+                                    <field name="so_luong_trang_thai"/>
+                                </div>
+                                <div style="color:#7f8c8d; font-size:13px; margin-top:6px; text-transform:uppercase; letter-spacing:.5px;">
+                                    <field name="trang_thai"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
             </field>
         </record>
 
@@ -26,35 +32,25 @@
             <field name="arch" type="xml">
                 <tree string="Thống kê tài sản" create="false">
                     <field name="trang_thai"/>
-                    <field name="so_luong_trang_thai" string="Số lượng theo trạng thái"/>
-                    <field name="tong_tai_san" string="Tổng tài sản"/>
-                    <field name="tong_so_luong_tai_san" string="Tổng số lượng"/>
+                    <field name="so_luong_trang_thai" string="Số lượng" sum="Tổng cộng"/>
                 </tree>
             </field>
         </record>
 
-        <record id="view_thong_ke_kanban" model="ir.ui.view">
-            <field name="name">thong_ke_kanban</field>
+        <record id="view_thong_ke_form" model="ir.ui.view">
+            <field name="name">thong.ke.form</field>
             <field name="model">thong_ke</field>
             <field name="arch" type="xml">
-                <kanban class="o_kanban_view" create="false">
-                    <field name="trang_thai"/>
-                    <field name="so_luong_trang_thai"/>
-                    <field name="tong_tai_san"/>
-                    <templates>
-                        <t t-name="kanban-box">
-                            <div class="oe_kanban_global_click o_kanban_record">
-                                <div class="o_kanban_header">
-                                    <strong><field name="trang_thai"/></strong>
-                                </div>
-                                <div class="o_kanban_content">
-                                    <div><strong>Số lượng:</strong> <field name="so_luong_trang_thai"/></div>
-                                    <div><strong>Tổng tài sản:</strong> <field name="tong_tai_san"/></div>
-                                </div>
-                            </div>
-                        </t>
-                    </templates>
-                </kanban>
+                <form string="Thống kê tài sản">
+                    <sheet>
+                        <group>
+                            <field name="trang_thai"/>
+                            <field name="so_luong_trang_thai" string="Số lượng theo trạng thái"/>
+                            <field name="tong_tai_san" string="Tổng số tài sản (toàn hệ thống)"/>
+                            <field name="tong_so_luong_tai_san" string="Tổng số lượng (toàn hệ thống)"/>
+                        </group>
+                    </sheet>
+                </form>
             </field>
         </record>
 
@@ -71,7 +67,7 @@
         <record id="action_thong_ke" model="ir.actions.act_window">
             <field name="name">Thống kê tài sản</field>
             <field name="res_model">thong_ke</field>
-            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="search_view_id" ref="thong_ke_search"/>
         </record>
     </data>
