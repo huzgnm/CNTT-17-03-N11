@@ -5,6 +5,7 @@
         <field name="model">tai_chinh.bao_cao</field>
         <field name="arch" type="xml">
             <tree string="Báo cáo tài chính">
+                <field name="currency_id" invisible="1"/>
                 <field name="ma_bao_cao"/>
                 <field name="ten_bao_cao"/>
                 <field name="ky_bao_cao"/>
@@ -38,6 +39,7 @@
                            statusbar_visible="nhap,da_duyet"/>
                 </header>
                 <sheet>
+                    <field name="currency_id" invisible="1"/>
                     <div class="oe_title">
                         <h1><field name="ten_bao_cao"/></h1>
                         <h3><field name="ma_bao_cao" readonly="1"/></h3>

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import date
 from odoo import api, fields, models
 
 
@@ -30,16 +31,21 @@ class BaoCaoTaiChinh(models.Model):
     ], string="Quý")
     nam = fields.Integer("Năm", required=True, default=lambda self: fields.Date.today().year)
 
+    currency_id = fields.Many2one(
+        'res.currency', string="Tiền tệ",
+        default=lambda self: self.env.company.currency_id
+    )
+
     nguoi_lap_id = fields.Many2one('nhan_vien', string="Người lập", required=True)
     nguoi_duyet_id = fields.Many2one('nhan_vien', string="Người duyệt", readonly=True)
     ngay_lap = fields.Date("Ngày lập", default=fields.Date.today)
 
-    tong_thu = fields.Float("Tổng thu (VNĐ)", compute="_compute_tong", store=True)
-    tong_chi = fields.Float("Tổng chi (VNĐ)", compute="_compute_tong", store=True)
-    can_doi = fields.Float("Cân đối (VNĐ)", compute="_compute_tong", store=True)
-    chi_bao_tri = fields.Float("Chi bảo trì (VNĐ)", compute="_compute_tong", store=True)
-    chi_mua_sam = fields.Float("Chi mua sắm (VNĐ)", compute="_compute_tong", store=True)
-    thu_thanh_ly = fields.Float("Thu thanh lý (VNĐ)", compute="_compute_tong", store=True)
+    tong_thu = fields.Monetary("Tổng thu", compute="_compute_tong", store=True)
+    tong_chi = fields.Monetary("Tổng chi", compute="_compute_tong", store=True)
+    can_doi = fields.Monetary("Cân đối", compute="_compute_tong", store=True)
+    chi_bao_tri = fields.Monetary("Chi bảo trì", compute="_compute_tong", store=True)
+    chi_mua_sam = fields.Monetary("Chi mua sắm", compute="_compute_tong", store=True)
+    thu_thanh_ly = fields.Monetary("Thu thanh lý", compute="_compute_tong", store=True)
 
     ghi_chu = fields.Text("Nhận xét / Ghi chú")
     trang_thai = fields.Selection([
@@ -58,26 +64,26 @@ class BaoCaoTaiChinh(models.Model):
     @api.depends('nam', 'thang', 'quy', 'ky_bao_cao')
     def _compute_tong(self):
         for rec in self:
-            domain = [('trang_thai', '=', 'da_duyet'), ('ngay_duyet', '!=', False)]
+            nam = rec.nam or fields.Date.today().year
             if rec.ky_bao_cao == 'thang' and rec.thang:
                 m = int(rec.thang)
-                domain += [
-                    ('ngay_duyet', '>=', f'{rec.nam}-{m:02d}-01'),
-                    ('ngay_duyet', '<=', f'{rec.nam}-{m:02d}-31'),
-                ]
+                start = date(nam, m, 1)
+                end = date(nam + 1, 1, 1) if m == 12 else date(nam, m + 1, 1)
             elif rec.ky_bao_cao == 'quy' and rec.quy:
-                q = int(rec.quy)
-                start_m = (q - 1) * 3 + 1
-                end_m = start_m + 2
-                domain += [
-                    ('ngay_duyet', '>=', f'{rec.nam}-{start_m:02d}-01'),
-                    ('ngay_duyet', '<=', f'{rec.nam}-{end_m:02d}-31'),
-                ]
+                start_m = (int(rec.quy) - 1) * 3 + 1
+                start = date(nam, start_m, 1)
+                end_m = start_m + 3
+                end = date(nam + 1, 1, 1) if end_m > 12 else date(nam, end_m, 1)
             else:
-                domain += [
-                    ('ngay_duyet', '>=', f'{rec.nam}-01-01'),
-                    ('ngay_duyet', '<=', f'{rec.nam}-12-31'),
-                ]
+                start = date(nam, 1, 1)
+                end = date(nam + 1, 1, 1)
+
+            domain = [
+                ('trang_thai', '=', 'da_duyet'),
+                ('ngay_duyet', '!=', False),
+                ('ngay_duyet', '>=', start),
+                ('ngay_duyet', '<', end),
+            ]
             phieu = self.env['tai_chinh.phieu_thu_chi'].search(domain)
             thu = sum(p.so_tien for p in phieu if p.loai_phieu == 'thu')
             chi = sum(p.so_tien for p in phieu if p.loai_phieu == 'chi')
@@ -92,7 +98,6 @@ class BaoCaoTaiChinh(models.Model):
         self._compute_tong()
         self.message_post(body="Đã tính toán lại số liệu báo cáo.")
 
-
     def action_duyet(self):
         self.write({"trang_thai": "da_duyet"})
-        self.message_post(body="Bao cao da duoc duyet.")
+        self.message_post(body="Báo cáo đã được duyệt.")
